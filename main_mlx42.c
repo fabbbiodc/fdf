@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_mlx42.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:05:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/21 18:00:44 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:56:22 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "minilibx_macos/mlx.h"
-#include "minilibx_linux/mlx.h"
+//#include "minilibx_linux/mlx.h"
+#include "MLX42/include/MLX42/MLX42.h"
 #include <X11/keysym.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #define MLX_ERROR 1
 #define HEIGHT 200
@@ -51,7 +53,7 @@ int	main ()
 	data.win_ptr = mlx_new_window(data.mlx_ptr, HEIGHT, WIDTH, "WindowTest 1");
 	if (NULL == data.win_ptr)
 	{
-		mlx_destroy_window(data.mlx_ptr, data.win_ptr);
+		mlx_clear_window(data.mlx_ptr, data.win_ptr);
 		free(data.mlx_ptr);
 		return (MLX_ERROR);
 	}
@@ -63,3 +65,4 @@ int	main ()
 
 //cc main.c -Iminilibx_macos -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
 //cc main.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext
+//gcc main.c -IMLX42 -L/MLX42/build -lmlx42 -Iinclude -ldl -lglfw -pthread -lm 
