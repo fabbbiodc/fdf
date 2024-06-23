@@ -6,13 +6,13 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:05:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/21 18:00:44 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/23 11:49:23 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "minilibx_macos/mlx.h"
-#include "minilibx_linux/mlx.h"
-#include <X11/keysym.h>
+#include "minilibx_macos/mlx.h"
+//#include "minilibx_linux/mlx.h"
+//#include <X11/keysym.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -29,7 +29,7 @@ typedef struct	s_mlx_data
 
 int	hook_react(int keysim, t_mlx_data *data)
 {
-	if (keysim == XK_Escape)
+	if (keysim == 53)
 	{
 		printf("The %d (ESC) has been pressed\n\n", keysim);
 		mlx_clear_window(data->mlx_ptr, data->win_ptr);
