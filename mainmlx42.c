@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:09:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/23 16:57:58 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:53:39 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 #define HEIGHT 200
 #define WIDTH 200
 
-void ft_hook(void* param)
+void	ft_hook(mlx_key_data_t keydata, void* param)
 {
-	mlx_t* window = param;
-	if (mlx_is_key_down(window, MLX_KEY_ESCAPE))
+	mlx_t* window = (mlx_t*)param;
+	if (keydata.action == MLX_PRESS)
 	{
-		mlx_close_window(window);
+		if (keydata.key == MLX_KEY_ESCAPE)
+			mlx_close_window(window);
+		else
+			printf("%d has been pressed\n", keydata.key);
 	}
 }
-
 int	main()
 {
 	mlx_t *window;
@@ -38,7 +40,7 @@ int	main()
 		return(EXIT_FAILURE);
 	}
 	
-	mlx_loop_hook(window, ft_hook, window);
+	mlx_key_hook(window, ft_hook, window);
 	mlx_loop(window);
 	mlx_terminate(window);
 	return (0);
