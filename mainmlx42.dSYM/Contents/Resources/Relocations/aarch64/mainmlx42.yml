@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     mainmlx42
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _ft_hook, symObjAddr: 0x0, symBinAddr: 0x100003010, symSize: 0x44 }
+  - { offsetInCU: 0x3B, offset: 0x3B, size: 0x8, addend: 0x0, symName: _.str, symObjAddr: 0x200, symBinAddr: 0x100016900, symSize: 0x0 }
+  - { offsetInCU: 0x65, offset: 0x65, size: 0x8, addend: 0x0, symName: _ft_hook, symObjAddr: 0x0, symBinAddr: 0x100003010, symSize: 0x44 }
+  - { offsetInCU: 0x97, offset: 0x97, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x44, symBinAddr: 0x100003054, symSize: 0x120 }
+...
