@@ -6,12 +6,12 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:05:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/23 11:49:23 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/24 23:27:43 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx_macos/mlx.h"
-//#include "minilibx_linux/mlx.h"
+//#include "minilibx_macos/mlx.h"
+#include "minilibx_linux/mlx.h"
 //#include <X11/keysym.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,7 +33,7 @@ int	hook_react(int keysim, t_mlx_data *data)
 	{
 		printf("The %d (ESC) has been pressed\n\n", keysim);
 		mlx_clear_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);
+		//mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
 		exit (1);
 	}
