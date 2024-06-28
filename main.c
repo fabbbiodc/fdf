@@ -6,13 +6,13 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:05:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/25 20:36:47 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:18:31 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include "minilibx_macos/mlx.h"
 #include "minilibx_linux/mlx.h"
-//#include <X11/keysym.h>
+#include <X11/keysym.h>
 #include <stdlib.h>
 #include <stdio.h>
 
