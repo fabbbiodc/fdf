@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:53:58 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/28 17:45:41 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:07:52 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int ft_keyreact(int key, t_mlx *line)
 {
-	if (key == 65307)
+	if (key == KEY_ESC)
 	{
 		printf("ESC has been pressed(%d)\n", key);
 		mlx_destroy_image(line->mlx, line->img);
@@ -60,3 +60,4 @@ int	main()
 	free(line);
 	return (0);
 }
+//cc line.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext
