@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 17:05:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/28 13:18:31 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/06/28 15:53:23 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,4 @@ int	main ()
 
 //cc main.c -Iminilibx_macos -Lminilibx_macos -lmlx -framework OpenGL -framework AppKit
 //cc main.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext
+//cc main.c -Iminilibx_linux -Lminilibx_linux -lmlx -framework OpenGL -framework AppKit
