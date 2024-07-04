@@ -6,12 +6,29 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/03 22:29:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:51:43 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+int ft_draw(t_mlx *fdf)
+{
+    if (!fdf || !fdf->mlx || !fdf->win || !fdf->img || !fdf->img_att || !fdf->img_att->addr)
+    {
+        fprintf(stderr, "Error: Invalid MLX data structures\n");
+        return (1);
+    }
+
+    t_point p1, p2;
+    ft_definepoint(&p1, 50, 50);
+    ft_definepoint(&p2, 200, 200);
+    ft_bresenham(fdf, &p1, &p2);
+
+    mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
+
+    return (0);
+}
 t_point	*ft_direction(t_point *p1, t_point *p2)
 {
 	t_point *direction;
@@ -43,19 +60,16 @@ void	ft_nextpix(int error[2], t_point *delta, t_point *current, t_point *directi
 		error[0] += delta->x;
 	}
 }
-void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
+void ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {
-	char	*pix;
+    int offset;
+	
+	offset = y * fdf->img_att->linesize + x * (fdf->img_att->bpp / 8);
+    if (offset < 0 || offset >= WIN_WIDTH * WIN_HEIGHT * (fdf->img_att->bpp / 8))
+        return ;
 
-	if (x >= WIN_WIDTH || y >= WIN_HEIGHT || x < 0 || y < 0)
-		return ;
-	if (!fdf->img_att || !fdf->img_att->addr)
-    {
-        fprintf(stderr, "Error: Image data not initialized\n");
-        return;
-    }
-	pix = fdf->img_att->addr + (y * fdf->img_att->linesize + (x * (fdf->img_att->bpp / 8)));
-	*(unsigned int *)pix = color;
+    char *pix = fdf->img_att->addr + offset;
+    *(unsigned int *)pix = color;
 }
 void ft_bresenham(t_mlx *fdf, t_point *p1, t_point *p2)
 {

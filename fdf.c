@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx_linux/mlx.h"
-//#include "minilibx_macos/mlx.h"
 #include "fdf.h"
 
 int ft_keyreact(int key, t_mlx *fdf)
@@ -28,86 +26,69 @@ int ft_keyreact(int key, t_mlx *fdf)
 	return (0);
 }
 
-int ft_abs(int n)
-{
-	if (n < 0)
-		return (-n);
-	return (n);
-}
 void ft_definepoint(t_point *point, int x, int y)
 {
 	point->x = x;
 	point->y = y;
 }
-int	ft_draw(t_mlx *fdf)
-{
-	t_point p1;
-	t_point	p2;
 
-	mlx_clear_window(fdf->mlx, fdf->win);
-	ft_definepoint(&p1, 50, 50);
-	ft_definepoint(&p2, 200, 200);
-	ft_bresenham(fdf, &p1, &p2);
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
-	return (0);
-}
-int	main()
+int ft_init_image(t_mlx *fdf)
 {
-	t_point	p1;
-	t_point p2;
+    fdf->img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
+    if (!fdf->img)
+        return (0);
 
-    t_mlx *fdf = (t_mlx *)malloc(sizeof(t_mlx));
-    if (!fdf)
+    fdf->img_att = (t_img *)malloc(sizeof(t_img));
+    if (!fdf->img_att)
     {
-        fprintf(stderr, "Error: Failed to allocate memory for fdf\n");
+        mlx_destroy_image(fdf->mlx, fdf->img);
         return (0);
     }
-	
-	ft_definepoint(&p1, 2, 2);
-	ft_definepoint(&p2, 5, 6);
-	fdf->mlx = mlx_init();
-	if(!fdf->mlx)
+
+    fdf->img_att->addr = mlx_get_data_addr(fdf->img, &fdf->img_att->bpp, &fdf->img_att->linesize, &fdf->img_att->endian);
+    if (!fdf->img_att->addr)
+    {
+        mlx_destroy_image(fdf->mlx, fdf->img);
+        free(fdf->img_att);
+        return (0);
+    }
+
+    return (1);
+}
+int main()
+{
+    t_mlx *fdf = (t_mlx *)malloc(sizeof(t_mlx));
+    if (!fdf)
+		ft_error_handle(ERR_MALLOC);
+    fdf->mlx = mlx_init();
+    if (!fdf->mlx)
+		ft_error_handle(ERR_INIT);
+    fdf->win = mlx_new_window(fdf->mlx, WIN_WIDTH, WIN_HEIGHT, "Window");
+    if (!fdf->win)
+		ft_error_handle(ERR_WIN);
+    if (!ft_init_image(fdf))
+    {
+        mlx_destroy_window(fdf->mlx, fdf->win);
+        free(fdf->mlx);
+        free(fdf);
+        ft_error_handle(ERR_IMG);
+		return(1);
+    }
+
+    // Draw initial image
+    if (ft_draw(fdf) != 0)
 	{
-		return (0);
-	}
-	fdf->win = mlx_new_window(fdf->mlx, WIN_WIDTH, WIN_HEIGHT, "Window");
-	if (!fdf->win)
-	{
-		free(fdf->mlx);
-	}
-	fdf->img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!fdf->img)
-	{
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		free(fdf->mlx);
-		return (0);
-	}
-	fdf->img_att = (t_img *)malloc(sizeof(t_img));
-	if (!fdf->img_att)
-	{
-		fprintf(stderr, "Error: Failed to allocate memory for image attributes\n");
-		mlx_destroy_image(fdf->mlx, fdf->img);
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		free(fdf->mlx);
-		return (0);
-	}
-	fdf->img_att->addr = mlx_get_data_addr(fdf->img, &fdf->img_att->bpp, &fdf->img_att->linesize, &fdf->img_att->endian);
-	if (!fdf->img_att->addr)
-	{
-		fprintf(stderr, "Error: Failed to get image data address\n");
 		mlx_destroy_image(fdf->mlx, fdf->img);
 		mlx_destroy_window(fdf->mlx, fdf->win);
 		free(fdf->img_att);
 		free(fdf->mlx);
-		return (0);
+		free(fdf);
+		return (1);
 	}
-	mlx_key_hook(fdf->win, ft_keyreact, fdf);
-	mlx_loop_hook(fdf->mlx, &ft_draw, fdf);
-	mlx_loop(fdf->mlx);
-	mlx_destroy_image(fdf->mlx, fdf->img);
-	mlx_destroy_window(fdf->mlx, fdf->win);
-	free(fdf->mlx);
-	return (0);
+    mlx_key_hook(fdf->win, ft_keyreact, fdf);
+    mlx_loop(fdf->mlx);
+    return (0);
 }
 //cc fdf.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext
 //cc fdf.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext -fsanitize=address -g -o fdf
+//cc fdf.c drawline.c errors.c -Iminilibx_linux -Lminilibx_linux -lmlx -lX11 -lXext -fsanitize=address -g -o fdf
