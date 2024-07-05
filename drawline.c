@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/04 15:51:43 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:33:13 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int ft_draw(t_mlx *fdf)
     }
 
     t_point p1, p2;
-    ft_definepoint(&p1, 50, 50);
-    ft_definepoint(&p2, 200, 200);
+    ft_definepoint(&p1, 50, 50, 40);
+    ft_definepoint(&p2, 200, 200, 40);
     ft_bresenham(fdf, &p1, &p2);
 
     mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);

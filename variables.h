@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/04 15:24:40 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:00:25 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,6 @@
 # define	ERR_INIT	4
 # define	ERR_WIN		5
 # define	ERR_IMG		6
+# define	ERR_DRAW	7
+
 #endif

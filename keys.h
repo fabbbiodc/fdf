@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:29:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/06/28 18:07:48 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:46:14 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # define KEY_8       56
 # define KEY_9       57
 # define KEY_0       48
-# define KEY_SUM     61   // Plus ('+')
-# define KEY_RES     45   // Minus ('-')
-# define KEY_SUM2    43   // Equals ('=')
-# define KEY_RES2    95   // Underscore ('_')
+# define KEY_PLU     61   // +
+# define KEY_MIN     45   // -
+# define KEY_EQU	 43   // =
+# define KEY_UND     95   // _
 # define KEY_A       97
 # define KEY_S       115
 # define KEY_D       100

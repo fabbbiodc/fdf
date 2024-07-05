@@ -26,10 +26,11 @@ int ft_keyreact(int key, t_mlx *fdf)
 	return (0);
 }
 
-void ft_definepoint(t_point *point, int x, int y)
+void ft_definepoint(t_point *point, int x, int y, int z)
 {
 	point->x = x;
 	point->y = y;
+	point->z = z;
 }
 
 int ft_init_image(t_mlx *fdf)
@@ -65,26 +66,11 @@ int main()
 		ft_error_handle(ERR_INIT);
     fdf->win = mlx_new_window(fdf->mlx, WIN_WIDTH, WIN_HEIGHT, "Window");
     if (!fdf->win)
-		ft_error_handle(ERR_WIN);
+		(ft_error_handle(ERR_WIN), ft_terminate(fdf));
     if (!ft_init_image(fdf))
-    {
-        mlx_destroy_window(fdf->mlx, fdf->win);
-        free(fdf->mlx);
-        free(fdf);
-        ft_error_handle(ERR_IMG);
-		return(1);
-    }
-
-    // Draw initial image
+		(ft_error_handle(ERR_IMG), ft_terminate(fdf));
     if (ft_draw(fdf) != 0)
-	{
-		mlx_destroy_image(fdf->mlx, fdf->img);
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		free(fdf->img_att);
-		free(fdf->mlx);
-		free(fdf);
-		return (1);
-	}
+		(ft_error_handle(ERR_DRAW), ft_terminate(fdf));
     mlx_key_hook(fdf->win, ft_keyreact, fdf);
     mlx_loop(fdf->mlx);
     return (0);
