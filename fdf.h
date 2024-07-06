@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/05 11:32:22 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:35:47 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,9 @@
 # include	<stdlib.h>
 # include	<math.h>
 # include	"keys.h"
+# include	"structs.h"
 # include	"variables.h"
 # include	"minilibx_linux/mlx.h"
-
-typedef	struct s_point
-{
-	int		x;
-	int		y;
-	int		z;
-	int		color;
-	int		len;
-}	t_point;
-
-typedef struct s_img
-{
-	char	*addr;
-	int		bpp;
-	int		linesize;
-	int		endian;
-}	t_img;
-
-typedef	struct s_mlx
-{
-	void	*mlx;
-	void	*win;
-	void	*img;
-	t_img	*img_att;
-}	t_mlx;
 
 //fdf.c
 
@@ -69,5 +45,9 @@ int		ft_free(t_mlx *fdf);
 // utils.c
 
 int	ft_abs(int n);
+
+//projections.c
+
+void ft_iso_proj(t_point *p);
 
 #endif

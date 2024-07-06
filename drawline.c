@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/05 11:33:13 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:18:26 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,25 @@ int ft_draw(t_mlx *fdf)
         return (1);
     }
 
-    t_point p1, p2;
-    ft_definepoint(&p1, 50, 50, 40);
-    ft_definepoint(&p2, 200, 200, 40);
+    t_point p1, p2, p3, p4, p5;
+    ft_definepoint(&p1, 50, 50, 0);
+    ft_definepoint(&p2, 150, 50, 0);
+	ft_definepoint(&p3, 50, 150, 0);
+	ft_definepoint(&p4, 150, 150, 0);
+	ft_definepoint(&p5, 100, 100, 50);
+	ft_iso_proj(&p1);
+	ft_iso_proj(&p2);
+	ft_iso_proj(&p3);
+	ft_iso_proj(&p4);
+	ft_iso_proj(&p5);
     ft_bresenham(fdf, &p1, &p2);
+	ft_bresenham(fdf, &p1, &p3);
+	ft_bresenham(fdf, &p1, &p5);
+	ft_bresenham(fdf, &p2, &p4);
+	ft_bresenham(fdf, &p2, &p5);
+	ft_bresenham(fdf, &p3, &p4);
+	ft_bresenham(fdf, &p3, &p5);
+	ft_bresenham(fdf, &p4, &p5);
 
     mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
 
