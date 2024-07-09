@@ -6,13 +6,13 @@
 #    By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 16:51:31 by fdi-cecc          #+#    #+#              #
-#    Updated: 2024/07/05 14:21:55 by fdi-cecc         ###   ########.fr        #
+#    Updated: 2024/07/08 15:09:08 by fdi-cecc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		:= 	fdf
 
-SRC  		:= 	fdf.c drawline.c errors.c utils.c projections.c
+SRC  		:= 	fdf.c drawline.c errors.c utils.c render.c
 
 OBJ  		:=	$(SRC:.c=.o)
 

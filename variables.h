@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/06 17:57:38 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:32:04 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # define	WIN_HEIGHT	500
 # define	WIN_WIDTH	500
-# define	COLOR		0x00FF0000
+# define	COLOR		0x0000FF00
 
 // errors
 
@@ -26,12 +26,13 @@
 # define	ERR_WIN		5
 # define	ERR_IMG		6
 # define	ERR_DRAW	7
+# define	ERR_CAM		8
 
 // projections
 
-# define	ISOMETRIC	2
-# define	ORTHO		3
-# define	PERSPECTIVE 4
+# define	PROJ_ISO	2
+# define	PROJ_ORTHO	3
+# define	PROJ_3PTS 	4
 
 // angles radians doubles
 

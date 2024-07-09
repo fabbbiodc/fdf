@@ -22,6 +22,11 @@ int ft_keyreact(int key, t_mlx *fdf)
 		free(fdf->mlx);
 		exit (1);
 	}
+	if (key == KEY_UP || key == KEY_DOWN)
+	{
+		ft_cam_rotate(key, fdf);
+		ft_img_refresh(fdf);
+	}
 	printf("%d has been pressed\n", key);
 	return (0);
 }
@@ -45,7 +50,6 @@ int ft_init_image(t_mlx *fdf)
         mlx_destroy_image(fdf->mlx, fdf->img);
         return (0);
     }
-
     fdf->img_att->addr = mlx_get_data_addr(fdf->img, &fdf->img_att->bpp, &fdf->img_att->linesize, &fdf->img_att->endian);
     if (!fdf->img_att->addr)
     {
@@ -69,6 +73,8 @@ int main()
 		(ft_error_handle(ERR_WIN), ft_terminate(fdf));
     if (!ft_init_image(fdf))
 		(ft_error_handle(ERR_IMG), ft_terminate(fdf));
+	ft_cam_init(fdf);
+	ft_cam_params(fdf);
     if (ft_draw(fdf) != 0)
 		(ft_error_handle(ERR_DRAW), ft_terminate(fdf));
     mlx_key_hook(fdf->win, ft_keyreact, fdf);

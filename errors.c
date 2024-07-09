@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/05 11:34:57 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:21:54 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_error_handle(int errorcode)
 {
+	if (errorcode == ERR_CAM)
+		printf("Error: failed camera\n");
 	if (errorcode == ERR_STRUCT)
 		printf("Error: invalid mlx data structure\n");
 	if (errorcode == ERR_MALLOC)
@@ -28,6 +30,8 @@ int	ft_error_handle(int errorcode)
 }
 int	ft_free(t_mlx *fdf)
 {
+	if (fdf->cam)
+		free(fdf->cam);
 	if (fdf->img)
 		free(fdf->img_att);
 	free (fdf->mlx);

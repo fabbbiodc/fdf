@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/06 17:35:47 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:20:07 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,18 @@ int		ft_free(t_mlx *fdf);
 
 // utils.c
 
-int	ft_abs(int n);
+int		ft_abs(int n);
+void	*ft_memset(void *str, int c, size_t n);
 
-//projections.c
 
-void ft_iso_proj(t_point *p);
+//render.c
+
+void 	ft_iso_proj(t_point *p);
+int		ft_render(t_point *p, t_mlx *mlx);
+void	ft_cam_rotate(int key, t_mlx *fdf);
+void 	ft_cam_params(t_mlx *fdf);
+int		ft_img_refresh(t_mlx *fdf);
+int		ft_cam_init(t_mlx *fdf);
+
 
 #endif
