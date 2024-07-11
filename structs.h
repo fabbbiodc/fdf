@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/09 15:39:25 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:35:01 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 typedef	struct s_point
 {
-	int		x;
-	int		y;
-	int		z;
-	int		color;
-	int		len;
+	double		x;
+	double		y;
+	double		z;
+	double		color;
+	double		len;
 }	t_point;
 
 typedef struct s_img
@@ -33,7 +33,7 @@ typedef struct s_img
 typedef struct s_cam
 {
 	int		projection;
-	double		theta;
+	double	theta;
 	double	alpha;
 	double	beta;
 	double	gamma;

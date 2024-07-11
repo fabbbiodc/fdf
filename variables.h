@@ -6,17 +6,17 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/08 15:32:04 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:25:59 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef		VARIABLES_H
 # define 	VARIABLES_H
 
-
-# define	WIN_HEIGHT	500
-# define	WIN_WIDTH	500
+# define	WIN_HEIGHT	800
+# define	WIN_WIDTH	1200
 # define	COLOR		0x0000FF00
+# define	ROTATION	0.05
 
 // errors
 

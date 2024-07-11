@@ -6,13 +6,13 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/09 16:37:20 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:38:25 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_matrix ft_rotation_x(double alpha)
+t_matrix	ft_matr_rot_x(double alpha)
 {
 	t_matrix	roll;
 	double		sin_a;
@@ -29,7 +29,7 @@ t_matrix ft_rotation_x(double alpha)
 	return(roll);
 }
 
-t_matrix ft_rotation_y(double beta)
+t_matrix	ft_matr_rot_y(double beta)
 {
 	t_matrix	pitch;
 	double		sin_b;
@@ -46,7 +46,7 @@ t_matrix ft_rotation_y(double beta)
 	return(pitch);
 }
 
-t_matrix ft_rotation_z(double gamma)
+t_matrix	ft_matr_rot_z(double gamma)
 {
 	t_matrix	yaw;
 	double		sin_g;
@@ -61,4 +61,45 @@ t_matrix ft_rotation_z(double gamma)
 	yaw.matrix[1][1] = cos_g;
 	yaw.matrix[2][2] = 1;
 	return(yaw);
+}
+t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
+{
+	t_matrix	rslt;
+	int			i;
+	int			j;
+	int			k;
+
+	ft_memset(&rslt, 0, sizeof(t_matrix));
+	i = 0;
+	while (i < 3)
+	{
+		j = 0;
+		while (j < 3)
+		{
+			k = 0;
+			while (k < 3)
+			{
+				rslt.matrix[i][j] += a.matrix[i][k] * b.matrix[k][j];
+				k++;
+			} 
+			j++;
+		}
+		i++;
+	}
+	return (rslt);
+}
+t_matrix	ft_matr_final(t_mlx *fdf)
+{
+	t_matrix	roll;
+	t_matrix	pitch;
+	t_matrix	yaw;
+	t_matrix	temp;
+	t_matrix	rslt;
+
+	roll = ft_matr_rot_x(fdf->cam->alpha);
+	pitch = ft_matr_rot_y(fdf->cam->beta);
+	yaw = ft_matr_rot_z(fdf->cam->gamma);
+	temp = ft_matr_mult(pitch, roll);
+	rslt = ft_matr_mult(yaw, temp);
+	return (rslt);
 }
