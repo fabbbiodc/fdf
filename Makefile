@@ -6,14 +6,18 @@
 #    By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 16:51:31 by fdi-cecc          #+#    #+#              #
-#    Updated: 2024/07/10 16:50:48 by fdi-cecc         ###   ########.fr        #
+#    Updated: 2024/07/11 16:39:10 by fdi-cecc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		:= 	fdf
 
-SRC  		:= 	fdf.c drawline.c errors.c utils.c render.c rotations.c
+SRC_DIR		:=	src
+INC_DIR		:=	inc
 
+SRC_FILES	:= 	fdf.c drawline.c errors.c utils.c render.c rotations.c
+
+SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ  		:=	$(SRC:.c=.o)
 
 MINILIBXDIR := 	minilibx_linux
@@ -22,6 +26,7 @@ MINILIBX	:= 	$(MINILIBXDIR)/libmlx.a
 CC			:= 	cc
 CFLAGS 		:= 	-Wall -Werror -Wextra
 FSANITIZE	:=	-fsanitize=address -g #to remove
+INCLUDES	:=	-I$(INC_DIR) -I$(MINILIBXDIR)
 LINKEDIR	:= 	-L$(MINILIBXDIR)
 LIBS		:=	-lmlx -lX11 -lXext
 RM			:=	/bin/rm -f
@@ -35,7 +40,7 @@ $(MINILIBX):
 	$(MAKE) -C $(MINILIBXDIR)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS)  $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)

@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/11 16:10:58 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:51:06 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include	"keys.h"
 # include	"structs.h"
 # include	"variables.h"
-# include	"minilibx_linux/mlx.h"
+# include	<mlx.h>
 
 //fdf.c
 
@@ -31,8 +31,6 @@ int			ft_init_image(t_mlx *fdf);
 
 // drawline.c
 
-t_point		*ft_direction(t_point *p1, t_point *p2);
-void		ft_nextpix(int error[2], t_point *delta, t_point *current, t_point *direction);
 void		ft_putpixel(t_mlx *mlx, int x, int y, int color);
 void		ft_dda(t_mlx *fdf, t_point *p1, t_point *p2);
 int			ft_draw(t_mlx *fdf);

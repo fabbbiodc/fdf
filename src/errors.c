@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/08 15:21:54 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/11 16:51:33 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_error_handle(int errorcode)
 		printf("Error: failed draw\n");
 	return (1);
 }
+
 int	ft_free(t_mlx *fdf)
 {
 	if (fdf->cam)
@@ -38,6 +39,7 @@ int	ft_free(t_mlx *fdf)
 	free (fdf);
 	return (EXIT_SUCCESS);
 }
+
 int	ft_terminate(t_mlx *fdf)
 {
 	if (fdf->img)
