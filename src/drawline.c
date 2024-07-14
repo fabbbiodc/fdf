@@ -6,23 +6,25 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/11 16:48:55 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:15:28 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int ft_draw(t_mlx *fdf)
+int	ft_draw(t_mlx *fdf)
 {
-	if (!fdf || !fdf->mlx || !fdf->win || !fdf->img || !fdf->img_att || !fdf->img_att->addr)
+	t_point	p1, p2, p3, p4, p5;
+
+	if (!fdf || !fdf->mlx || !fdf->win || !fdf->img || !fdf->img_att
+		|| !fdf->img_att->addr)
 	{
 		fprintf(stderr, "Error: Invalid MLX data structures\n");
 		return (1);
 	}
 	printf("Clearing image buffer\n");
-	ft_memset(fdf->img_att->addr, 0, WIN_WIDTH * WIN_HEIGHT * (fdf->img_att->bpp / 8));
-
-	t_point p1, p2, p3, p4, p5;
+	ft_memset(fdf->img_att->addr, 0, WIN_WIDTH 
+		* WIN_HEIGHT * (fdf->img_att->bpp / 8));
 	ft_definepoint(&p1, -100, -100, 0);
 	ft_definepoint(&p2, 100, -100, 0);
 	ft_definepoint(&p3, -100, 100, 0);
@@ -53,8 +55,14 @@ int ft_draw(t_mlx *fdf)
 	ft_dda(fdf, &p4, &p5);
 	printf("Putting image to window\n");
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
-
 	return (0);
+}
+
+int	ft_img_refresh(t_mlx *fdf)
+{
+	if (fdf->img)
+		mlx_destroy_image(fdf->mlx, fdf->img);
+	return (ft_init_image(fdf));
 }
 
 void	ft_putpixel(t_mlx *fdf, int x, int y, int color)

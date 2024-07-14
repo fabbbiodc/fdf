@@ -6,14 +6,14 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/11 12:35:01 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:21:35 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-typedef	struct s_point
+typedef struct s_point
 {
 	double		x;
 	double		y;
@@ -46,7 +46,7 @@ typedef struct s_matrix
 	double	matrix[3][3];
 }	t_matrix;
 
-typedef	struct s_mlx
+typedef struct s_mlx
 {
 	void	*mlx;
 	void	*win;
@@ -58,4 +58,4 @@ typedef	struct s_mlx
 	int		map_width;
 }	t_mlx;
 
-# endif
+#endif

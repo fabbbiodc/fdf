@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/10 16:38:25 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:59:38 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_matrix	ft_matr_rot_x(double alpha)
 	roll.matrix[1][2] = -sin_a;
 	roll.matrix[2][1] = sin_a;
 	roll.matrix[2][2] = cos_a;
-	return(roll);
+	return (roll);
 }
 
 t_matrix	ft_matr_rot_y(double beta)
@@ -43,7 +43,7 @@ t_matrix	ft_matr_rot_y(double beta)
 	pitch.matrix[1][1] = 1;
 	pitch.matrix[2][0] = -sin_b;
 	pitch.matrix[2][2] = cos_b;
-	return(pitch);
+	return (pitch);
 }
 
 t_matrix	ft_matr_rot_z(double gamma)
@@ -60,8 +60,9 @@ t_matrix	ft_matr_rot_z(double gamma)
 	yaw.matrix[1][0] = sin_g;
 	yaw.matrix[1][1] = cos_g;
 	yaw.matrix[2][2] = 1;
-	return(yaw);
+	return (yaw);
 }
+
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 {
 	t_matrix	rslt;
@@ -81,13 +82,14 @@ t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 			{
 				rslt.matrix[i][j] += a.matrix[i][k] * b.matrix[k][j];
 				k++;
-			} 
+			}
 			j++;
 		}
 		i++;
 	}
 	return (rslt);
 }
+
 t_matrix	ft_matr_final(t_mlx *fdf)
 {
 	t_matrix	roll;
