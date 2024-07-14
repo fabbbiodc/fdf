@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/14 20:21:35 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:58:37 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,11 @@ typedef struct s_mlx
 	int		map_height;
 	int		map_width;
 }	t_mlx;
+
+typedef struct s_list
+{
+	char			*content;
+	struct s_list	*next;
+}				t_list;
 
 #endif

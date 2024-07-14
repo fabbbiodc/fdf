@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/14 20:20:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/14 21:01:51 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define WIN_WIDTH	1200
 # define COLOR		0x0000FF00
 # define ROTATION	0.05
+# define BUFFER_SIZE 20
 
 // errors
 
