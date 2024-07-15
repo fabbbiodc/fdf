@@ -6,19 +6,12 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/14 21:23:59 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:33:10 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
-
-typedef struct s_map
-{
-	int		map_width;
-	int 	map_height;
-	t_point	**points;
-}	t_map;
 
 typedef struct s_point
 {
@@ -26,8 +19,14 @@ typedef struct s_point
 	double	y;
 	double	z;
 	double	color;
-	double	len;
 }	t_point;
+
+typedef struct s_map
+{
+	int		width;
+	int 	height;
+	t_point	**points;
+}	t_map;
 
 typedef struct s_img
 {
