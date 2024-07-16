@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/15 15:33:10 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:20:28 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_point
 typedef struct s_map
 {
 	int		width;
-	int 	height;
+	int		height;
 	t_point	**points;
 }	t_map;
 
@@ -61,11 +61,5 @@ typedef struct s_mlx
 	t_cam	*cam;
 	t_map	*map;
 }	t_mlx;
-
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}				t_list;
 
 #endif

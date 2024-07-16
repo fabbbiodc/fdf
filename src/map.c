@@ -6,16 +6,17 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:11:09 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/16 12:04:16 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:39:38 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/fdf.h"
+#include "fdf.h"
 
 static int	ft_map_rows(t_map *map)
 {
 	int	i;
 
+	i = 0;
 	while (i < map->height)
 	{
 		map->points[i] = (t_point *)malloc(map->width * sizeof(t_point));
@@ -27,14 +28,14 @@ static int	ft_map_rows(t_map *map)
 				free(map->points[i]);
 			}
 			free(map->points);
-			return (NULL);
+			return (0);
 		}
 		i++;
 	}
 	return (1);
 }
 
-static t_map	*ft_map_allocate(width, height)
+static t_map	*ft_map_allocate(int width, int height)
 {
 	t_map	*map;
 
@@ -46,7 +47,7 @@ static t_map	*ft_map_allocate(width, height)
 	map->points = (t_point **)malloc(height * sizeof(t_point *));
 	if (!map->points)
 	{
-		free(map)
+		free(map);
 		return (NULL);
 	}
 	if (!ft_map_rows(map))
@@ -62,7 +63,7 @@ static int	ft_map_size(char *map, int *width, int *height)
 	int		fd;
 	char	*line;
 
-	fd = open(map, 0_RDONLY);
+	fd = open(map, O_RDONLY);
 	if (fd < 0)
 		return (0);
 	*width = 0;
@@ -71,7 +72,7 @@ static int	ft_map_size(char *map, int *width, int *height)
 	while (line != NULL)
 	{
 		if (*height == 0)
-			*width = ft_words(line, ' ');
+			*width = ft_word_count(line, ' ');
 		(*height)++;
 		free(line);
 		line = get_next_line(fd);
@@ -80,12 +81,3 @@ static int	ft_map_size(char *map, int *width, int *height)
 	return (1);
 }
 
-t_map	ft_map_parse(char *map)
-{
-	t_map	*map;
-	int		width;
-	int		height;
-
-	if (!ft_map_size(map, &width, &height))
-		return (NULL);
-}
