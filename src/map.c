@@ -6,13 +6,35 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:11:09 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/15 17:37:25 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:04:16 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/fdf.h"
 
-static t_map	ft_map_allocate(width, height)
+static int	ft_map_rows(t_map *map)
+{
+	int	i;
+
+	while (i < map->height)
+	{
+		map->points[i] = (t_point *)malloc(map->width * sizeof(t_point));
+		if (!map->points[i])
+		{
+			while (i > 0)
+			{
+				i--;
+				free(map->points[i]);
+			}
+			free(map->points);
+			return (NULL);
+		}
+		i++;
+	}
+	return (1);
+}
+
+static t_map	*ft_map_allocate(width, height)
 {
 	t_map	*map;
 
@@ -21,9 +43,18 @@ static t_map	ft_map_allocate(width, height)
 		return (0);
 	map->height = height;
 	map->width = width;
-	map->points = (t_points **)malloc(sizeof(t_point *))
-	if
-
+	map->points = (t_point **)malloc(height * sizeof(t_point *));
+	if (!map->points)
+	{
+		free(map)
+		return (NULL);
+	}
+	if (!ft_map_rows(map))
+	{
+		free(map);
+		return (NULL);
+	}
+	return (map);
 }
 
 static int	ft_map_size(char *map, int *width, int *height)
@@ -48,6 +79,7 @@ static int	ft_map_size(char *map, int *width, int *height)
 	close(fd);
 	return (1);
 }
+
 t_map	ft_map_parse(char *map)
 {
 	t_map	*map;
