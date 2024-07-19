@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:11:09 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/16 18:39:38 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:37:46 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,37 @@ static int	ft_map_size(char *map, int *width, int *height)
 	return (1);
 }
 
+void	ft_map_free(t_map *map)
+{
+	int	i;
+
+	if (map)
+	{
+		if (map->points)
+		{
+			i = 0;
+			while (i < map->height)
+			{
+				if (map->points[i])
+					free(map->points[i]);
+				i++;
+			}
+			free(map->points);
+		}
+		free(map);
+	}
+}
+
+t_map	*ft_map_process(char *map_file)
+{
+	t_map	*map;
+	int		width;
+	int		height;
+
+	if (!ft_map_size(map_file, &width, &height))
+		return (NULL);
+	map = ft_map_allocate(width, height);
+	if (!map)
+		return (NULL);
+	return (map);
+}

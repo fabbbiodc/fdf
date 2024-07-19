@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/14 20:15:28 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:24:29 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 		if (current.x >= 0 && current.x < WIN_WIDTH
 			&& current.y >= 0 && current.y < WIN_HEIGHT)
 			ft_putpixel(fdf, (int)round(current.x),
-				(int)round(current.y), COLOR);
+				(int)round(current.y), DEFAULT_COLOR);
 		current.x += step.x;
 		current.y += step.y;
 	}

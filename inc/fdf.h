@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/16 18:20:05 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:38:19 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,14 @@ void		ft_cam_params(t_mlx *fdf);
 // parse
 
 t_map		ft_parse_map(char *map);
+int			ft_parse_line(char *line, t_point *p, int y, int width);
+int			ft_color(char *z);
+void		ft_free_split(char **points);
 
 // map
 
+t_map		*ft_map_process(char *map_file);
+void		ft_map_free(t_map *map);
 // static int	ft_map_size(char *map, int *width, int *height);
 // static t_map	*ft_map_allocate(int width, int height);
 // static int	ft_map_rows(t_map *map);
