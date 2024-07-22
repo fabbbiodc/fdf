@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/19 20:38:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:09:36 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 int			ft_keyreact(int key, t_mlx *fdf);
 int			ft_abs(int n);
-void		ft_definepoint(t_point *point, double x, double y, double z);
 int			ft_init_image(t_mlx *fdf);
 
 // cam
@@ -41,7 +40,6 @@ void		ft_cam_params(t_mlx *fdf);
 t_map		ft_parse_map(char *map);
 int			ft_parse_line(char *line, t_point *p, int y, int width);
 int			ft_color(char *z);
-void		ft_free_split(char **points);
 
 // map
 
@@ -55,14 +53,16 @@ void		ft_map_free(t_map *map);
 
 void		ft_putpixel(t_mlx *mlx, int x, int y, int color);
 void		ft_dda(t_mlx *fdf, t_point *p1, t_point *p2);
-int			ft_draw(t_mlx *fdf);
+void		ft_draw(t_mlx *fdf);
 int			ft_img_refresh(t_mlx *fdf);
+void		ft_draw_points(t_mlx *fdf, int y, int x);
 
 // error
 
 int			ft_error_handle(int errorcode);
 int			ft_terminate(t_mlx *fdf);
 int			ft_free(t_mlx *fdf);
+void		ft_free_split(char **points);
 
 // render
 

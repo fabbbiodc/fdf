@@ -6,56 +6,51 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/19 17:24:29 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:58:58 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_draw(t_mlx *fdf)
+void	ft_draw_points(t_mlx *fdf, int y, int x)
 {
-	t_point	p1, p2, p3, p4, p5;
+	t_point	p1;
+	t_point	p2;
 
-	if (!fdf || !fdf->mlx || !fdf->win || !fdf->img || !fdf->img_att
-		|| !fdf->img_att->addr)
-	{
-		fprintf(stderr, "Error: Invalid MLX data structures\n");
-		return (1);
-	}
-	printf("Clearing image buffer\n");
-	ft_memset(fdf->img_att->addr, 0, WIN_WIDTH 
-		* WIN_HEIGHT * (fdf->img_att->bpp / 8));
-	ft_definepoint(&p1, -100, -100, 0);
-	ft_definepoint(&p2, 100, -100, 0);
-	ft_definepoint(&p3, -100, 100, 0);
-	ft_definepoint(&p4, 100, 100, 0);
-	ft_definepoint(&p5, 0, 0, 100);
-	printf("Rendering points\n");
+	p1 = fdf->map->points[y][x];
 	ft_render(&p1, fdf);
-	ft_render(&p2, fdf);
-	ft_render(&p3, fdf);
-	ft_render(&p4, fdf);
-	ft_render(&p5, fdf);
-	printf("Drawing lines\n");
-	printf("Drawing line 1: p1 to p2\n");
-	ft_dda(fdf, &p1, &p2);
-	printf("Drawing line 2: p1 to p3\n");
-	ft_dda(fdf, &p1, &p3);
-	printf("Drawing line 3: p1 to p5\n");
-	ft_dda(fdf, &p1, &p5);
-	printf("Drawing line 4: p2 to p4\n");
-	ft_dda(fdf, &p2, &p4);
-	printf("Drawing line 5: p2 to p5\n");
-	ft_dda(fdf, &p2, &p5);
-	printf("Drawing line 6: p3 to p4\n");
-	ft_dda(fdf, &p3, &p4);
-	printf("Drawing line 7: p3 to p5\n");
-	ft_dda(fdf, &p3, &p5);
-	printf("Drawing line 8: p4 to p5\n");
-	ft_dda(fdf, &p4, &p5);
-	printf("Putting image to window\n");
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
-	return (0);
+	if (x < (fdf->map->width -1))
+	{
+		p2 = fdf->map->points[y][x + 1];
+		ft_render(&p2, fdf);
+		ft_dda(fdf, &p1, &p2);
+	}
+	if (y < (fdf->map->height - 1))
+	{
+		p2 = fdf->map->points[y + 1][x];
+		ft_render(&p2, fdf);
+		ft_dda(fdf, &p1, &p2);
+	}
+}
+
+void	ft_draw(t_mlx *fdf)
+{
+	int		x;
+	int		y;
+	t_point p1;
+	t_point	p2;
+
+	y = 0;
+	while (y < fdf->map->height)
+	{
+		x = 0;
+		while (x < fdf->map->width)
+		{
+			ft_draw_points(fdf, y, x);
+			x++;
+		}
+	}
+	y++;
 }
 
 int	ft_img_refresh(t_mlx *fdf)
@@ -72,14 +67,14 @@ void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 
 	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
 	{
-		printf("Pixel out of bounds: (%d, %d)\n", x, y);
+		ft_printf("Pixel out of bounds: (%d, %d)\n", x, y);
 		return ;
 	}
 	offset = y * fdf->img_att->linesize + x * (fdf->img_att->bpp / 8);
 	if (offset < 0 || offset >= WIN_WIDTH * WIN_HEIGHT
 		* (fdf->img_att->bpp / 8))
 	{
-		printf("Invalid offset: %d\n", offset);
+		ft_printf("Invalid offset: %d\n", offset);
 		return ;
 	}
 	pix = fdf->img_att->addr + offset;
@@ -91,25 +86,24 @@ void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 	t_point	delta;
 	t_point	step;
 	t_point	current;
-	double	max_steps;
+	int		steps;
 	int		i;
 
 	current = *p1;
 	delta.x = p2->x - p1->x;
 	delta.y = p2->y - p1->y;
-	max_steps = fmax(fabs(delta.x), fabs(delta.y));
-	if (max_steps == 0)
+	steps = fmax(fabs(delta.x), fabs(delta.y));
+	if (steps == 0)
 		return ;
-	step.x = delta.x / max_steps;
-	step.y = delta.y / max_steps;
+	step.x = delta.x / steps;
+	step.y = delta.y / steps;
 	i = -1;
-	while (++i <= (int)max_steps && !(current.x < 0 && current.y < 0)
-		&& !(current.x >= WIN_WIDTH && current.y >= WIN_HEIGHT))
+	while (++i <= steps)
 	{
 		if (current.x >= 0 && current.x < WIN_WIDTH
 			&& current.y >= 0 && current.y < WIN_HEIGHT)
 			ft_putpixel(fdf, (int)round(current.x),
-				(int)round(current.y), DEFAULT_COLOR);
+				(int)round(current.y), current.color);
 		current.x += step.x;
 		current.y += step.y;
 	}

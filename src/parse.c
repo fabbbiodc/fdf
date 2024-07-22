@@ -6,27 +6,11 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:48:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/19 21:51:51 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:59:50 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	ft_free_split(char **points)
-{
-	int	i;
-
-	i = 0;
-	if (points)
-	{
-		while (points[i])
-		{
-			free(points[i]);
-			i++;
-		}
-		free(points);
-	}
-}
 
 int	ft_color(char *z)
 {
@@ -68,24 +52,40 @@ int	ft_parse_line(char *line, t_point *p, int y, int width)
 	return (1);
 }
 
+static int	ft_parse_increment(t_map *map, char *line, int *y)
+{
+	if (!ft_parse_line(line, map->points[*y], *y, map->width))
+		return (0);
+	(*y)++;
+	return(1);
+}
+
 t_map	*ft_parse_map(char *map_file)
 {
 	t_map	*map;
-	char	*line;
 	int		fd;
-	int		y;
 
 	map = ft_map_process(map_file);
-	if(!map)
-		return (NULL);
-	fd = open(map_file, O_RDONLY);
-	if (fd < 0)
+	fd = open(map_file, O_RDONLY)
+	if(!map || fd < 0)
 	{
 		ft_map_free(map);
+		if (fd > 0)
+			close(fd);
 		return (NULL);
 	}
 	y = 0;
-	while ((get_next_line(fd)) != NULL)
-	
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		if (!ft_parse_increment(map, line, &y))
+		{
+			free(line);
+			close(fd);
+			ft_map_free(map);
+			return (NULL);
+		}
+		free(line);
+	}
+	close(fd);
+	return (map);
 }
-

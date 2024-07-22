@@ -79,8 +79,7 @@ int	main(void)
 	if (ft_cam_init(fdf) != EXIT_SUCCESS)
 		return (ft_error_handle(ERR_CAM));
 	ft_cam_params(fdf);
-	if (ft_draw(fdf) != 0)
-		return (ft_error_handle(ERR_DRAW), ft_terminate(fdf), 1);
+	ft_draw(fdf);
 	mlx_key_hook(fdf->win, ft_keyreact, fdf);
 	mlx_expose_hook(fdf->win, ft_draw, fdf);
 	mlx_loop(fdf->mlx);

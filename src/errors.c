@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/11 16:51:33 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:20:01 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 int	ft_error_handle(int errorcode)
 {
 	if (errorcode == ERR_CAM)
-		printf("Error: failed camera\n");
+		ft_printf("Error: failed camera\n");
 	if (errorcode == ERR_STRUCT)
-		printf("Error: invalid mlx data structure\n");
+		ft_printf("Error: invalid mlx data structure\n");
 	if (errorcode == ERR_MALLOC)
-		printf("Error: failed malloc\n");
+		ft_printf("Error: failed malloc\n");
 	if (errorcode == ERR_INIT)
-		printf("Error: faile init\n");
+		ft_printf("Error: faile init\n");
 	if (errorcode == ERR_WIN)
-		printf("Error: failed window\n");
+		ft_printf("Error: failed window\n");
 	if (errorcode == ERR_DRAW)
-		printf("Error: failed draw\n");
+		ft_printf("Error: failed draw\n");
 	return (1);
 }
 

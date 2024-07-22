@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/15 15:17:25 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:20:01 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ void	ft_render(t_point *p, t_mlx *fdf)
 {
 	t_matrix	rotation;
 
-	printf("Before render: (%f, %f, %f)\n", p->x, p->y, p->z);
+	ft_printf("Before render: (%f, %f, %f)\n", p->x, p->y, p->z);
 	rotation = ft_matr_final(fdf);
 	ft_rotate(rotation, p);
 	ft_scale(p, fdf->cam->theta);
 	if (fdf->cam->projection == PROJ_ISO)
 		ft_iso_proj(p);
 	ft_center(p, fdf->cam->x_move, fdf->cam->y_move);
-	printf("After render: (%f, %f, %f)\n", p->x, p->y, p->z);
+	ft_printf("After render: (%f, %f, %f)\n", p->x, p->y, p->z);
 }
