@@ -22,45 +22,53 @@ int	ft_keyreact(int key, t_mlx *fdf)
 	else if (key == KEY_UP)
 	{
 		fdf->cam->alpha += ROTATION;
-		ft_img_refresh(fdf);
+		ft_init_image(fdf);
 		ft_draw(fdf);
 	}
 	else if (key == KEY_DOWN)
 	{
 		fdf->cam->alpha -= ROTATION;
-		ft_img_refresh(fdf);
+		ft_init_image(fdf);
 		ft_draw(fdf);
 	}
 	return (0);
 }
 
-int	ft_img_refresh(t_mlx *fdf)
+static int ft_create_image(t_mlx *fdf)
 {
-	if (fdf->img)
-		mlx_destroy_image(fdf->mlx, fdf->img);
-	return (ft_init_image(fdf));
+    fdf->img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
+    if (!fdf->img)
+        return (0);
+    fdf->img_att = (t_img *)malloc(sizeof(t_img));
+    if (!fdf->img_att)
+    {
+        mlx_destroy_image(fdf->mlx, fdf->img);
+        fdf->img = NULL;
+        return (0);
+    }
+    return (1);
 }
 
 int	ft_init_image(t_mlx *fdf)
 {
-	fdf->img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!fdf->img)
-		return (0);
-	fdf->img_att = (t_img *)malloc(sizeof(t_img));
-	if (!fdf->img_att)
-	{
+	if (fdf->img)
 		mlx_destroy_image(fdf->mlx, fdf->img);
+	if (fdf->img_att)
+		free(fdf->img_att);
+	fdf->img = NULL;
+	fdf->img_att = NULL;
+	if (!ft_create_image(fdf))
 		return (0);
-	}
 	fdf->img_att->addr = mlx_get_data_addr(fdf->img, &fdf->img_att->bpp,
-			&fdf->img_att->linesize, &fdf->img_att->endian);
+		&fdf->img_att->linesize, &fdf->img_att->endian);
 	if (!fdf->img_att->addr)
 	{
 		mlx_destroy_image(fdf->mlx, fdf->img);
 		free(fdf->img_att);
+		fdf->img = NULL;
+		fdf->img_att = NULL;
 		return (0);
 	}
-	ft_printf("image created successfully\n");
 	return (1);
 }
 
@@ -85,7 +93,7 @@ int	main(int argc, char **argv)
 	ft_printf("Map file: %s\n", argv[1]);
 	printf("Size of t_mlx: %zu bytes\n", sizeof(t_mlx));
 	ft_printf("Allocating fdf structure\n");
-	fdf = (t_mlx *)malloc(sizeof(t_mlx));
+	fdf = (t_mlx *)ft_calloc(1, sizeof(t_mlx));
 	if (!fdf)
 	{
 		ft_printf("memory allocation failed\n");

@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 10:51:34 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:45:27 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,52 @@ void	ft_free_split(char **points)
 
 int	ft_free(t_mlx *fdf)
 {
+	if (!fdf)
+		return (EXIT_FAILURE);
 	if (fdf->cam)
+	{
 		free(fdf->cam);
-	if (fdf->img)
-		free(fdf->img_att);
-	free (fdf->mlx);
+		fdf->cam = NULL;
+	}
+	if (fdf->map)
+    {
+        ft_map_free(fdf->map);
+        fdf->map = NULL;
+    }
 	free (fdf);
 	return (EXIT_SUCCESS);
 }
 
+static void ft_cleanup_mlx(t_mlx *fdf)
+{
+    if (fdf->img)
+	{
+        mlx_destroy_image(fdf->mlx, fdf->img);
+		fdf->img = NULL;
+	}
+	if (fdf->win)
+	{
+        mlx_destroy_window(fdf->mlx, fdf->win);
+		fdf->win = NULL;
+	}
+	if (fdf->mlx)
+    {
+        mlx_destroy_display(fdf->mlx);
+        free(fdf->mlx);
+		fdf->mlx = NULL;
+    }
+}
+
 int	ft_terminate(t_mlx *fdf)
 {
-	if (fdf->img)
-		mlx_destroy_image(fdf->mlx, fdf->img);
-	if (fdf->win)
-		mlx_destroy_window(fdf->mlx, fdf->win);
-	if (fdf->mlx)
-		mlx_destroy_display(fdf->mlx);
+	if (!fdf)
+		return (EXIT_FAILURE);
+	ft_cleanup_mlx(fdf);
+	if (fdf->img_att)
+	{
+		free(fdf->img_att);
+		fdf->img_att = NULL;
+	}
 	ft_free(fdf);
 	exit(EXIT_SUCCESS);
 }
