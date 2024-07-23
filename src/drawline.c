@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 15:45:04 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:56:40 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_draw_points(t_mlx *fdf, int y, int x)
 	}
 }
 
-int		ft_draw(t_mlx *fdf)
+int	ft_draw(t_mlx *fdf)
 {
 	int		x;
 	int		y;
