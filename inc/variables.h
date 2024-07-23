@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/19 17:03:23 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:55:20 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define ERR_IMG	6
 # define ERR_DRAW	7
 # define ERR_CAM	8
+# define ERR_MAP	9
 
 // projections
 

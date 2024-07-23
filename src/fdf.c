@@ -22,21 +22,23 @@ int	ft_keyreact(int key, t_mlx *fdf)
 	else if (key == KEY_UP)
 	{
 		fdf->cam->alpha += ROTATION;
+		ft_img_refresh(fdf);
 		ft_draw(fdf);
 	}
 	else if (key == KEY_DOWN)
 	{
 		fdf->cam->alpha -= ROTATION;
+		ft_img_refresh(fdf);
 		ft_draw(fdf);
 	}
 	return (0);
 }
 
-void	ft_definepoint(t_point *point, double x, double y, double z)
+int	ft_img_refresh(t_mlx *fdf)
 {
-	point->x = x;
-	point->y = y;
-	point->z = z;
+	if (fdf->img)
+		mlx_destroy_image(fdf->mlx, fdf->img);
+	return (ft_init_image(fdf));
 }
 
 int	ft_init_image(t_mlx *fdf)
@@ -58,22 +60,61 @@ int	ft_init_image(t_mlx *fdf)
 		free(fdf->img_att);
 		return (0);
 	}
+	ft_printf("image created successfully\n");
 	return (1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_mlx	*fdf;
+	ft_printf("Program started\n");
 
+	if (argc != 2)
+	{
+		ft_printf("try like this: ./fdf <map file>\n");
+		return (1);
+	}
+	void *test = malloc(10);
+	if (!test)
+	{
+		ft_printf("Test allocation failed\n");
+		return (ft_error_handle(ERR_MALLOC));
+	}
+	ft_printf("Test allocation succeeded\n");
+	free(test);
+	ft_printf("Map file: %s\n", argv[1]);
+	printf("Size of t_mlx: %zu bytes\n", sizeof(t_mlx));
+	ft_printf("Allocating fdf structure\n");
 	fdf = (t_mlx *)malloc(sizeof(t_mlx));
 	if (!fdf)
+	{
+		ft_printf("memory allocation failed\n");
 		return (ft_error_handle(ERR_MALLOC));
+	}
+	ft_printf("Malloc Allocated\n");
+	ft_printf("About to parse map\n");
+	fdf->map = ft_parse_map(argv[1]);
+	ft_printf("Map parsed\n");
+	if (!fdf->map)
+	{
+		ft_printf("Map parse failed\n");
+		return (ft_error_handle(ERR_MAP), ft_terminate(fdf));
+	}
+	ft_printf("Map parse success\n");
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
+	{
+		ft_printf("MLX initialization failed\n");
 		return (ft_error_handle(ERR_INIT));
+	}
+	ft_printf("MLX initialization success\n");
 	fdf->win = mlx_new_window(fdf->mlx, WIN_WIDTH, WIN_HEIGHT, "Window");
 	if (!fdf->win)
+	{
+		ft_printf("MLX window failed\n");
 		return (ft_error_handle(ERR_WIN), ft_terminate(fdf), 1);
+	}
+	ft_printf("MLX window success\n");
 	if (!ft_init_image(fdf))
 		return (ft_error_handle(ERR_IMG), ft_terminate(fdf), 1);
 	if (ft_cam_init(fdf) != EXIT_SUCCESS)
@@ -82,7 +123,10 @@ int	main(void)
 	ft_draw(fdf);
 	mlx_key_hook(fdf->win, ft_keyreact, fdf);
 	mlx_expose_hook(fdf->win, ft_draw, fdf);
+	ft_printf("Hooks set up successfully\n");
+	ft_printf("Starting MLX loop\n");
 	mlx_loop(fdf->mlx);
+	ft_printf("MLX loop ended\n");
 	ft_terminate(fdf);
 	return (0);
 }

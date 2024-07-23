@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/22 17:58:58 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:45:04 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,12 @@ void	ft_draw_points(t_mlx *fdf, int y, int x)
 	}
 }
 
-void	ft_draw(t_mlx *fdf)
+int		ft_draw(t_mlx *fdf)
 {
 	int		x;
 	int		y;
-	t_point p1;
-	t_point	p2;
 
+	ft_printf("Starting ft_draw\n");
 	y = 0;
 	while (y < fdf->map->height)
 	{
@@ -49,16 +48,13 @@ void	ft_draw(t_mlx *fdf)
 			ft_draw_points(fdf, y, x);
 			x++;
 		}
+		y++;
 	}
-	y++;
+	ft_printf("Finished ft_draw\n");
+	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
+	return (0);
 }
 
-int	ft_img_refresh(t_mlx *fdf)
-{
-	if (fdf->img)
-		mlx_destroy_image(fdf->mlx, fdf->img);
-	return (ft_init_image(fdf));
-}
 
 void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {

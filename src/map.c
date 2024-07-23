@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:11:09 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/19 20:37:46 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:20:00 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static t_map	*ft_map_allocate(int width, int height)
 	}
 	if (!ft_map_rows(map))
 	{
+		free(map->points);
 		free(map);
 		return (NULL);
 	}
@@ -62,22 +63,38 @@ static int	ft_map_size(char *map, int *width, int *height)
 {
 	int		fd;
 	char	*line;
-
+ 	ft_printf("Entering ft_map_size\n");
+	ft_printf("Opening file %s\n", map);
 	fd = open(map, O_RDONLY);
 	if (fd < 0)
+	{
+		ft_printf("Failed to open file.\n");
 		return (0);
+	}
+	ft_printf("File opened successfully. File descriptor: %d\n", fd);
 	*width = 0;
 	*height = 0;
+	ft_printf("Getting line with get_next_line\n");
 	line = get_next_line(fd);
-	while (line != NULL)
+	ft_printf("get_next_line returned. Line: %s\n", line ? line : "NULL");
+	while (line)
 	{
+		ft_printf("Processing line %d\n", *height + 1);
 		if (*height == 0)
+		{
 			*width = ft_word_count(line, ' ');
-		(*height)++;
+			ft_printf("Width calculated: %d\n", *width);
+		}
+		ft_printf("Current height: %d\n", *height);
 		free(line);
+		ft_printf("About to call get_next_line again\n");
+		(*height)++;
 		line = get_next_line(fd);
+		ft_printf("get_next_line returned. Line: %s\n", line ? line : "NULL");
 	}
 	close(fd);
+	ft_printf("File closed. Final dimensions: width=%d, height=%d\n", *width, *height);
+	ft_printf("Exiting ft_map_size\n");
 	return (1);
 }
 
@@ -108,10 +125,21 @@ t_map	*ft_map_process(char *map_file)
 	int		width;
 	int		height;
 
+	ft_printf("Entering ft_map_process\n");
 	if (!ft_map_size(map_file, &width, &height))
+	{
+		ft_printf("failed to get map dimension\n");
 		return (NULL);
+	}
+	ft_printf("Map dimensions: width=%d, height=%d\n", width, height);
+	ft_printf("Allocating map structure\n");
 	map = ft_map_allocate(width, height);
 	if (!map)
+	{
+		ft_printf("Failed to allocate map\n");
 		return (NULL);
+	}
+	ft_printf("Map allocated successfully\n");
+	ft_printf("Exiting ft_map_process\n");
 	return (map);
 }

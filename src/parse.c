@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:48:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/22 18:59:50 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:01:57 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,33 +59,56 @@ static int	ft_parse_increment(t_map *map, char *line, int *y)
 	(*y)++;
 	return(1);
 }
+static int	ft_parse_loop(t_map *map, int fd)
+{
+	char	*line;
+	int		y;
+	int		rslt;
+
+	y = 0;
+	rslt = 1;
+	line = get_next_line(fd);
+	while (line != NULL && rslt)
+	{
+		rslt = ft_parse_increment(map, line, &y);
+		free(line);
+		if (rslt)
+			line = get_next_line(fd);
+	}
+	return (rslt);
+}
 
 t_map	*ft_parse_map(char *map_file)
 {
 	t_map	*map;
 	int		fd;
 
+	ft_printf("starting to ft_parse_map\n");
+	ft_printf("about to run ft_map_process on %s\n", map_file);
 	map = ft_map_process(map_file);
-	fd = open(map_file, O_RDONLY)
+	ft_printf("map processed\n");
+	ft_printf("opening file\n");
+	fd = open(map_file, O_RDONLY);
 	if(!map || fd < 0)
 	{
+		ft_printf("Error: map processing failed or file couldn't be opened\n");
 		ft_map_free(map);
-		if (fd > 0)
+		if (fd >= 0)
 			close(fd);
 		return (NULL);
 	}
-	y = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	ft_printf("file opened successfully\n");
+	ft_printf("Starting parse loop\n");
+	if (!ft_parse_loop(map, fd))
 	{
-		if (!ft_parse_increment(map, line, &y))
-		{
-			free(line);
-			close(fd);
-			ft_map_free(map);
-			return (NULL);
-		}
-		free(line);
+		ft_printf("Parse loop failed\n");
+		ft_map_free(map);
+		close(fd);
+		return (NULL);
 	}
+	ft_printf("Parse loop completed successfully\n");
 	close(fd);
+	ft_printf("file closed\n");
+	ft_printf("exiting ft_parse_map\n");
 	return (map);
 }

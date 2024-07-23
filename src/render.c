@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/22 15:20:01 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:31:45 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ void	ft_rotate(t_matrix rot, t_point *p)
 
 void	ft_scale(t_point *p, double theta)
 {
-	p->x *= theta / 2;
-	p->y *= theta / 2;
-	p->z *= theta / 2;
+	p->x *= theta * 10;
+	p->y *= theta * 10;
+	p->z *= theta * 10;
 }
 
 void	ft_center(t_point *p, double x_move, double y_move)
 {
-	p->x = p->x + x_move - WIN_WIDTH / 4;
-	p->y = p->y + y_move - WIN_HEIGHT / 4;
+	p->x = p->x + x_move - WIN_WIDTH / 2;
+	p->y = p->y + y_move - WIN_HEIGHT / 2;
 	if (p->x < 10)
 		p->x = 10;
 	if (p->x >= WIN_WIDTH - 10)
@@ -65,12 +65,10 @@ void	ft_render(t_point *p, t_mlx *fdf)
 {
 	t_matrix	rotation;
 
-	ft_printf("Before render: (%f, %f, %f)\n", p->x, p->y, p->z);
 	rotation = ft_matr_final(fdf);
 	ft_rotate(rotation, p);
 	ft_scale(p, fdf->cam->theta);
 	if (fdf->cam->projection == PROJ_ISO)
 		ft_iso_proj(p);
 	ft_center(p, fdf->cam->x_move, fdf->cam->y_move);
-	ft_printf("After render: (%f, %f, %f)\n", p->x, p->y, p->z);
 }

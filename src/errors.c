@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/22 15:20:01 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:51:34 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,25 @@ int	ft_error_handle(int errorcode)
 		ft_printf("Error: failed window\n");
 	if (errorcode == ERR_DRAW)
 		ft_printf("Error: failed draw\n");
+	if (errorcode == ERR_MAP)
+		ft_printf("Error: failed map\n");
 	return (1);
+}
+
+void	ft_free_split(char **points)
+{
+	int	i;
+
+	i = 0;
+	if (points)
+	{
+		while (points[i])
+		{
+			free(points[i]);
+			i++;
+		}
+		free(points);
+	}
 }
 
 int	ft_free(t_mlx *fdf)
