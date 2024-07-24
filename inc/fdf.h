@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 15:46:41 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:45:55 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void		ft_putpixel(t_mlx *mlx, int x, int y, int color);
 void		ft_dda(t_mlx *fdf, t_point *p1, t_point *p2);
 int			ft_draw(t_mlx *fdf);
 void		ft_draw_points(t_mlx *fdf, int y, int x);
-void		ft_definepoint(t_point *p, int x, int y, int z);
+void		ft_pixel_increment(t_mlx *fdf, t_point *current);
+
 
 // error
 
@@ -78,5 +79,9 @@ t_matrix	ft_matr_rot_y(double beta);
 t_matrix	ft_matr_rot_z(double gamma);
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b);
 t_matrix	ft_matr_final(t_mlx *fdf);
+
+// color
+
+int	ft_color_gradient(int start_color, int end_color, double percentage);
 
 #endif

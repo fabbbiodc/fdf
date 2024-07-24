@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 15:31:45 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:57:39 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ void	ft_rotate(t_matrix rot, t_point *p)
 
 void	ft_scale(t_point *p, double theta)
 {
-	p->x *= theta * 10;
-	p->y *= theta * 10;
-	p->z *= theta * 10;
+	p->x *= theta * 5;
+	p->y *= theta * 5;
+	p->z *= theta * 5;
 }
 
 void	ft_center(t_point *p, double x_move, double y_move)

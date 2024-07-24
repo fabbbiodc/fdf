@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 18:56:40 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:45:26 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,44 @@ void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 	*(unsigned int *)pix = color;
 }
 
+void	ft_pixel_increment(t_mlx *fdf, t_point *current)
+{
+	if (current->x >= 0 && current->x < WIN_WIDTH
+		&& current->y >= 0 && current->y < WIN_HEIGHT)
+			ft_putpixel(fdf, (int)round(current->x),
+				(int)round(current->y), current->color);
+}
+
 void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
+{
+	t_point	delta;
+	t_point	step;
+	t_point	current;
+	int		steps;
+	int		i;
+
+	current = *p1;
+	delta.x = p2->x - p1->x;
+	delta.y = p2->y - p1->y;
+	steps = fmax(fabs(delta.x), fabs(delta.y));
+	if (steps == 0)
+		return ;
+	step.x = delta.x / steps;
+	step.y = delta.y / steps;
+	i = -1;
+	while (++i <= steps)
+	{
+		current.color = ft_color_gradient(p1->color, p2->color, ((double)i/steps));
+		ft_pixel_increment(fdf, &current);
+		current.x += step.x;
+		current.y += step.y;
+	}
+}
+
+
+
+
+/* void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 {
 	t_point	delta;
 	t_point	step;
@@ -103,4 +140,4 @@ void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 		current.x += step.x;
 		current.y += step.y;
 	}
-}
+} */
