@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/24 21:57:39 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/25 12:27:49 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_iso_proj(t_point *p)
 
 	x_iso = (p->x - p->y) * cos(RAD_30);
 	y_iso = ((p->x + p->y) * sin(RAD_30)) - p->z;
-	p->x = x_iso + WIN_WIDTH / 2;
-	p->y = y_iso + WIN_HEIGHT / 2;
+	p->x = x_iso;
+	p->y = y_iso;
 }
 
 void	ft_rotate(t_matrix rot, t_point *p)
@@ -40,35 +40,49 @@ void	ft_rotate(t_matrix rot, t_point *p)
 	p->z = z;
 }
 
-void	ft_scale(t_point *p, double theta)
+void	ft_scale(t_point *p, t_cam *cam)
 {
-	p->x *= theta * 5;
-	p->y *= theta * 5;
-	p->z *= theta * 5;
+	p->x *= cam->theta;
+	p->y *= cam->theta;
+	p->z *= cam->z_move;
 }
 
-void	ft_center(t_point *p, double x_move, double y_move)
+void ft_center(t_point *p, t_cam *cam)
 {
-	p->x = p->x + x_move - WIN_WIDTH / 2;
-	p->y = p->y + y_move - WIN_HEIGHT / 2;
-	if (p->x < 10)
-		p->x = 10;
-	if (p->x >= WIN_WIDTH - 10)
-		p->x = WIN_WIDTH - 10;
-	if (p->y < 10)
-		p->y = 10;
-	if (p->y >= WIN_HEIGHT - 10)
-		p->y = WIN_HEIGHT - 10;
+    // Remove the map's center offset
+    p->x -= cam->x_move;
+    p->y -= cam->y_move;
+
+    // Apply isometric offset
+    double iso_offset_y = (cam->map_width + cam->map_height) * sin(RAD_30) / 2;
+
+    // Center in the window
+    p->x += WIN_WIDTH / 2;
+    p->y += (WIN_HEIGHT / 2) - (iso_offset_y * cam->theta);
+
+    // Add a dynamic vertical offset based on the map's depth
+    double depth_offset = cam->map_depth * cam->z_move / 2;
+    p->y -= depth_offset;
 }
 
-void	ft_render(t_point *p, t_mlx *fdf)
+void ft_render(t_point *p, t_mlx *fdf)
 {
-	t_matrix	rotation;
+    // Scale first
+    ft_scale(p, fdf->cam);
 
-	rotation = ft_matr_final(fdf);
-	ft_rotate(rotation, p);
-	ft_scale(p, fdf->cam->theta);
-	if (fdf->cam->projection == PROJ_ISO)
-		ft_iso_proj(p);
-	ft_center(p, fdf->cam->x_move, fdf->cam->y_move);
+    // Apply isometric projection
+    if (fdf->cam->projection == PROJ_ISO)
+        ft_iso_proj(p);
+
+    // Center the map
+    p->x -= fdf->cam->x_move;
+    p->y -= fdf->cam->y_move;
+
+    // Move to screen center
+    p->x += WIN_WIDTH / 2;
+    p->y += WIN_HEIGHT / 2;
+
+    // Ensure the point is within the window bounds
+    p->x = fmax(0, fmin(p->x, WIN_WIDTH - 1));
+    p->y = fmax(0, fmin(p->y, WIN_HEIGHT - 1));
 }
