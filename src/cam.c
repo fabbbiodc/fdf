@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 17:20:03 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:10:19 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,6 @@ void	ft_cam_fit(t_mlx *fdf)
 	fdf->cam->fitted = 1;
 }
 
-int	ft_cam_init(t_mlx *fdf)
-{
-	fdf->cam = (t_cam *)malloc(sizeof(t_cam));
-	if (!fdf->cam)
-	{
-		ft_error_handle(ERR_CAM);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
-
 void	ft_cam_params(t_mlx *fdf)
 {
 	fdf->cam->projection = PROJ_ISO;
@@ -85,6 +74,7 @@ void	ft_cam_params(t_mlx *fdf)
 	fdf->cam->theta = 1;
 	fdf->cam->z_move = 0.1;
 	fdf->cam->fitted = 0;
+	fdf->cam->proj_distance = 1000.0;
 }
 
 void	ft_cam_control(int key, t_mlx *fdf)
@@ -98,19 +88,33 @@ void	ft_cam_control(int key, t_mlx *fdf)
 	else if (key == KEY_RIGHT)
 		fdf->cam->beta += ROTATION;
 	else if (key == KEY_PLU)
-		{
-			fdf->cam->theta += ZOOM;
-			fdf->cam->theta += ZOOM;
-			fdf->cam->z_move += ZOOM;
-		}
+	{
+		fdf->cam->theta += ZOOM;
+		fdf->cam->theta += ZOOM;
+		fdf->cam->z_move += ZOOM;
+	}
 	else if (key == KEY_MIN)
-		{
-			fdf->cam->theta -= ZOOM;
-			fdf->cam->theta -= ZOOM;
-			fdf->cam->z_move -= ZOOM;
-		}
+	{
+		fdf->cam->theta -= ZOOM;
+		fdf->cam->theta -= ZOOM;
+		fdf->cam->z_move -= ZOOM;
+	}
 	else if (key == KEY_A)
 		fdf->cam->x_move += MOVE;
 	else if (key == KEY_D)
 		fdf->cam->x_move -= MOVE;
+	else if (key == KEY_P)
+		ft_toggle_projection(fdf);
+    else if (key == KEY_O)
+        fdf->cam->proj_distance += 50.0;
+    else if (key == KEY_L)
+        fdf->cam->proj_distance = fmax(50.0, fdf->cam->proj_distance - 50.0);
+}
+
+void	ft_toggle_projection(t_mlx *fdf)
+{
+	if (fdf->cam->projection == PROJ_ISO)
+		fdf->cam->projection = PROJ_1PT;
+	else
+		fdf->cam->projection = PROJ_ISO;
 }

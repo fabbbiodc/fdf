@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 17:03:57 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:10:44 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			ft_cam_init(t_mlx *fdf);
 void		ft_cam_control(int key, t_mlx *fdf);
 void		ft_cam_params(t_mlx *fdf);
 void		ft_cam_fit(t_mlx *fdf);
-int 		ft_cam_init(t_mlx *fdf);
+void		ft_toggle_projection(t_mlx *fdf);
 
 // parse
 
@@ -75,6 +75,7 @@ void		ft_render(t_point *p, t_mlx *fdf);
 void		ft_scale(t_point *p, t_cam *cam);
 void		ft_center(t_point *p, t_cam *cam);
 void		ft_rotate(t_matrix rot, t_point *p);
+void		ft_one_point_proj(t_point *p, t_cam *cam);
 
 // rotations
 

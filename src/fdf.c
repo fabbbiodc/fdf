@@ -18,7 +18,7 @@ int	ft_keyreact(int key, t_mlx *fdf)
 		ft_terminate(fdf);
 	else if (key == KEY_UP || key == KEY_DOWN || key == KEY_LEFT
 		|| key == KEY_RIGHT || key == KEY_PLU || key == KEY_MIN
-		|| key == KEY_A || key == KEY_D)
+		|| key == KEY_A || key == KEY_D || key == KEY_P || key == KEY_O || key == KEY_L)
 	{
 		ft_cam_control(key, fdf);
 		ft_init_image(fdf);

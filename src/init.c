@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:15:19 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 16:46:55 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 22:56:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,18 @@ static int	ft_create_image(t_mlx *fdf)
 		return (0);
 	}
 	return (1);
+}
+
+int	ft_cam_init(t_mlx *fdf)
+{
+	fdf->cam = (t_cam *)malloc(sizeof(t_cam));
+	if (!fdf->cam)
+	{
+		ft_error_handle(ERR_CAM);
+		return (EXIT_FAILURE);
+	}
+	ft_cam_params(fdf);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_init_image(t_mlx *fdf)

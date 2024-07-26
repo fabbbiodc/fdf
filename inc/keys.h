@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:29:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/05 10:46:14 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:10:05 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define KEY_W       119
 # define KEY_E       101
 # define KEY_R       114
+# define KEY_O       111
 # define KEY_Y       121
 # define KEY_T       116
 # define KEY_U       117

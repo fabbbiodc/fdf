@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 08:53:37 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:06:38 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,10 @@ typedef struct s_cam
 	double 	scale_x;
 	double 	scale_y;
 	double 	map_width;
-    double 	map_height;
-    double 	map_depth;
+	double 	map_height;
+	double 	map_depth;
 	int		fitted;
+	double  proj_distance;
 }	t_cam;
 
 typedef struct s_matrix

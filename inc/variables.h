@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 17:18:55 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 23:00:50 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define MOVE 5
 # define BUFFER_SIZE 20
 # define MARGIN 100
+# define PROJECTION_DISTANCE 1000.0
 
 // errors
 
@@ -37,7 +38,7 @@
 
 # define PROJ_ISO	2
 # define PROJ_ORTHO	3
-# define PROJ_3PTS 	4
+# define PROJ_1PT 	4
 
 // angles radians doubles
 
