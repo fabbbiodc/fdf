@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:33:57 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/24 21:54:51 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:53:48 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	ft_color_gradient(int start_color, int end_color, double percentage)
 	int	b;
 
 	r = ft_color_process(ft_color_shift(start_color, 16),
-		ft_color_shift(end_color, 16), percentage);
+			ft_color_shift(end_color, 16), percentage);
 	g = ft_color_process(ft_color_shift(start_color, 8),
-		ft_color_shift(end_color, 8), percentage);
+			ft_color_shift(end_color, 8), percentage);
 	b = ft_color_process(ft_color_shift(start_color, 0),
-		ft_color_shift(end_color, 0), percentage);
+			ft_color_shift(end_color, 0), percentage);
 	return ((r << 16) | (g << 8) | b);
 }

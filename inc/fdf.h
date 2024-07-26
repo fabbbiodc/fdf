@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 14:45:00 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:48:51 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 
 int			ft_keyreact(int key, t_mlx *fdf);
 int			ft_abs(int n);
-int			ft_init_image(t_mlx *fdf);
 int			ft_img_refresh(t_mlx *fdf);
 
 // cam
@@ -87,6 +86,11 @@ t_matrix	ft_matr_final(t_mlx *fdf);
 
 // color
 
-int	ft_color_gradient(int start_color, int end_color, double percentage);
+int			ft_color_gradient(int start_color, int end_color, double percentage);
+
+// init
+
+int			ft_fdf_init(t_mlx *fdf, char *map_file);
+int			ft_init_image(t_mlx *fdf);
 
 #endif

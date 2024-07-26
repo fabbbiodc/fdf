@@ -6,7 +6,7 @@
 #    By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 16:51:31 by fdi-cecc          #+#    #+#              #
-#    Updated: 2024/07/24 20:49:47 by fdi-cecc         ###   ########.fr        #
+#    Updated: 2024/07/26 16:40:40 by fdi-cecc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME 		:= 	fdf
 SRC_DIR		:=	src
 INC_DIR		:=	inc
 
-SRC_FILES	:= 	fdf.c drawline.c errors.c render.c rotations.c cam.c  map.c parse.c color.c
+SRC_FILES	:= 	fdf.c drawline.c errors.c render.c rotations.c cam.c  map.c parse.c color.c init.c
 
 SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ  		:=	$(SRC:.c=.o)
