@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 14:13:47 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:18:55 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 
 # define WIN_HEIGHT	1080
 # define WIN_WIDTH	1920
-# define DEFAULT_COLOR		0x0000FF00
-# define ROTATION	0.05
+# define DEFAULT_COLOR 0x0000FF00
+# define ROTATION 0.05
+# define ZOOM 1
+# define MOVE 5
 # define BUFFER_SIZE 20
 # define MARGIN 100
 

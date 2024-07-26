@@ -17,9 +17,10 @@ int	ft_keyreact(int key, t_mlx *fdf)
 	if (key == KEY_ESC)
 		ft_terminate(fdf);
 	else if (key == KEY_UP || key == KEY_DOWN || key == KEY_LEFT
-		|| key == KEY_RIGHT)
+		|| key == KEY_RIGHT || key == KEY_PLU || key == KEY_MIN
+		|| key == KEY_A || key == KEY_D)
 	{
-		ft_cam_rotate(key, fdf);
+		ft_cam_control(key, fdf);
 		ft_init_image(fdf);
 		ft_draw(fdf);
 	}

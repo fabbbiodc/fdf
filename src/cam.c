@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 16:51:13 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 17:20:03 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_cam_params(t_mlx *fdf)
 	fdf->cam->fitted = 0;
 }
 
-void	ft_cam_rotate(int key, t_mlx *fdf)
+void	ft_cam_control(int key, t_mlx *fdf)
 {
 	if (key == KEY_UP)
 		fdf->cam->alpha += ROTATION;
@@ -97,4 +97,20 @@ void	ft_cam_rotate(int key, t_mlx *fdf)
 		fdf->cam->beta -= ROTATION;
 	else if (key == KEY_RIGHT)
 		fdf->cam->beta += ROTATION;
+	else if (key == KEY_PLU)
+		{
+			fdf->cam->theta += ZOOM;
+			fdf->cam->theta += ZOOM;
+			fdf->cam->z_move += ZOOM;
+		}
+	else if (key == KEY_MIN)
+		{
+			fdf->cam->theta -= ZOOM;
+			fdf->cam->theta -= ZOOM;
+			fdf->cam->z_move -= ZOOM;
+		}
+	else if (key == KEY_A)
+		fdf->cam->x_move += MOVE;
+	else if (key == KEY_D)
+		fdf->cam->x_move -= MOVE;
 }
