@@ -12,26 +12,17 @@
 
 #include "fdf.h"
 
-int	ft_keyreact(int key, t_mlx *fdf)
+int ft_keyreact(int key, t_mlx *fdf)
 {
-	if (key == KEY_ESC)
-	{
-		ft_terminate(fdf);
-		exit(0);
-	}
-	else if (key == KEY_UP)
-	{
-		fdf->cam->alpha += ROTATION;
-		ft_init_image(fdf);
-		ft_draw(fdf);
-	}
-	else if (key == KEY_DOWN)
-	{
-		fdf->cam->alpha -= ROTATION;
-		ft_init_image(fdf);
-		ft_draw(fdf);
-	}
-	return (0);
+    if (key == KEY_ESC)
+        ft_terminate(fdf);
+    else if (key == KEY_UP || key == KEY_DOWN || key == KEY_LEFT || key == KEY_RIGHT)
+    {
+        ft_cam_rotate(key, fdf);
+        ft_init_image(fdf);
+        ft_draw(fdf);
+    }
+    return (0);
 }
 
 static int ft_create_image(t_mlx *fdf)

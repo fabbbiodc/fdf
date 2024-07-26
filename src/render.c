@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/25 12:27:49 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:26:20 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	ft_rotate(t_matrix rot, t_point *p)
 	p->z = z;
 }
 
-void	ft_scale(t_point *p, t_cam *cam)
+void ft_scale(t_point *p, t_cam *cam)
 {
-	p->x *= cam->theta;
-	p->y *= cam->theta;
-	p->z *= cam->z_move;
+    p->x *= cam->theta;
+    p->y *= cam->theta;
+    p->z *= cam->z_move;
 }
 
 void ft_center(t_point *p, t_cam *cam)
@@ -67,12 +67,13 @@ void ft_center(t_point *p, t_cam *cam)
 
 void ft_render(t_point *p, t_mlx *fdf)
 {
-    // Scale first
-    ft_scale(p, fdf->cam);
+    // Scale
+    p->x *= fdf->cam->theta;
+    p->y *= fdf->cam->theta;
+    p->z *= fdf->cam->z_move;
 
     // Apply isometric projection
-    if (fdf->cam->projection == PROJ_ISO)
-        ft_iso_proj(p);
+    ft_iso_proj(p);
 
     // Center the map
     p->x -= fdf->cam->x_move;
