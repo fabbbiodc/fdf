@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 14:26:20 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:46:31 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,24 @@ void ft_center(t_point *p, t_cam *cam)
 
 void ft_render(t_point *p, t_mlx *fdf)
 {
+    t_matrix rotation_x, rotation_y, rotation_z, final_rotation;
+
     // Scale
     p->x *= fdf->cam->theta;
     p->y *= fdf->cam->theta;
     p->z *= fdf->cam->z_move;
+
+    // Create rotation matrices
+    rotation_x = ft_matr_rot_x(fdf->cam->alpha);
+    rotation_y = ft_matr_rot_y(fdf->cam->beta);
+    rotation_z = ft_matr_rot_z(fdf->cam->gamma);
+
+    // Combine rotations
+    final_rotation = ft_matr_mult(rotation_y, rotation_x);
+    final_rotation = ft_matr_mult(rotation_z, final_rotation);
+
+    // Apply rotations
+    ft_rotate(final_rotation, p);
 
     // Apply isometric projection
     ft_iso_proj(p);

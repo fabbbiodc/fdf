@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 14:30:07 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:05:10 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void ft_cam_fit(t_mlx *fdf)
     if (fdf->cam->fitted)
         return ;
 
-    scale = 30.0;  // Start with a larger scale
+    scale = 40.0;  // Start with a larger scale
 
     while (scale > min_scale)
     {

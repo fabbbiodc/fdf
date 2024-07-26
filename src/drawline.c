@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 08:54:37 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:58:24 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_draw(t_mlx *fdf)
 	int		x;
 	int		y;
 
-	ft_cam_fit(fdf);
 	ft_printf("Starting ft_draw\n");
 	y = 0;
 	while (y < fdf->map->height)
