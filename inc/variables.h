@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 23:00:50 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:14:20 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define PROJ_ISO	2
 # define PROJ_ORTHO	3
 # define PROJ_1PT 	4
+# define PROJ_2PTS	5
 
 // angles radians doubles
 

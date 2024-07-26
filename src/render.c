@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 23:16:56 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:13:52 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,45 @@ void	ft_iso_proj(t_point *p)
 
 void	ft_one_point_proj(t_point *p, t_cam *cam)
 {
-	double	x_rotated;
-	double	y_rotated;
-	double	z_rotated;
-	double	x_perspective;
-	double	y_perspective;
+	double		x_persp;
+	double		y_persp;
+	t_matrix	iso_rot;
+	t_point		rotated;
 
-	// Apply initial rotation similar to isometric view
-	x_rotated = p->x;
-	y_rotated = p->y * cos(RAD_30) - p->z * sin(RAD_30);
-	z_rotated = p->y * sin(RAD_30) + p->z * cos(RAD_30);
+	rotated = *p;
+	iso_rot = ft_matr_rot_x(RAD_30);
+	ft_rotate(iso_rot, &rotated);
+	rotated.z = -rotated.z;
+	x_persp = (rotated.x * cam->proj_distance) / (rotated.z + cam->proj_distance);
+	y_persp = (rotated.y * cam->proj_distance) / (rotated.z + cam->proj_distance);
+	p->x = x_persp;
+	p->y = y_persp;
+}
 
-	// Apply perspective projection
-	x_perspective = (x_rotated * cam->proj_distance) / (z_rotated + cam->proj_distance);
-	y_perspective = (y_rotated * cam->proj_distance) / (z_rotated + cam->proj_distance);
+void	ft_two_point_proj(t_point *p, t_cam *cam)
+{
+	double		x_persp;
+	double		y_persp;
+	t_point		rotated;
+	t_matrix	iso_rot;
 
-	p->x = x_perspective;
-	p->y = y_perspective;
+	rotated = *p;
+	iso_rot = ft_matr_rot_x(RAD_30);
+	ft_rotate(iso_rot, &rotated);
+	rotated.z = -rotated.z;
+	x_persp = (rotated.x * cam->proj_distance) / (rotated.z + cam->proj_distance);
+	y_persp = (rotated.y * cam->proj_distance) / (rotated.z + cam->proj_distance);
+	p->x = x_persp - (rotated.y / 4);
+	p->y = y_persp;
+}
+
+void	ft_ortho_proj(t_point *p)
+{
+	t_matrix	iso_rot;
+
+	iso_rot = ft_matr_rot_x(RAD_30);
+	ft_rotate(iso_rot, p);
+	p->z = -p->z;
 }
 
 void	ft_rotate(t_matrix rot, t_point *p)
@@ -82,26 +104,28 @@ void	ft_center(t_point *p, t_cam *cam)
 	p->y -= depth_offset;
 }
 
-void	ft_render(t_point *p, t_mlx *fdf)
+static void	ft_apply_transformations(t_point *p, t_mlx *fdf)
 {
-	t_matrix	rot_x;
-	t_matrix	rot_y;
-	t_matrix	rot_z;
 	t_matrix	final_rot;
 
 	p->x *= fdf->cam->theta;
 	p->y *= fdf->cam->theta;
 	p->z *= fdf->cam->z_move;
-	rot_x = ft_matr_rot_x(fdf->cam->alpha);
-	rot_y = ft_matr_rot_y(fdf->cam->beta);
-	rot_z = ft_matr_rot_z(fdf->cam->gamma);
-	final_rot = ft_matr_mult(rot_y, rot_x);
-	final_rot = ft_matr_mult(rot_z, final_rot);
+	final_rot = ft_matr_final(fdf);
 	ft_rotate(final_rot, p);
+}
+
+void	ft_render(t_point *p, t_mlx *fdf)
+{
+	ft_apply_transformations(p, fdf);
 	if (fdf->cam->projection == PROJ_ISO)
 		ft_iso_proj(p);
 	else if (fdf->cam->projection == PROJ_1PT)
 		ft_one_point_proj(p, fdf->cam);
+	else if (fdf->cam->projection == PROJ_2PTS)
+		ft_two_point_proj(p, fdf->cam);
+	else if (fdf->cam->projection == PROJ_ORTHO)
+		ft_ortho_proj(p);
 	p->x -= fdf->cam->x_move;
 	p->y -= fdf->cam->y_move;
 	p->x += WIN_WIDTH / 2;

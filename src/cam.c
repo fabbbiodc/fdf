@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 23:10:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 00:13:16 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,10 @@ void	ft_cam_control(int key, t_mlx *fdf)
 	else if (key == KEY_PLU)
 	{
 		fdf->cam->theta += ZOOM;
-		fdf->cam->theta += ZOOM;
 		fdf->cam->z_move += ZOOM;
 	}
 	else if (key == KEY_MIN)
 	{
-		fdf->cam->theta -= ZOOM;
 		fdf->cam->theta -= ZOOM;
 		fdf->cam->z_move -= ZOOM;
 	}
@@ -103,18 +101,26 @@ void	ft_cam_control(int key, t_mlx *fdf)
 		fdf->cam->x_move += MOVE;
 	else if (key == KEY_D)
 		fdf->cam->x_move -= MOVE;
+	else if (key == KEY_S)
+		fdf->cam->y_move -= MOVE;
+	else if (key == KEY_W)
+		fdf->cam->y_move += MOVE;
 	else if (key == KEY_P)
 		ft_toggle_projection(fdf);
-    else if (key == KEY_O)
-        fdf->cam->proj_distance += 50.0;
-    else if (key == KEY_L)
-        fdf->cam->proj_distance = fmax(50.0, fdf->cam->proj_distance - 50.0);
+	else if (key == KEY_O)
+		fdf->cam->proj_distance += 50.0;
+	else if (key == KEY_L)
+		fdf->cam->proj_distance = fmax(50.0, fdf->cam->proj_distance - 50.0);
 }
 
 void	ft_toggle_projection(t_mlx *fdf)
 {
 	if (fdf->cam->projection == PROJ_ISO)
+		fdf->cam->projection = PROJ_ORTHO;
+	else if (fdf->cam->projection == PROJ_ORTHO)
 		fdf->cam->projection = PROJ_1PT;
-	else
+	else if (fdf->cam->projection == PROJ_1PT)
+		fdf->cam->projection = PROJ_2PTS;
+	else if (fdf->cam->projection == PROJ_2PTS)
 		fdf->cam->projection = PROJ_ISO;
 }
