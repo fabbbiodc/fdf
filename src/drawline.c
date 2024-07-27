@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 10:38:16 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:17:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
     t_point current;
     int     steps;
     double  progress;
+
+    if (isinf(p1->x) || isinf(p1->y) || isinf(p2->x) || isinf(p2->y))
+        return; // Don't render lines with infinite points
 
     if (ft_is_offscreen(p1->x, p1->y) && ft_is_offscreen(p2->x, p2->y))
         return;
