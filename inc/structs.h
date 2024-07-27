@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:23:27 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:36:29 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_cam
 	double 	map_depth;
 	int		fitted;
 	double  proj_distance;
+	double	spin_angle;
 }	t_cam;
 
 typedef struct s_matrix
@@ -73,12 +74,12 @@ typedef struct s_matrix
 
 typedef struct s_mlx
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	t_img	*img_att;
-	t_cam	*cam;
-	t_map	*map;
-}	t_mlx;
+    void    *mlx;
+    void    *win;
+    void    *img;
+    t_img   *img_att;
+    t_cam   *cam;
+    t_map   *map;
+}   t_mlx;
 
 #endif

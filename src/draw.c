@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawline.c                                         :+:      :+:    :+:   */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:31:53 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:20:28 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	ft_draw(t_mlx *fdf)
 	int		x;
 	int		y;
 
-	ft_printf("Starting ft_draw\n");
 	y = 0;
 	while (y < fdf->map->height)
 	{
@@ -50,8 +49,8 @@ int	ft_draw(t_mlx *fdf)
 		}
 		y++;
 	}
-	ft_printf("Finished ft_draw\n");
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img, 0, 0);
+	ft_panel_draw(fdf);
 	return (0);
 }
 
@@ -76,11 +75,6 @@ void	ft_pixel_increment(t_mlx *fdf, t_point *current)
     if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
         ft_putpixel(fdf, x, y, current->color);
 }
-
-/* static int ft_is_offscreen(double x, double y)
-{
-    return (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT);
-} */
 
 void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 {

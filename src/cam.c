@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:44:44 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:40:55 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	ft_cam_params(t_mlx *fdf)
 	fdf->cam->z_move = 0.1;
 	fdf->cam->fitted = 0;
 	fdf->cam->proj_distance = 1000.0;
+	fdf->cam->spin_angle = 0;
 }
 
 void    ft_cam_control(int key, t_mlx *fdf)
@@ -119,6 +120,15 @@ void    ft_cam_control(int key, t_mlx *fdf)
         fdf->cam->proj_distance = fmin(fdf->cam->proj_distance + 50.0, 10000.0);
     else if (key == KEY_L)
         fdf->cam->proj_distance = fmax(fdf->cam->proj_distance - 50.0, 50.0);
+    else if (key == KEY_Q)
+        fdf->cam->spin_angle += ROTATION;
+    else if (key == KEY_E)
+        fdf->cam->spin_angle -= ROTATION;
+
+    while (fdf->cam->spin_angle >= 2 * M_PI)
+        fdf->cam->spin_angle -= 2 * M_PI;
+    while (fdf->cam->spin_angle < 0)
+        fdf->cam->spin_angle += 2 * M_PI;
 }
 
 void	ft_toggle_projection(t_mlx *fdf)

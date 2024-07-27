@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:22:25 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:11:16 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,17 @@ t_matrix	ft_matr_final(t_mlx *fdf);
 // color
 
 int			ft_color_gradient(int start_color, int end_color, double percentage);
-int 	ft_fade_color(int color, double depth, double max_depth);
+int 		ft_fade_color(int color, double depth, double max_depth);
 
 // init
 
 int			ft_fdf_init(t_mlx *fdf, char *map_file);
 int			ft_init_image(t_mlx *fdf);
+int 		ft_panel_init(t_mlx *fdf);
+
+// panel
+
+void	ft_panel_draw(t_mlx *fdf);
+void	ft_panel_logo(t_mlx *fdf, int x, int y);
 
 #endif

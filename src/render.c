@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:31:14 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:41:08 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,20 +135,22 @@ void ft_render(t_point *p, t_mlx *fdf)
 {
     ft_apply_transformations(p, fdf);
     
+    // Apply spin rotation
+    double cos_spin = cos(fdf->cam->spin_angle);
+    double sin_spin = sin(fdf->cam->spin_angle);
+    double x = p->x;
+    double y = p->y;
+    p->x = x * cos_spin - y * sin_spin;
+    p->y = x * sin_spin + y * cos_spin;
+
     p->depth = 0; // Initialize depth to 0 (no fading)
 
     if (fdf->cam->projection == PROJ_ISO)
         ft_iso_proj(p);
     else if (fdf->cam->projection == PROJ_1PT)
-    {
         ft_one_point_proj(p, fdf->cam);
-        // Depth is already set in ft_one_point_proj
-    }
     else if (fdf->cam->projection == PROJ_2PTS)
-    {
         ft_two_point_proj(p, fdf->cam);
-        // Depth is already set in ft_two_point_proj
-    }
     else if (fdf->cam->projection == PROJ_ORTHO)
         ft_ortho_proj(p);
 
