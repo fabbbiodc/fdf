@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:25:23 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:44:44 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,38 @@ static void	ft_cam_limits(t_mlx *fdf, t_point *min, t_point *max)
 	}
 }
 
-void	ft_cam_fit(t_mlx *fdf)
+void    ft_cam_fit(t_mlx *fdf)
 {
-	t_point	min;
-	t_point	max;
-	double	scale;
+    t_point min;
+    t_point max;
+    double  scale;
 
-	if (fdf->cam->fitted)
-		return ;
-	scale = 40.0;
-	while (scale > 0.1)
-	{
-		min = (t_point){INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX};
-		max = (t_point){INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN};
-		fdf->cam->theta = scale;
-		fdf->cam->z_move = scale * 0.5;
-		ft_cam_limits(fdf, &min, &max);
-		if (max.x - min.x < WIN_WIDTH - 2 * MARGIN
-			&& max.y - min.y < WIN_HEIGHT - 2 * MARGIN)
-			break ;
-		scale *= 0.95;
-	}
-	fdf->cam->x_move = (max.x + min.x) / 2;
-	fdf->cam->y_move = (max.y + min.y) / 2;
-	fdf->cam->fitted = 1;
+    if (fdf->cam->fitted)
+        return ;
+    scale = 40.0;
+    while (scale > 0.1)
+    {
+        min.x = INT_MAX;
+        min.y = INT_MAX;
+        min.z = INT_MAX;
+        min.color = INT_MAX;
+        min.depth = INT_MAX;
+        max.x = INT_MIN;
+        max.y = INT_MIN;
+        max.z = INT_MIN;
+        max.color = INT_MIN;
+        max.depth = INT_MIN;
+        fdf->cam->theta = scale;
+        fdf->cam->z_move = scale * 0.5;
+        ft_cam_limits(fdf, &min, &max);
+        if (max.x - min.x < WIN_WIDTH - 2 * MARGIN
+            && max.y - min.y < WIN_HEIGHT - 2 * MARGIN)
+            break ;
+        scale *= 0.95;
+    }
+    fdf->cam->x_move = (max.x + min.x) / 2;
+    fdf->cam->y_move = (max.y + min.y) / 2;
+    fdf->cam->fitted = 1;
 }
 
 void	ft_cam_params(t_mlx *fdf)
