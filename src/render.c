@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 00:13:52 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 10:37:46 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,21 +115,27 @@ static void	ft_apply_transformations(t_point *p, t_mlx *fdf)
 	ft_rotate(final_rot, p);
 }
 
-void	ft_render(t_point *p, t_mlx *fdf)
+void ft_render(t_point *p, t_mlx *fdf)
 {
-	ft_apply_transformations(p, fdf);
-	if (fdf->cam->projection == PROJ_ISO)
-		ft_iso_proj(p);
-	else if (fdf->cam->projection == PROJ_1PT)
-		ft_one_point_proj(p, fdf->cam);
-	else if (fdf->cam->projection == PROJ_2PTS)
-		ft_two_point_proj(p, fdf->cam);
-	else if (fdf->cam->projection == PROJ_ORTHO)
-		ft_ortho_proj(p);
-	p->x -= fdf->cam->x_move;
-	p->y -= fdf->cam->y_move;
-	p->x += WIN_WIDTH / 2;
-	p->y += WIN_HEIGHT / 2;
-	p->x = fmax(0, fmin(p->x, WIN_WIDTH - 1));
-	p->y = fmax(0, fmin(p->y, WIN_HEIGHT - 1));
+    ft_apply_transformations(p, fdf);
+    if (fdf->cam->projection == PROJ_ISO)
+        ft_iso_proj(p);
+    else if (fdf->cam->projection == PROJ_1PT)
+        ft_one_point_proj(p, fdf->cam);
+    else if (fdf->cam->projection == PROJ_2PTS)
+        ft_two_point_proj(p, fdf->cam);
+    else if (fdf->cam->projection == PROJ_ORTHO)
+        ft_ortho_proj(p);
+
+    p->x -= fdf->cam->x_move;
+    p->y -= fdf->cam->y_move;
+    p->x += WIN_WIDTH / 2;
+    p->y += WIN_HEIGHT / 2;
+
+    // Limit the range of x and y to prevent extreme values
+    double max_distance = 3 * fmax(WIN_WIDTH, WIN_HEIGHT);
+    if (fabs(p->x - WIN_WIDTH/2) > max_distance)
+        p->x = WIN_WIDTH/2 + (p->x > WIN_WIDTH/2 ? max_distance : -max_distance);
+    if (fabs(p->y - WIN_HEIGHT/2) > max_distance)
+        p->y = WIN_HEIGHT/2 + (p->y > WIN_HEIGHT/2 ? max_distance : -max_distance);
 }

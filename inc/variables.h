@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 00:14:20 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 10:28:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@
 # define BUFFER_SIZE 20
 # define MARGIN 100
 # define PROJECTION_DISTANCE 1000.0
+
+// boundaries
+
+#define INSIDE 0 // 0000
+#define LEFT 1   // 0001
+#define RIGHT 2  // 0010
+#define BOTTOM 4 // 0100
+#define TOP 8    // 1000
 
 // errors
 

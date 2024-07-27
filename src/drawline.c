@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 15:58:24 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 10:38:16 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,16 @@ int	ft_draw(t_mlx *fdf)
 }
 
 
-void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
+void    ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {
-	int		offset;
-	char	*pix;
+    int     offset;
+    char    *pix;
 
-	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
-	{
-		ft_printf("Pixel out of bounds: (%d, %d)\n", x, y);
-		return ;
-	}
-	offset = y * fdf->img_att->linesize + x * (fdf->img_att->bpp / 8);
-	if (offset < 0 || offset >= WIN_WIDTH * WIN_HEIGHT
-		* (fdf->img_att->bpp / 8))
-	{
-		ft_printf("Invalid offset: %d\n", offset);
-		return ;
-	}
-	pix = fdf->img_att->addr + offset;
-	*(unsigned int *)pix = color;
+    if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+        return ;
+    offset = y * fdf->img_att->linesize + x * (fdf->img_att->bpp / 8);
+    pix = fdf->img_att->addr + offset;
+    *(unsigned int *)pix = color;
 }
 
 void	ft_pixel_increment(t_mlx *fdf, t_point *current)
@@ -86,29 +77,47 @@ void	ft_pixel_increment(t_mlx *fdf, t_point *current)
         ft_putpixel(fdf, x, y, current->color);
 }
 
-void	ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
+static int ft_is_offscreen(double x, double y)
 {
-	t_point	delta;
-	t_point	step;
-	t_point	current;
-	int		steps;
-	int		i;
-
-	current = *p1;
-	delta.x = p2->x - p1->x;
-	delta.y = p2->y - p1->y;
-	steps = fmax(fabs(delta.x), fabs(delta.y));
-	if (steps == 0)
-		return ;
-	step.x = delta.x / steps;
-	step.y = delta.y / steps;
-	i = -1;
-	while (++i <= steps)
-	{
-		current.color = ft_color_gradient(p1->color, p2->color, ((double)i/steps));
-		ft_pixel_increment(fdf, &current);
-		current.x += step.x;
-		current.y += step.y;
-	}
+    return (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT);
 }
 
+void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
+{
+    t_point delta;
+    t_point step;
+    t_point current;
+    int     steps;
+    double  progress;
+
+    if (ft_is_offscreen(p1->x, p1->y) && ft_is_offscreen(p2->x, p2->y))
+        return;
+
+    delta.x = p2->x - p1->x;
+    delta.y = p2->y - p1->y;
+    steps = (int)fmax(fabs(delta.x), fabs(delta.y));
+
+    if (steps == 0)
+        return;
+
+    step.x = delta.x / steps;
+    step.y = delta.y / steps;
+    current = *p1;
+    progress = 0;
+
+    while (progress <= 1)
+    {
+        if (!ft_is_offscreen(current.x, current.y))
+        {
+            current.color = ft_color_gradient(p1->color, p2->color, progress);
+            ft_putpixel(fdf, (int)round(current.x), (int)round(current.y), current.color);
+        }
+        current.x += step.x;
+        current.y += step.y;
+        progress += 1.0 / steps;
+
+        // Break if we've gone too far
+        if (fabs(current.x - p1->x) > fabs(delta.x) || fabs(current.y - p1->y) > fabs(delta.y))
+            break;
+    }
+}
