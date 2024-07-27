@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:48:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 13:01:57 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:23:05 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_parse_line(char *line, t_point *p, int y, int width)
 	{
 		p[i].x = i;
 		p[i].y = y;
+		p[i].depth = 0;
 		z = points[i];
 		p[i].z = ft_atoi(z);
 		if (ft_strchr(z, ','))

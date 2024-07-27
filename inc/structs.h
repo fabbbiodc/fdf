@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/26 23:06:38 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:23:27 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_point
 	double	y;
 	double	z;
 	double	color;
+	double  depth;
 }	t_point;
 
 typedef struct s_zoom

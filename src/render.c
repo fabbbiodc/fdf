@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:16:51 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:31:14 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void ft_one_point_proj(t_point *p, t_cam *cam)
 
     z_persp = rotated.z + cam->proj_distance;
     if (z_persp <= 0) {
-        p->x = p->y = INFINITY; // Point is behind camera
+        p->x = p->y = INFINITY;
         return;
     }
 
@@ -45,6 +45,7 @@ void ft_one_point_proj(t_point *p, t_cam *cam)
 
     p->x = x_persp;
     p->y = y_persp;
+    p->depth = z_persp;  // Store the depth
 }
 
 void ft_two_point_proj(t_point *p, t_cam *cam)
@@ -60,7 +61,7 @@ void ft_two_point_proj(t_point *p, t_cam *cam)
 
     z_persp = rotated.z + cam->proj_distance;
     if (z_persp <= 0) {
-        p->x = p->y = INFINITY; // Point is behind camera
+        p->x = p->y = INFINITY;
         return;
     }
 
@@ -69,6 +70,7 @@ void ft_two_point_proj(t_point *p, t_cam *cam)
 
     p->x = x_persp - (rotated.y / 4);
     p->y = y_persp;
+    p->depth = z_persp;  // Store the depth
 }
 
 void	ft_ortho_proj(t_point *p)
@@ -133,12 +135,20 @@ void ft_render(t_point *p, t_mlx *fdf)
 {
     ft_apply_transformations(p, fdf);
     
+    p->depth = 0; // Initialize depth to 0 (no fading)
+
     if (fdf->cam->projection == PROJ_ISO)
         ft_iso_proj(p);
     else if (fdf->cam->projection == PROJ_1PT)
+    {
         ft_one_point_proj(p, fdf->cam);
+        // Depth is already set in ft_one_point_proj
+    }
     else if (fdf->cam->projection == PROJ_2PTS)
+    {
         ft_two_point_proj(p, fdf->cam);
+        // Depth is already set in ft_two_point_proj
+    }
     else if (fdf->cam->projection == PROJ_ORTHO)
         ft_ortho_proj(p);
 

@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 10:39:07 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:25:23 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	ft_cam_fit(t_mlx *fdf)
 	scale = 40.0;
 	while (scale > 0.1)
 	{
-		min = (t_point){INT_MAX, INT_MAX, INT_MAX, INT_MAX};
-		max = (t_point){INT_MIN, INT_MIN, INT_MIN, INT_MIN};
+		min = (t_point){INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX};
+		max = (t_point){INT_MIN, INT_MIN, INT_MIN, INT_MIN, INT_MIN};
 		fdf->cam->theta = scale;
 		fdf->cam->z_move = scale * 0.5;
 		ft_cam_limits(fdf, &min, &max);

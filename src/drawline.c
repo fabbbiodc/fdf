@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:17:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:31:53 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ void	ft_pixel_increment(t_mlx *fdf, t_point *current)
         ft_putpixel(fdf, x, y, current->color);
 }
 
-static int ft_is_offscreen(double x, double y)
+/* static int ft_is_offscreen(double x, double y)
 {
     return (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT);
-}
+} */
 
 void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 {
@@ -89,11 +89,9 @@ void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
     t_point current;
     int     steps;
     double  progress;
+    double  max_depth = fdf->cam->proj_distance * 2;  // Adjust this value as needed
 
     if (isinf(p1->x) || isinf(p1->y) || isinf(p2->x) || isinf(p2->y))
-        return; // Don't render lines with infinite points
-
-    if (ft_is_offscreen(p1->x, p1->y) && ft_is_offscreen(p2->x, p2->y))
         return;
 
     delta.x = p2->x - p1->x;
@@ -110,16 +108,22 @@ void ft_dda(t_mlx *fdf, t_point *p1, t_point *p2)
 
     while (progress <= 1)
     {
-        if (!ft_is_offscreen(current.x, current.y))
+        int x = (int)round(current.x);
+        int y = (int)round(current.y);
+        if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
         {
-            current.color = ft_color_gradient(p1->color, p2->color, progress);
-            ft_putpixel(fdf, (int)round(current.x), (int)round(current.y), current.color);
+            int color = current.color;
+            if (fdf->cam->projection == PROJ_1PT || fdf->cam->projection == PROJ_2PTS)
+            {
+                double current_depth = p1->depth + (p2->depth - p1->depth) * progress;
+                color = ft_fade_color(color, current_depth, max_depth);
+            }
+            ft_putpixel(fdf, x, y, color);
         }
         current.x += step.x;
         current.y += step.y;
         progress += 1.0 / steps;
 
-        // Break if we've gone too far
         if (fabs(current.x - p1->x) > fabs(delta.x) || fabs(current.y - p1->y) > fabs(delta.y))
             break;
     }
