@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:22:12 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:34:54 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:07:37 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,31 @@ void	ft_panel_logo(t_mlx *fdf, int x, int y)
     ft_panel_text(fdf, x, y + 60, "/_/    \\__,_/_/       ", PANEL_LOGO_COLOR);
 }
 
+const char    *ft_get_color_name(int color_scheme)
+{
+    if (color_scheme == 0)
+        return ("White");
+    if (color_scheme == 1)
+        return ("Red");
+    if (color_scheme == 2)
+        return ("Green");
+    if (color_scheme == 3)
+        return ("Blue");
+    if (color_scheme == 4)
+        return ("Yellow");
+    if (color_scheme == 5)
+        return ("Magenta");
+    if (color_scheme == 6)
+        return ("Cyan");
+	if (color_scheme == 7)
+        return ("Purple");
+    return ("Unknown");
+}
+
 void    ft_panel_content(t_mlx *fdf)
 {
-    char *str;
     int y;
-    const char *projection_name;
+    char *str;
 
     y = PANEL_MARGIN;
     ft_panel_logo(fdf, PANEL_MARGIN, y);
@@ -74,40 +94,17 @@ void    ft_panel_content(t_mlx *fdf)
     free(str);
     y += 20;
 
-    if (fdf->cam->projection == PROJ_ISO)
-        projection_name = "Isometric";
-    else if (fdf->cam->projection == PROJ_ORTHO)
-        projection_name = "Orthographic";
-    else if (fdf->cam->projection == PROJ_1PT)
-        projection_name = "1-Point";
-    else
-        projection_name = "2-Point";
-    str = ft_strjoin("Projection: ", projection_name);
+    str = ft_strjoin("Projection: ", ft_get_projection_name(fdf->cam->projection));
+    ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
+    free(str);
+    y += 20;
+
+	str = ft_strjoin("Color: ", ft_get_color_name(fdf->cam->color_scheme));
     ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
     free(str);
     y += 20;
 
     str = ft_strjoin("Zoom: ", ft_itoa((int)(fdf->cam->theta * 100)));
-    ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
-    free(str);
-    y += 20;
-
-    str = ft_strjoin("Rotation X: ", ft_itoa((int)(fdf->cam->alpha * RAD_TO_DEG)));
-    ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
-    free(str);
-    y += 20;
-
-    str = ft_strjoin("Rotation Y: ", ft_itoa((int)(fdf->cam->beta * RAD_TO_DEG)));
-    ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
-    free(str);
-    y += 20;
-
-    str = ft_strjoin("Rotation Z: ", ft_itoa((int)(fdf->cam->gamma * RAD_TO_DEG)));
-    ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
-    free(str);
-    y += 20;
-
-    str = ft_strjoin("Spin: ", ft_itoa((int)(fdf->cam->spin_angle * RAD_TO_DEG)));
     ft_panel_text(fdf, PANEL_MARGIN, y, str, PANEL_INFO_COLOR);
     free(str);
     y += 30;
@@ -116,19 +113,30 @@ void    ft_panel_content(t_mlx *fdf)
     y += 20;
     ft_panel_text(fdf, PANEL_MARGIN, y, "ESC: Exit", PANEL_INFO_COLOR);
     y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "Arrow keys: Rotate X/Y", PANEL_INFO_COLOR);
+    ft_panel_text(fdf, PANEL_MARGIN, y, "Arrows: Rotate", PANEL_INFO_COLOR);
     y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "+/-: Zoom in/out", PANEL_INFO_COLOR);
+    ft_panel_text(fdf, PANEL_MARGIN, y, "+/-: Zoom", PANEL_INFO_COLOR);
     y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "W/S: Move up/down", PANEL_INFO_COLOR);
-    y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "A/D: Move left/right", PANEL_INFO_COLOR);
+    ft_panel_text(fdf, PANEL_MARGIN, y, "WASD: Move", PANEL_INFO_COLOR);
     y += 20;
     ft_panel_text(fdf, PANEL_MARGIN, y, "P: Change projection", PANEL_INFO_COLOR);
     y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "O/L: Adjust projection distance", PANEL_INFO_COLOR);
+    ft_panel_text(fdf, PANEL_MARGIN, y, "Q/E: Spin", PANEL_INFO_COLOR);
     y += 20;
-    ft_panel_text(fdf, PANEL_MARGIN, y, "Q/E: Spin left/right", PANEL_INFO_COLOR);
+    ft_panel_text(fdf, PANEL_MARGIN, y, "C: Change color", PANEL_INFO_COLOR);
+}
+
+const char *ft_get_projection_name(int projection)
+{
+    if (projection == PROJ_ISO)
+        return ("Isometric");
+    if (projection == PROJ_ORTHO)
+        return ("Orthogonal");
+    if (projection == PROJ_1PT)
+        return ("1-Point perspective");
+    if (projection == PROJ_2PTS)
+        return ("2-Points perspective");
+    return ("Unknown");
 }
 
 void	ft_panel_draw(t_mlx *fdf)

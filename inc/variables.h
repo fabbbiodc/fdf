@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 23:59:45 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:11:04 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@
 # define BUFFER_SIZE 20
 # define MARGIN 100
 # define PROJECTION_DISTANCE 1000.0
+
+// colors
+
+# define COLOR_SCHEME_COUNT 8
+
+# define COLOR_DEFAULT 0xFFFFFF
+# define COLOR_RED 0xFF0000
+# define COLOR_GREEN 0x00FF00
+# define COLOR_BLUE 0x0000FF
+# define COLOR_YELLOW 0xFFFF00
+# define COLOR_MAGENTA 0xFF00FF
+# define COLOR_CYAN 0x00FFFF
+# define COLOR_PURPLE 0x663399
 
 // panel
 

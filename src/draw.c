@@ -6,32 +6,51 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:20:28 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:10:07 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_draw_points(t_mlx *fdf, int y, int x)
+void    ft_draw_points(t_mlx *fdf, int y, int x)
 {
-	t_point	p1;
-	t_point	p2;
+    t_point    p1;
+    t_point    p2;
 
-	p1 = fdf->map->points[y][x];
-	ft_render(&p1, fdf);
-	if (x < (fdf->map->width -1))
-	{
-		p2 = fdf->map->points[y][x + 1];
-		ft_render(&p2, fdf);
-		ft_dda(fdf, &p1, &p2);
-	}
-	if (y < (fdf->map->height - 1))
-	{
-		p2 = fdf->map->points[y + 1][x];
-		ft_render(&p2, fdf);
-		ft_dda(fdf, &p1, &p2);
-	}
+    p1 = fdf->map->points[y][x];
+    ft_render(&p1, fdf);
+    p1.color = ft_get_color(fdf);
+    if (x < (fdf->map->width - 1))
+    {
+        p2 = fdf->map->points[y][x + 1];
+        ft_render(&p2, fdf);
+        p2.color = ft_get_color(fdf);
+        ft_dda(fdf, &p1, &p2);
+    }
+    if (y < (fdf->map->height - 1))
+    {
+        p2 = fdf->map->points[y + 1][x];
+        ft_render(&p2, fdf);
+        p2.color = ft_get_color(fdf);
+        ft_dda(fdf, &p1, &p2);
+    }
 }
+
+int    ft_get_color(t_mlx *fdf)
+{
+    int colors[COLOR_SCHEME_COUNT];
+
+    colors[0] = COLOR_DEFAULT;
+    colors[1] = COLOR_RED;
+    colors[2] = COLOR_GREEN;
+    colors[3] = COLOR_BLUE;
+    colors[4] = COLOR_YELLOW;
+    colors[5] = COLOR_MAGENTA;
+    colors[6] = COLOR_CYAN;
+	colors[7] = COLOR_PURPLE;
+    return (colors[fdf->cam->color_scheme]);
+}
+
 
 int	ft_draw(t_mlx *fdf)
 {

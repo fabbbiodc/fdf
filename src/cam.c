@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:40:55 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:08:04 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ void	ft_cam_params(t_mlx *fdf)
 	fdf->cam->fitted = 0;
 	fdf->cam->proj_distance = 1000.0;
 	fdf->cam->spin_angle = 0;
+	fdf->cam->color_scheme = 0;
+}
+
+void    ft_toggle_color(t_mlx *fdf)
+{
+    fdf->cam->color_scheme++;
+    if (fdf->cam->color_scheme >= COLOR_SCHEME_COUNT)
+        fdf->cam->color_scheme = 0;
 }
 
 void    ft_cam_control(int key, t_mlx *fdf)
@@ -124,6 +132,8 @@ void    ft_cam_control(int key, t_mlx *fdf)
         fdf->cam->spin_angle += ROTATION;
     else if (key == KEY_E)
         fdf->cam->spin_angle -= ROTATION;
+	else if (key == KEY_C)
+        ft_toggle_color(fdf);
 
     while (fdf->cam->spin_angle >= 2 * M_PI)
         fdf->cam->spin_angle -= 2 * M_PI;

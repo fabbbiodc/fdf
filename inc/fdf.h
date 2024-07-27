@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:11:16 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 01:01:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,9 @@ int 		ft_panel_init(t_mlx *fdf);
 
 void	ft_panel_draw(t_mlx *fdf);
 void	ft_panel_logo(t_mlx *fdf, int x, int y);
+void    ft_toggle_color(t_mlx *fdf);
+int     ft_get_color(t_mlx *fdf);
+const char    *ft_get_color_name(int color_scheme);
+const char *ft_get_projection_name(int projection);
 
 #endif

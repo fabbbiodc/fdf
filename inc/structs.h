@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:36:29 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 00:48:50 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cam
 	int		fitted;
 	double  proj_distance;
 	double	spin_angle;
+	int		color_scheme;
 }	t_cam;
 
 typedef struct s_matrix
