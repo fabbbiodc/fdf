@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 10:18:23 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:32:30 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,54 +149,56 @@ void    ft_toggle_color(t_mlx *fdf)
 void    ft_cam_control(int key, t_mlx *fdf)
 {
     if (key == KEY_UP)
-        fdf->cam->alpha = fmin(fdf->cam->alpha + ROTATION, M_PI / 2);
+        fdf->cam->alpha += ROTATION;
     else if (key == KEY_DOWN)
-        fdf->cam->alpha = fmax(fdf->cam->alpha - ROTATION, -M_PI / 2);
+        fdf->cam->alpha -= ROTATION;
     else if (key == KEY_LEFT)
         fdf->cam->beta -= ROTATION;
     else if (key == KEY_RIGHT)
         fdf->cam->beta += ROTATION;
     else if (key == KEY_PLU)
     {
-        fdf->cam->theta = fmin(fdf->cam->theta + ZOOM, 100);
-        fdf->cam->z_move = fmin(fdf->cam->z_move + ZOOM, 100);
+        fdf->cam->theta += ZOOM;
+        fdf->cam->z_move += ZOOM;
     }
     else if (key == KEY_MIN)
     {
-        fdf->cam->theta = fmax(fdf->cam->theta - ZOOM, 0.1);
-        fdf->cam->z_move = fmax(fdf->cam->z_move - ZOOM, 0.1);
+        fdf->cam->theta -= ZOOM;
+        fdf->cam->z_move -= ZOOM;
     }
     else if (key == KEY_A)
-        fdf->cam->x_move = fmin(fdf->cam->x_move + MOVE, WIN_WIDTH);
+        fdf->cam->x_move += MOVE;
     else if (key == KEY_D)
-        fdf->cam->x_move = fmax(fdf->cam->x_move - MOVE, -WIN_WIDTH);
+        fdf->cam->x_move -= MOVE;
     else if (key == KEY_S)
-        fdf->cam->y_move = fmax(fdf->cam->y_move - MOVE, -WIN_HEIGHT);
+        fdf->cam->y_move -= MOVE;
     else if (key == KEY_W)
-        fdf->cam->y_move = fmin(fdf->cam->y_move + MOVE, WIN_HEIGHT);
+        fdf->cam->y_move += MOVE;
     else if (key == KEY_P)
         ft_toggle_projection(fdf);
     else if (key == KEY_O)
-        fdf->cam->proj_distance = fmin(fdf->cam->proj_distance + 50.0, 10000.0);
+        fdf->cam->proj_distance += 50.0;
     else if (key == KEY_L)
-        fdf->cam->proj_distance = fmax(fdf->cam->proj_distance - 50.0, 50.0);
+        fdf->cam->proj_distance -= 50.0;
     else if (key == KEY_Q)
         fdf->cam->spin_angle += ROTATION;
     else if (key == KEY_E)
         fdf->cam->spin_angle -= ROTATION;
-	else if (key == KEY_C)
+    else if (key == KEY_C)
         ft_toggle_color(fdf);
 
-    while (fdf->cam->spin_angle >= 2 * M_PI)
-        fdf->cam->spin_angle -= 2 * M_PI;
-    while (fdf->cam->spin_angle < 0)
-        fdf->cam->spin_angle += 2 * M_PI;
+    fdf->cam->spin_angle = fmod(fdf->cam->spin_angle, 2 * M_PI);
 }
 
 void    ft_toggle_projection(t_mlx *fdf)
 {
     if (fdf->cam->projection == PROJ_ISO)
+    {
         fdf->cam->projection = PROJ_ORTHO;
+        fdf->cam->alpha = 0;  // Looking straight down
+        fdf->cam->beta = 0;
+        fdf->cam->gamma = 0;
+    }
     else if (fdf->cam->projection == PROJ_ORTHO)
         fdf->cam->projection = PROJ_1PT;
     else if (fdf->cam->projection == PROJ_1PT)
@@ -204,6 +206,5 @@ void    ft_toggle_projection(t_mlx *fdf)
     else if (fdf->cam->projection == PROJ_2PTS)
         fdf->cam->projection = PROJ_ISO;
 
-    // Center the map after changing projection
     ft_center_map(fdf);
 }

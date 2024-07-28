@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 10:15:52 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:34:36 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void ft_two_point_proj(t_point *p, t_cam *cam)
 
 void ft_ortho_proj(t_point *p)
 {
-    t_matrix iso_rot;
+    t_matrix    iso_rot;
 
-    iso_rot = ft_matr_rot_x(RAD_30);
+    iso_rot = ft_matr_rot_x(RAD_180);
     ft_rotate(iso_rot, p);
     p->z = -p->z;
 }
@@ -129,9 +129,17 @@ void    ft_apply_transformations(t_point *p, t_mlx *fdf)
     p->y *= fdf->cam->theta;
     p->z *= fdf->cam->z_move;
 
-    // Apply rotations
+    // Apply all rotations for all projections
     t_matrix final_rot = ft_matr_final(fdf);
     ft_rotate(final_rot, p);
+
+    // Apply spin rotation
+    double cos_spin = cos(fdf->cam->spin_angle);
+    double sin_spin = sin(fdf->cam->spin_angle);
+    double x = p->x;
+    double y = p->y;
+    p->x = x * cos_spin - y * sin_spin;
+    p->y = x * sin_spin + y * cos_spin;
 }
 
 void ft_render(t_point *p, t_mlx *fdf)
