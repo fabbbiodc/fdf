@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 01:08:04 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:18:23 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,59 @@ static void	ft_cam_limits(t_mlx *fdf, t_point *min, t_point *max)
 			max->y = fmax(max->y, p.y);
 		}
 	}
+}
+
+void ft_center_map(t_mlx *fdf)
+{
+    int i;
+    int j;
+    double min_x;
+    double max_x;
+    double min_y;
+    double max_y;
+    double center_x;
+    double center_y;
+    t_point temp;
+
+    min_x = INFINITY;
+    max_x = -INFINITY;
+    min_y = INFINITY;
+    max_y = -INFINITY;
+
+    i = 0;
+    while (i < fdf->map->height)
+    {
+        j = 0;
+        while (j < fdf->map->width)
+        {
+            temp = fdf->map->points[i][j];
+            ft_apply_transformations(&temp, fdf);
+            if (fdf->cam->projection == PROJ_ISO)
+                ft_iso_proj(&temp);
+            else if (fdf->cam->projection == PROJ_1PT)
+                ft_one_point_proj(&temp, fdf->cam);
+            else if (fdf->cam->projection == PROJ_2PTS)
+                ft_two_point_proj(&temp, fdf->cam);
+            else if (fdf->cam->projection == PROJ_ORTHO)
+                ft_ortho_proj(&temp);
+
+            if (!isinf(temp.x) && !isinf(temp.y))
+            {
+                min_x = fmin(min_x, temp.x);
+                max_x = fmax(max_x, temp.x);
+                min_y = fmin(min_y, temp.y);
+                max_y = fmax(max_y, temp.y);
+            }
+            j++;
+        }
+        i++;
+    }
+
+    center_x = (min_x + max_x) / 2;
+    center_y = (min_y + max_y) / 2;
+
+    fdf->cam->x_move = WIN_WIDTH / 2 - center_x;
+    fdf->cam->y_move = WIN_HEIGHT / 2 - center_y;
 }
 
 void    ft_cam_fit(t_mlx *fdf)
@@ -66,25 +119,24 @@ void    ft_cam_fit(t_mlx *fdf)
             break ;
         scale *= 0.95;
     }
-    fdf->cam->x_move = (max.x + min.x) / 2;
-    fdf->cam->y_move = (max.y + min.y) / 2;
     fdf->cam->fitted = 1;
+    ft_center_map(fdf);  // Add this line to center the map after fitting
 }
 
-void	ft_cam_params(t_mlx *fdf)
+void    ft_cam_params(t_mlx *fdf)
 {
-	fdf->cam->projection = PROJ_ISO;
-	fdf->cam->x_move = WIN_WIDTH / 2;
-	fdf->cam->y_move = WIN_HEIGHT / 2;
-	fdf->cam->alpha = 0;
-	fdf->cam->beta = 0;
-	fdf->cam->gamma = 0;
-	fdf->cam->theta = 1;
-	fdf->cam->z_move = 0.1;
-	fdf->cam->fitted = 0;
-	fdf->cam->proj_distance = 1000.0;
-	fdf->cam->spin_angle = 0;
-	fdf->cam->color_scheme = 0;
+    fdf->cam->projection = PROJ_ISO;
+    fdf->cam->alpha = 0;
+    fdf->cam->beta = 0;
+    fdf->cam->gamma = 0;
+    fdf->cam->theta = 1;
+    fdf->cam->z_move = 0.1;
+    fdf->cam->fitted = 0;
+    fdf->cam->proj_distance = 1000.0;
+    fdf->cam->spin_angle = 0;
+    fdf->cam->color_scheme = 0;
+    
+    ft_cam_fit(fdf);  // This will now also center the map
 }
 
 void    ft_toggle_color(t_mlx *fdf)
@@ -141,14 +193,17 @@ void    ft_cam_control(int key, t_mlx *fdf)
         fdf->cam->spin_angle += 2 * M_PI;
 }
 
-void	ft_toggle_projection(t_mlx *fdf)
+void    ft_toggle_projection(t_mlx *fdf)
 {
-	if (fdf->cam->projection == PROJ_ISO)
-		fdf->cam->projection = PROJ_ORTHO;
-	else if (fdf->cam->projection == PROJ_ORTHO)
-		fdf->cam->projection = PROJ_1PT;
-	else if (fdf->cam->projection == PROJ_1PT)
-		fdf->cam->projection = PROJ_2PTS;
-	else if (fdf->cam->projection == PROJ_2PTS)
-		fdf->cam->projection = PROJ_ISO;
+    if (fdf->cam->projection == PROJ_ISO)
+        fdf->cam->projection = PROJ_ORTHO;
+    else if (fdf->cam->projection == PROJ_ORTHO)
+        fdf->cam->projection = PROJ_1PT;
+    else if (fdf->cam->projection == PROJ_1PT)
+        fdf->cam->projection = PROJ_2PTS;
+    else if (fdf->cam->projection == PROJ_2PTS)
+        fdf->cam->projection = PROJ_ISO;
+
+    // Center the map after changing projection
+    ft_center_map(fdf);
 }

@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:41:08 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:15:52 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ void ft_two_point_proj(t_point *p, t_cam *cam)
 
     p->x = x_persp - (rotated.y / 4);
     p->y = y_persp;
-    p->depth = z_persp;  // Store the depth
+    p->depth = z_persp;
 }
 
-void	ft_ortho_proj(t_point *p)
+void ft_ortho_proj(t_point *p)
 {
-	t_matrix	iso_rot;
+    t_matrix iso_rot;
 
-	iso_rot = ft_matr_rot_x(RAD_30);
-	ft_rotate(iso_rot, p);
-	p->z = -p->z;
+    iso_rot = ft_matr_rot_x(RAD_30);
+    ft_rotate(iso_rot, p);
+    p->z = -p->z;
 }
 
 void	ft_rotate(t_matrix rot, t_point *p)
@@ -120,15 +120,18 @@ void	ft_center(t_point *p, t_cam *cam)
 	p->y -= depth_offset;
 }
 
-static void	ft_apply_transformations(t_point *p, t_mlx *fdf)
-{
-	t_matrix	final_rot;
+// Add this function to render.c or wherever your other transformation functions are
 
-	p->x *= fdf->cam->theta;
-	p->y *= fdf->cam->theta;
-	p->z *= fdf->cam->z_move;
-	final_rot = ft_matr_final(fdf);
-	ft_rotate(final_rot, p);
+void    ft_apply_transformations(t_point *p, t_mlx *fdf)
+{
+    // Scale the point
+    p->x *= fdf->cam->theta;
+    p->y *= fdf->cam->theta;
+    p->z *= fdf->cam->z_move;
+
+    // Apply rotations
+    t_matrix final_rot = ft_matr_final(fdf);
+    ft_rotate(final_rot, p);
 }
 
 void ft_render(t_point *p, t_mlx *fdf)
@@ -159,10 +162,9 @@ void ft_render(t_point *p, t_mlx *fdf)
         return;
     }
 
-    p->x -= fdf->cam->x_move;
-    p->y -= fdf->cam->y_move;
-    p->x += WIN_WIDTH / 2;
-    p->y += WIN_HEIGHT / 2;
+    // Apply centering
+    p->x += fdf->cam->x_move;
+    p->y += fdf->cam->y_move;
 
     // Clamp values to prevent extreme projections
     p->x = fmax(fmin(p->x, WIN_WIDTH * 2), -WIN_WIDTH);
