@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/23 19:12:01 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:20:10 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ int	ft_free(t_mlx *fdf)
 		ft_map_free(fdf->map);
 		fdf->map = NULL;
 	}
-	free (fdf);
+	free(fdf);
 	return (EXIT_SUCCESS);
 }
 
-static void ft_cleanup_mlx(t_mlx *fdf)
+void	ft_cleanup_mlx(t_mlx *fdf)
 {
 	if (fdf->img)
 	{

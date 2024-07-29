@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:48:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/27 15:23:05 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:16:42 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_color(char *z)
 {
-	int		color;
+	int	color;
 
 	if (!z)
 		return (0);
@@ -26,10 +26,21 @@ int	ft_color(char *z)
 	return (color);
 }
 
-int	ft_parse_line(char *line, t_point *p, int y, int width)
+void	ft_set_point(t_pnt *p, int i, int y, char *z)
+{
+	p->x = i;
+	p->y = y;
+	p->depth = 0;
+	p->z = ft_atoi(z);
+	if (ft_strchr(z, ','))
+		p->color = ft_color(ft_strchr(z, ',') + 1);
+	else
+		p->color = DEFAULT_COLOR;
+}
+
+int	ft_parse_line(char *line, t_pnt *p, int y, int width)
 {
 	char	**points;
-	char	*z;
 	int		i;
 
 	points = ft_split(line, ' ');
@@ -38,45 +49,32 @@ int	ft_parse_line(char *line, t_point *p, int y, int width)
 	i = 0;
 	while (i < width)
 	{
-		p[i].x = i;
-		p[i].y = y;
-		p[i].depth = 0;
-		z = points[i];
-		p[i].z = ft_atoi(z);
-		if (ft_strchr(z, ','))
-			p[i].color = ft_color(ft_strchr(z, ',') + 1);
-		else
-			p[i].color = DEFAULT_COLOR;
+		ft_set_point(&p[i], i, y, points[i]);
 		i++;
 	}
 	ft_free_split(points);
 	return (1);
 }
 
-static int	ft_parse_increment(t_map *map, char *line, int *y)
-{
-	if (!ft_parse_line(line, map->points[*y], *y, map->width))
-		return (0);
-	(*y)++;
-	return(1);
-}
-static int	ft_parse_loop(t_map *map, int fd)
+int	ft_parse_loop(t_map *map, int fd)
 {
 	char	*line;
 	int		y;
-	int		rslt;
 
 	y = 0;
-	rslt = 1;
 	line = get_next_line(fd);
-	while (line != NULL && rslt)
+	while (line != NULL)
 	{
-		rslt = ft_parse_increment(map, line, &y);
+		if (!ft_parse_line(line, map->points[y], y, map->width))
+		{
+			free(line);
+			return (0);
+		}
 		free(line);
-		if (rslt)
-			line = get_next_line(fd);
+		y++;
+		line = get_next_line(fd);
 	}
-	return (rslt);
+	return (1);
 }
 
 t_map	*ft_parse_map(char *map_file)
@@ -84,32 +82,21 @@ t_map	*ft_parse_map(char *map_file)
 	t_map	*map;
 	int		fd;
 
-	ft_printf("starting to ft_parse_map\n");
-	ft_printf("about to run ft_map_process on %s\n", map_file);
 	map = ft_map_process(map_file);
-	ft_printf("map processed\n");
-	ft_printf("opening file\n");
 	fd = open(map_file, O_RDONLY);
-	if(!map || fd < 0)
+	if (!map || fd < 0)
 	{
-		ft_printf("Error: map processing failed or file couldn't be opened\n");
 		ft_map_free(map);
 		if (fd >= 0)
 			close(fd);
 		return (NULL);
 	}
-	ft_printf("file opened successfully\n");
-	ft_printf("Starting parse loop\n");
 	if (!ft_parse_loop(map, fd))
 	{
-		ft_printf("Parse loop failed\n");
 		ft_map_free(map);
 		close(fd);
 		return (NULL);
 	}
-	ft_printf("Parse loop completed successfully\n");
 	close(fd);
-	ft_printf("file closed\n");
-	ft_printf("exiting ft_parse_map\n");
 	return (map);
 }

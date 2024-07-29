@@ -12,16 +12,17 @@
 
 #include "fdf.h"
 
+void	ft_set_hooks(t_mlx *fdf)
+{
+	mlx_key_hook(fdf->win, ft_keyreact, fdf);
+	mlx_expose_hook(fdf->win, ft_draw, fdf);
+}
+
 int	ft_keyreact(int key, t_mlx *fdf)
 {
 	if (key == KEY_ESC)
 		ft_terminate(fdf);
-	else if (key == KEY_UP || key == KEY_DOWN || key == KEY_LEFT
-		|| key == KEY_RIGHT || key == KEY_PLU || key == KEY_MIN
-		|| key == KEY_A || key == KEY_D || key == KEY_P
-		|| key == KEY_O || key == KEY_L || key == KEY_W
-		|| key == KEY_S || key == KEY_Q || key == KEY_E
-		|| key == KEY_C)
+	else if (ft_is_control_key(key))
 	{
 		ft_cam_control(key, fdf);
 		ft_init_image(fdf);
@@ -30,7 +31,7 @@ int	ft_keyreact(int key, t_mlx *fdf)
 	return (0);
 }
 
-static t_mlx	*ft_fdf_allocate(void)
+t_mlx	*ft_fdf_allocate(void)
 {
 	t_mlx	*fdf;
 
@@ -40,7 +41,7 @@ static t_mlx	*ft_fdf_allocate(void)
 	return (fdf);
 }
 
-static int	ft_argcheck(int argc)
+int	ft_argcheck(int argc)
 {
 	if (argc != 2)
 	{
@@ -48,12 +49,6 @@ static int	ft_argcheck(int argc)
 		return (0);
 	}
 	return (1);
-}
-
-static void	ft_set_hooks(t_mlx *fdf)
-{
-	mlx_key_hook(fdf->win, ft_keyreact, fdf);
-	mlx_expose_hook(fdf->win, ft_draw, fdf);
 }
 
 int	main(int argc, char **argv)

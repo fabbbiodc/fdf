@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/14 19:59:38 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:20:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,45 +63,35 @@ t_matrix	ft_matr_rot_z(double gamma)
 	return (yaw);
 }
 
+void	ft_matr_mult_helper(t_matrix *rslt, t_matrix a, t_matrix b, int i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	while (j < 3)
+	{
+		k = 0;
+		while (k < 3)
+		{
+			rslt->matrix[i][j] += a.matrix[i][k] * b.matrix[k][j];
+			k++;
+		}
+		j++;
+	}
+}
+
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 {
 	t_matrix	rslt;
 	int			i;
-	int			j;
-	int			k;
 
 	ft_memset(&rslt, 0, sizeof(t_matrix));
 	i = 0;
 	while (i < 3)
 	{
-		j = 0;
-		while (j < 3)
-		{
-			k = 0;
-			while (k < 3)
-			{
-				rslt.matrix[i][j] += a.matrix[i][k] * b.matrix[k][j];
-				k++;
-			}
-			j++;
-		}
+		ft_matr_mult_helper(&rslt, a, b, i);
 		i++;
 	}
-	return (rslt);
-}
-
-t_matrix	ft_matr_final(t_mlx *fdf)
-{
-	t_matrix	roll;
-	t_matrix	pitch;
-	t_matrix	yaw;
-	t_matrix	temp;
-	t_matrix	rslt;
-
-	roll = ft_matr_rot_x(fdf->cam->alpha);
-	pitch = ft_matr_rot_y(fdf->cam->beta);
-	yaw = ft_matr_rot_z(fdf->cam->gamma);
-	temp = ft_matr_mult(pitch, roll);
-	rslt = ft_matr_mult(yaw, temp);
 	return (rslt);
 }

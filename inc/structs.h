@@ -6,12 +6,20 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 00:48:50 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:01:13 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_bound
+{
+	double	min_x;
+	double	max_x;
+	double	min_y;
+	double	max_y;
+}	t_bound;
 
 typedef struct s_point
 {
@@ -19,13 +27,13 @@ typedef struct s_point
 	double	y;
 	double	z;
 	double	color;
-	double  depth;
-}	t_point;
+	double	depth;
+}	t_pnt;
 
 typedef struct s_zoom
 {
-	t_point	min;
-	t_point	max;
+	t_pnt	min;
+	t_pnt	max;
 	double	scale_x;
 	double	scale_y;
 	double	scale_z;
@@ -36,7 +44,7 @@ typedef struct s_map
 {
 	int		width;
 	int		height;
-	t_point	**points;
+	t_pnt	**points;
 }	t_map;
 
 typedef struct s_img
@@ -49,21 +57,21 @@ typedef struct s_img
 
 typedef struct s_cam
 {
-	int 	projection;
+	int		proj;
 	double	x_move;
-	double 	y_move;
-	double 	alpha;
-	double 	beta;
-	double 	gamma;
-	double 	theta;
-	double 	z_move;
-	double 	scale_x;
-	double 	scale_y;
-	double 	map_width;
-	double 	map_height;
-	double 	map_depth;
+	double	y_move;
+	double	alpha;
+	double	beta;
+	double	gamma;
+	double	theta;
+	double	z_move;
+	double	scale_x;
+	double	scale_y;
+	double	map_width;
+	double	map_height;
+	double	map_depth;
 	int		fitted;
-	double  proj_distance;
+	double	proj_distance;
 	double	spin_angle;
 	int		color_scheme;
 }	t_cam;
@@ -75,12 +83,12 @@ typedef struct s_matrix
 
 typedef struct s_mlx
 {
-    void    *mlx;
-    void    *win;
-    void    *img;
-    t_img   *img_att;
-    t_cam   *cam;
-    t_map   *map;
-}   t_mlx;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	t_img	*img_att;
+	t_cam	*cam;
+	t_map	*map;
+}	t_mlx;
 
 #endif

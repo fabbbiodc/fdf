@@ -6,83 +6,29 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 10:34:36 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:20:40 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_iso_proj(t_point *p)
+t_matrix	ft_matr_final(t_mlx *fdf)
 {
-	double	x_iso;
-	double	y_iso;
+	t_matrix	roll;
+	t_matrix	pitch;
+	t_matrix	yaw;
+	t_matrix	temp;
+	t_matrix	rslt;
 
-	x_iso = (p->x - p->y) * cos(RAD_30);
-	y_iso = ((p->x + p->y) * sin(RAD_30)) - p->z;
-	p->x = x_iso;
-	p->y = y_iso;
+	roll = ft_matr_rot_x(fdf->cam->alpha);
+	pitch = ft_matr_rot_y(fdf->cam->beta);
+	yaw = ft_matr_rot_z(fdf->cam->gamma);
+	temp = ft_matr_mult(pitch, roll);
+	rslt = ft_matr_mult(yaw, temp);
+	return (rslt);
 }
 
-void ft_one_point_proj(t_point *p, t_cam *cam)
-{
-    double x_persp, y_persp, z_persp;
-    t_matrix iso_rot;
-    t_point rotated;
-
-    rotated = *p;
-    iso_rot = ft_matr_rot_x(RAD_30);
-    ft_rotate(iso_rot, &rotated);
-    rotated.z = -rotated.z;
-
-    z_persp = rotated.z + cam->proj_distance;
-    if (z_persp <= 0) {
-        p->x = p->y = INFINITY;
-        return;
-    }
-
-    x_persp = (rotated.x * cam->proj_distance) / z_persp;
-    y_persp = (rotated.y * cam->proj_distance) / z_persp;
-
-    p->x = x_persp;
-    p->y = y_persp;
-    p->depth = z_persp;  // Store the depth
-}
-
-void ft_two_point_proj(t_point *p, t_cam *cam)
-{
-    double x_persp, y_persp, z_persp;
-    t_point rotated;
-    t_matrix iso_rot;
-
-    rotated = *p;
-    iso_rot = ft_matr_rot_x(RAD_30);
-    ft_rotate(iso_rot, &rotated);
-    rotated.z = -rotated.z;
-
-    z_persp = rotated.z + cam->proj_distance;
-    if (z_persp <= 0) {
-        p->x = p->y = INFINITY;
-        return;
-    }
-
-    x_persp = (rotated.x * cam->proj_distance) / z_persp;
-    y_persp = (rotated.y * cam->proj_distance) / z_persp;
-
-    p->x = x_persp - (rotated.y / 4);
-    p->y = y_persp;
-    p->depth = z_persp;
-}
-
-void ft_ortho_proj(t_point *p)
-{
-    t_matrix    iso_rot;
-
-    iso_rot = ft_matr_rot_x(RAD_180);
-    ft_rotate(iso_rot, p);
-    p->z = -p->z;
-}
-
-void	ft_rotate(t_matrix rot, t_point *p)
+void	ft_rotate(t_matrix rot, t_pnt *p)
 {
 	double	x;
 	double	y;
@@ -99,82 +45,47 @@ void	ft_rotate(t_matrix rot, t_point *p)
 	p->z = z;
 }
 
-void	ft_scale(t_point *p, t_cam *cam)
+void	ft_apply_transformations(t_pnt *p, t_mlx *fdf)
 {
-	p->x *= cam->theta;
-	p->y *= cam->theta;
-	p->z *= cam->z_move;
+	t_matrix	final_rot;
+	double		cos_spin;
+	double		sin_spin;
+	double		x;
+	double		y;
+
+	p->x *= fdf->cam->theta;
+	p->y *= fdf->cam->theta;
+	p->z *= fdf->cam->z_move;
+	final_rot = ft_matr_final(fdf);
+	ft_rotate(final_rot, p);
+	cos_spin = cos(fdf->cam->spin_angle);
+	sin_spin = sin(fdf->cam->spin_angle);
+	x = p->x;
+	y = p->y;
+	p->x = x * cos_spin - y * sin_spin;
+	p->y = x * sin_spin + y * cos_spin;
 }
 
-void	ft_center(t_point *p, t_cam *cam)
+void	ft_render(t_pnt *p, t_mlx *fdf)
 {
-	double	iso_offset_y;
-	double	depth_offset;
-
-	p->x -= cam->x_move;
-	p->y -= cam->y_move;
-	iso_offset_y = (cam->map_width + cam->map_height) * sin(RAD_30) / 2;
-	p->x += WIN_WIDTH / 2;
-	p->y += (WIN_HEIGHT / 2) - (iso_offset_y * cam->theta);
-	depth_offset = cam->map_depth * cam->z_move / 2;
-	p->y -= depth_offset;
-}
-
-// Add this function to render.c or wherever your other transformation functions are
-
-void    ft_apply_transformations(t_point *p, t_mlx *fdf)
-{
-    // Scale the point
-    p->x *= fdf->cam->theta;
-    p->y *= fdf->cam->theta;
-    p->z *= fdf->cam->z_move;
-
-    // Apply all rotations for all projections
-    t_matrix final_rot = ft_matr_final(fdf);
-    ft_rotate(final_rot, p);
-
-    // Apply spin rotation
-    double cos_spin = cos(fdf->cam->spin_angle);
-    double sin_spin = sin(fdf->cam->spin_angle);
-    double x = p->x;
-    double y = p->y;
-    p->x = x * cos_spin - y * sin_spin;
-    p->y = x * sin_spin + y * cos_spin;
-}
-
-void ft_render(t_point *p, t_mlx *fdf)
-{
-    ft_apply_transformations(p, fdf);
-    
-    // Apply spin rotation
-    double cos_spin = cos(fdf->cam->spin_angle);
-    double sin_spin = sin(fdf->cam->spin_angle);
-    double x = p->x;
-    double y = p->y;
-    p->x = x * cos_spin - y * sin_spin;
-    p->y = x * sin_spin + y * cos_spin;
-
-    p->depth = 0; // Initialize depth to 0 (no fading)
-
-    if (fdf->cam->projection == PROJ_ISO)
-        ft_iso_proj(p);
-    else if (fdf->cam->projection == PROJ_1PT)
-        ft_one_point_proj(p, fdf->cam);
-    else if (fdf->cam->projection == PROJ_2PTS)
-        ft_two_point_proj(p, fdf->cam);
-    else if (fdf->cam->projection == PROJ_ORTHO)
-        ft_ortho_proj(p);
-
-    if (isinf(p->x) || isinf(p->y)) {
-        p->x = p->y = INFINITY; // Point is not renderable
-        return;
-    }
-
-    // Apply centering
-    p->x += fdf->cam->x_move;
-    p->y += fdf->cam->y_move;
-
-    // Clamp values to prevent extreme projections
-    p->x = fmax(fmin(p->x, WIN_WIDTH * 2), -WIN_WIDTH);
-    p->y = fmax(fmin(p->y, WIN_HEIGHT * 2), -WIN_HEIGHT);
+	ft_apply_transformations(p, fdf);
+	p->depth = 0;
+	if (fdf->cam->proj == PROJ_ISO)
+		ft_iso_proj(p);
+	else if (fdf->cam->proj == PROJ_1PT)
+		ft_one_point_proj(p, fdf->cam);
+	else if (fdf->cam->proj == PROJ_2PTS)
+		ft_two_point_proj(p, fdf->cam);
+	else if (fdf->cam->proj == PROJ_ORTHO)
+		ft_ortho_proj(p);
+	if (isinf(p->x) || isinf(p->y))
+	{
+		p->x = INFINITY;
+		p->y = INFINITY;
+		return ;
+	}
+	p->x += fdf->cam->x_move;
+	p->y += fdf->cam->y_move;
+	p->x = fmax(fmin(p->x, WIN_WIDTH * 2), -WIN_WIDTH);
+	p->y = fmax(fmin(p->y, WIN_HEIGHT * 2), -WIN_HEIGHT);
 }

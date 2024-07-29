@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/28 01:11:04 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:47:01 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,21 @@
 
 // panel
 
-# define PANEL_WIDTH 300
-# define PANEL_HEIGHT 350
-# define PANEL_MARGIN 40
-# define PANEL_BACKGROUND 0x80000000
-# define PANEL_TEXT_COLOR 0xFFFFFF
-# define PANEL_INFO_COLOR 0xAAAAAA
-# define PANEL_LOGO_COLOR 0x00FF00
+# define PNL_WIDTH 300
+# define PNL_HEIGHT 350
+# define PNL_MARGIN 40
+# define PNL_BACKGROUND 0x80000000
+# define PNL_TEXT_COLOR 0xFFFFFF
+# define PNL_INFO_COLOR 0xAAAAAA
+# define PNL_LOGO_COLOR 0x00FF00
 
 // boundaries
 
-#define INSIDE 0 // 0000
-#define LEFT 1   // 0001
-#define RIGHT 2  // 0010
-#define BOTTOM 4 // 0100
-#define TOP 8    // 1000
+# define INSIDE 0 // 0000
+# define LEFT 1   // 0001
+# define RIGHT 2  // 0010
+# define BOTTOM 4 // 0100
+# define TOP 8    // 1000
 
 // errors
 
