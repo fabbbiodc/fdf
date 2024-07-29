@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:17:10 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:28:29 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_map		*ft_map_process(char *map_file);
 // drawline
 
 void		ft_draw_points(t_mlx *fdf, int y, int x);
-int			ft_get_color(t_mlx *fdf);
+int			ft_get_color(t_mlx *fdf, t_pnt *point);
 int			ft_draw(t_mlx *fdf);
 void		ft_putpixel(t_mlx *fdf, int x, int y, int color);
 void		ft_pixel_increment(t_mlx *fdf, t_pnt *crnt);

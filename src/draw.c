@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:36:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:27:58 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,29 @@ void	ft_draw_points(t_mlx *fdf, int y, int x)
 
 	p1 = fdf->map->points[y][x];
 	ft_render(&p1, fdf);
-	p1.color = ft_get_color(fdf);
+	p1.color = ft_get_color(fdf, &p1);
 	if (x < (fdf->map->width - 1))
 	{
 		p2 = fdf->map->points[y][x + 1];
 		ft_render(&p2, fdf);
-		p2.color = ft_get_color(fdf);
+		p2.color = ft_get_color(fdf, &p2);
 		ft_dda(fdf, &p1, &p2);
 	}
 	if (y < (fdf->map->height - 1))
 	{
 		p2 = fdf->map->points[y + 1][x];
 		ft_render(&p2, fdf);
-		p2.color = ft_get_color(fdf);
+		p2.color = ft_get_color(fdf, &p2);
 		ft_dda(fdf, &p1, &p2);
 	}
 }
 
-int	ft_get_color(t_mlx *fdf)
+int	ft_get_color(t_mlx *fdf, t_pnt *point)
 {
 	int	colors[COLOR_SCHEME_COUNT];
 
+	if (point && point->color != DEFAULT_COLOR)
+		return (point->color);
 	colors[0] = COLOR_DEFAULT;
 	colors[1] = COLOR_RED;
 	colors[2] = COLOR_GREEN;

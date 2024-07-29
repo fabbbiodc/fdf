@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:15:37 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:36:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:31:13 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_dda_loop(t_mlx *fdf, t_pnt *current, t_pnt *p1, t_pnt *p2)
 		y = (int)round(current->y);
 		if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 		{
-			color = current->color;
+			color = ft_color_gradient(p1->color, p2->color, progress);
 			if (fdf->cam->proj == PROJ_1PT || fdf->cam->proj == PROJ_2PTS)
 				color = ft_fade_color(color, p1->depth + (p2->depth - p1->depth)
 						* progress, max_depth);
