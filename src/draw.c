@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:27:58 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:37:42 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,4 @@ void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 	offset = y * fdf->img_att->linesize + x * (fdf->img_att->bpp / 8);
 	pix = fdf->img_att->addr + offset;
 	*(unsigned int *)pix = color;
-}
-
-void	ft_pixel_increment(t_mlx *fdf, t_pnt *current)
-{
-	int	x;
-	int	y;
-
-	x = (int)round(current->x);
-	y = (int)round(current->y);
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-		ft_putpixel(fdf, x, y, current->color);
 }

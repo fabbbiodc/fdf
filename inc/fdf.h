@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:28:29 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:39:54 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,18 @@ int			ft_keyreact(int key, t_mlx *fdf);
 t_mlx		*ft_fdf_allocate(void);
 int			ft_argcheck(int argc);
 void		ft_set_hooks(t_mlx *fdf);
-int			ft_is_control_key(int key);
 
 // cam
 
-void		ft_update_limits(t_pnt *p, t_pnt *min, t_pnt *max);
 void		ft_cam_limits(t_mlx *fdf, t_pnt *min, t_pnt *max);
 void		ft_init_limits(t_bound *bounds);
-void		ft_update_map_limits(t_pnt *temp, t_bound *bounds);
-void		ft_apply_projection(t_pnt *temp, t_mlx *fdf);
-void		ft_center_map(t_mlx *fdf);
 void		ft_init_point(t_pnt *point, int value);
 void		ft_cam_fit(t_mlx *fdf);
 void		ft_cam_params(t_mlx *fdf);
-void		ft_handle_rotation(int key, t_mlx *fdf);
-void		ft_handle_zoom(int key, t_mlx *fdf);
-void		ft_handle_move(int key, t_mlx *fdf);
-void		ft_cam_control(int key, t_mlx *fdf);
-void		ft_toggle_projection(t_mlx *fdf);
 
 //controls
 
+int			ft_is_control_key(int key);
 void		ft_handle_zoom(int key, t_mlx *fdf);
 void		ft_handle_move(int key, t_mlx *fdf);
 void		ft_cam_control(int key, t_mlx *fdf);
@@ -78,7 +69,6 @@ void		ft_draw_points(t_mlx *fdf, int y, int x);
 int			ft_get_color(t_mlx *fdf, t_pnt *point);
 int			ft_draw(t_mlx *fdf);
 void		ft_putpixel(t_mlx *fdf, int x, int y, int color);
-void		ft_pixel_increment(t_mlx *fdf, t_pnt *crnt);
 
 // dda
 
@@ -122,7 +112,6 @@ void		ft_toggle_color(t_mlx *fdf);
 
 int			ft_fdf_init(t_mlx *fdf, char *map_file);
 int			ft_init_image(t_mlx *fdf);
-int			ft_panel_init(t_mlx *fdf);
 
 // panel
 
@@ -139,9 +128,16 @@ void		ft_panel_draw(t_mlx *fdf);
 
 // projections
 
+void		ft_apply_projection(t_pnt *temp, t_mlx *fdf);
 void		ft_two_point_proj(t_pnt *p, t_cam *cam);
 void		ft_ortho_proj(t_pnt *p);
 void		ft_one_point_proj(t_pnt *p, t_cam *cam);
 void		ft_iso_proj(t_pnt *p);
+
+// placement
+
+void		ft_update_limits(t_pnt *p, t_pnt *min, t_pnt *max);
+void		ft_update_map_limits(t_pnt *temp, t_bound *bounds);
+void		ft_center_map(t_mlx *fdf);
 
 #endif

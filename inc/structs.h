@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:32:28 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:01:13 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:41:49 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,6 @@ typedef struct s_point
 	double	color;
 	double	depth;
 }	t_pnt;
-
-typedef struct s_zoom
-{
-	t_pnt	min;
-	t_pnt	max;
-	double	scale_x;
-	double	scale_y;
-	double	scale_z;
-	double	scale;
-}	t_zoom;
 
 typedef struct s_map
 {
@@ -65,11 +55,6 @@ typedef struct s_cam
 	double	gamma;
 	double	theta;
 	double	z_move;
-	double	scale_x;
-	double	scale_y;
-	double	map_width;
-	double	map_height;
-	double	map_depth;
 	int		fitted;
 	double	proj_distance;
 	double	spin_angle;
