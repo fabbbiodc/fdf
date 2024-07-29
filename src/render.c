@@ -6,12 +6,23 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:05:07 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:20:40 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:50:26 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_matr_final:
+Computes the final rotation matrix by combining individual rotation matrices.
+This function creates a composite rotation matrix that represents all rotations
+(around x, y, and z axes) applied to the map.
+Math: Multiplies rotation matrices in the order: Z * Y * X (yaw * pitch * roll)
+R = Rz(γ) * Ry(β) * Rx(α), where α, β, γ are rotation angles
+around x, y, z axes respectively.
+// Called from:
+ft_apply_transformations
+// Output:
+Returns the final 3x3 rotation matrix combining all rotations.*/
 t_matrix	ft_matr_final(t_mlx *fdf)
 {
 	t_matrix	roll;
@@ -28,6 +39,17 @@ t_matrix	ft_matr_final(t_mlx *fdf)
 	return (rslt);
 }
 
+/* ft_rotate:
+Applies a rotation matrix to a point.
+This function transforms a point's coordinates using the given rotation matrix.
+Math: Multiplies the point's coordinates by the rotation matrix:
+[x']   [r11 r12 r13]   [x]
+[y'] = [r21 r22 r23] * [y]
+[z']   [r31 r32 r33]   [z]
+// Called from:
+ft_apply_transformations
+// Output:
+Modifies the input point's x, y, and z coordinates based on the rotation.*/
 void	ft_rotate(t_matrix rot, t_pnt *p)
 {
 	double	x;
@@ -45,6 +67,20 @@ void	ft_rotate(t_matrix rot, t_pnt *p)
 	p->z = z;
 }
 
+/* ft_apply_transformations:
+Applies all transformations (scale, rotation, spin) to a point.
+This function orchestrates the complete transformation process for each point.
+Steps: 1. Apply scaling
+       2. Apply combined rotation (from ft_matr_final)
+       3. Apply additional spin rotation around z-axis
+Math: For spin, applies 2D rotation:
+x' = x * cos(θ) - y * sin(θ)
+y' = x * sin(θ) + y * cos(θ)
+Where θ is the spin angle.
+// Called from:
+ft_render
+// Output:
+Modifies the input point's coordinates based on all current transformations.*/
 void	ft_apply_transformations(t_pnt *p, t_mlx *fdf)
 {
 	t_matrix	final_rot;
@@ -66,6 +102,19 @@ void	ft_apply_transformations(t_pnt *p, t_mlx *fdf)
 	p->y = x * sin_spin + y * cos_spin;
 }
 
+/* ft_render:
+Prepares a point for rendering by applying all transformations and projections.
+This function is the main pipeline for converting a 3D map point to its
+2D screen position.
+Steps: 1. Apply all transformations
+       2. Apply selected projection
+       3. Adjust for camera position (x_move, y_move)
+       4. Clip coordinates to prevent rendering outside the window
+// Called from:
+ft_draw_points
+// Output:
+Modifies the input point's coordinates to its final screen position,
+ready for drawing.*/
 void	ft_render(t_pnt *p, t_mlx *fdf)
 {
 	ft_apply_transformations(p, fdf);

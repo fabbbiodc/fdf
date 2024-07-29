@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:03:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:20:10 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:25:01 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_error_handle(int errorcode)
-{
-	if (errorcode == ERR_CAM)
-		ft_printf("Error: failed camera\n");
-	if (errorcode == ERR_STRUCT)
-		ft_printf("Error: invalid mlx data structure\n");
-	if (errorcode == ERR_MALLOC)
-		ft_printf("Error: failed malloc\n");
-	if (errorcode == ERR_INIT)
-		ft_printf("Error: faile init\n");
-	if (errorcode == ERR_WIN)
-		ft_printf("Error: failed window\n");
-	if (errorcode == ERR_DRAW)
-		ft_printf("Error: failed draw\n");
-	if (errorcode == ERR_MAP)
-		ft_printf("Error: failed map\n");
-	return (1);
-}
-
+/* ft_free_split:
+Frees memory allocated for an array of strings.
+// Called from:
+ft_parse_line
+// Output:
+Deallocates memory for each string in the array and for the array itself.*/
 void	ft_free_split(char **points)
 {
 	int	i;
@@ -47,6 +34,13 @@ void	ft_free_split(char **points)
 	}
 }
 
+/* ft_free:
+Frees all allocated memory in the main fdf structure.
+// Called from:
+ft_terminate
+// Output:
+Deallocates memory for camera and map structures,
+then frees the main fdf structure.*/
 int	ft_free(t_mlx *fdf)
 {
 	if (!fdf)
@@ -65,6 +59,12 @@ int	ft_free(t_mlx *fdf)
 	return (EXIT_SUCCESS);
 }
 
+/* ft_cleanup_mlx:
+Cleans up MLX-related resources (images, windows, and display).
+// Called from:
+ft_terminate
+// Output:
+Destroys MLX images and windows, and frees the MLX pointer.*/
 void	ft_cleanup_mlx(t_mlx *fdf)
 {
 	if (fdf->img)
@@ -85,6 +85,12 @@ void	ft_cleanup_mlx(t_mlx *fdf)
 	}
 }
 
+/* ft_terminate:
+Performs a complete cleanup and exits the program.
+// Called from:
+ft_keyreact, main (in case of initialization failure)
+// Output:
+Calls cleanup functions, frees all allocated memory, and exits the program.*/
 int	ft_terminate(t_mlx *fdf)
 {
 	if (!fdf)

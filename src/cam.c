@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:36:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:11:03 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_cam_limits:
+Calculates the minimum and maximum coordinates of the transformed map points.
+// Called from:
+ft_cam_fit
+// Output:
+Updates min and max point structures passed as parameters.*/
 void	ft_cam_limits(t_mlx *fdf, t_pnt *min, t_pnt *max)
 {
 	int		i;
@@ -36,6 +42,12 @@ void	ft_cam_limits(t_mlx *fdf, t_pnt *min, t_pnt *max)
 	}
 }
 
+/* ft_init_limits:
+Initializes the boundary structure with extreme values.
+// Called from:
+ft_center_map
+// Output:
+Modifies the bounds structure directly.*/
 void	ft_init_limits(t_bound *bounds)
 {
 	bounds->min_x = INFINITY;
@@ -44,6 +56,12 @@ void	ft_init_limits(t_bound *bounds)
 	bounds->max_y = -INFINITY;
 }
 
+/* ft_init_point:
+Initializes all components of a point structure with a given value.
+// Called from:
+ft_cam_fit
+// Output:
+Modifies the point structure directly.*/
 void	ft_init_point(t_pnt *point, int value)
 {
 	point->x = value;
@@ -53,6 +71,12 @@ void	ft_init_point(t_pnt *point, int value)
 	point->depth = value;
 }
 
+/* ft_cam_fit:
+Adjusts the camera parameters to fit the entire map within the window.
+// Called from:
+ft_fdf_init
+// Output:
+Updates camera parameters in the fdf structure.*/
 void	ft_cam_fit(t_mlx *fdf)
 {
 	t_pnt	min;
@@ -78,6 +102,12 @@ void	ft_cam_fit(t_mlx *fdf)
 	ft_center_map(fdf);
 }
 
+/* ft_cam_params:
+Initializes or resets all camera parameters to their default values.
+// Called from:
+ft_cam_init, ft_fdf_init
+// Output:
+Modifies camera parameters in the fdf structure.*/
 void	ft_cam_params(t_mlx *fdf)
 {
 	fdf->cam->proj = PROJ_ISO;

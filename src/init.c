@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 16:15:19 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:31:07 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:27:11 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_create_image:
+Creates a new MLX image for rendering.
+// Called from:
+ft_init_image
+// Output:
+Creates a new image and allocates memory for image attributes.*/
 int	ft_create_image(t_mlx *fdf)
 {
 	fdf->img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -27,18 +33,27 @@ int	ft_create_image(t_mlx *fdf)
 	return (1);
 }
 
+/* ft_cam_init:
+Initializes the camera structure with default values.
+// Called from:
+ft_fdf_init
+// Output:
+Allocates memory for the camera structure and sets initial parameters.*/
 int	ft_cam_init(t_mlx *fdf)
 {
 	fdf->cam = (t_cam *)malloc(sizeof(t_cam));
 	if (!fdf->cam)
-	{
-		ft_error_handle(ERR_CAM);
 		return (EXIT_FAILURE);
-	}
 	ft_cam_params(fdf);
 	return (EXIT_SUCCESS);
 }
 
+/* ft_init_image:
+Initializes or reinitializes the MLX image for rendering.
+// Called from:
+ft_fdf_init, ft_keyreact (indirectly through ft_cam_control)
+// Output:
+Creates a new image and sets up its attributes.*/
 int	ft_init_image(t_mlx *fdf)
 {
 	if (fdf->img)
@@ -62,6 +77,13 @@ int	ft_init_image(t_mlx *fdf)
 	return (1);
 }
 
+/* ft_fdf_init:
+Initializes the entire FdF program structure.
+// Called from:
+main
+// Output:
+Sets up MLX, creates window,
+initializes image, parses map, and sets up camera.*/
 int	ft_fdf_init(t_mlx *fdf, char *map_file)
 {
 	fdf->mlx = mlx_init();

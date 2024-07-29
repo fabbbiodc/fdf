@@ -16,6 +16,7 @@ void	ft_set_hooks(t_mlx *fdf)
 {
 	mlx_key_hook(fdf->win, ft_keyreact, fdf);
 	mlx_expose_hook(fdf->win, ft_draw, fdf);
+	mlx_hook(fdf->win, 17, 0, ft_terminate, fdf);
 }
 
 int	ft_keyreact(int key, t_mlx *fdf)

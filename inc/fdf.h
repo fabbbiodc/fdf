@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:57:16 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:39:54 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:23:18 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,8 @@ void		ft_dda(t_mlx *fdf, t_pnt *p1, t_pnt *p2);
 void		ft_dda_loop(t_mlx *fdf, t_pnt *crnt, t_pnt *p1, t_pnt *p2);
 void		ft_update_current(t_pnt *crnt, t_pnt *p1, t_pnt *p2, double *prog);
 
-// errors
+// free
 
-int			ft_error_handle(int errorcode);
 void		ft_free_split(char **points);
 int			ft_free(t_mlx *fdf);
 void		ft_cleanup_mlx(t_mlx *fdf);

@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:37:42 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:20:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_draw_points:
+Draws connections between adjacent points in the map.
+// Called from:
+ft_draw
+// Output:
+Renders lines between adjacent points on the screen.*/
 void	ft_draw_points(t_mlx *fdf, int y, int x)
 {
 	t_pnt	p1;
@@ -36,6 +42,13 @@ void	ft_draw_points(t_mlx *fdf, int y, int x)
 	}
 }
 
+/* ft_get_color:
+Determines the color for a point based on its height
+and the current color scheme.
+// Called from:
+ft_draw_points
+// Output:
+Returns the color value for the given point.*/
 int	ft_get_color(t_mlx *fdf, t_pnt *point)
 {
 	int	colors[COLOR_SCHEME_COUNT];
@@ -53,6 +66,12 @@ int	ft_get_color(t_mlx *fdf, t_pnt *point)
 	return (colors[fdf->cam->color_scheme]);
 }
 
+/* ft_draw:
+Renders the entire map by iterating through all points and drawing connections.
+// Called from:
+ft_set_hooks (as part of mlx_expose_hook), ft_update
+// Output:
+Renders the complete map on the screen and updates the window.*/
 int	ft_draw(t_mlx *fdf)
 {
 	int	x;
@@ -74,6 +93,16 @@ int	ft_draw(t_mlx *fdf)
 	return (0);
 }
 
+/* ft_putpixel:
+Places a single pixel on the screen at the specified coordinates
+with the given color.
+Performs bit shifting operations to correctly place the color value in memory,
+accounting for the pixel format.
+// Called from:
+ft_dda_loop
+// Output:
+Modifies the image data to set a pixel color, using pointer arithmetic and
+bit operations to efficiently write to the correct memory location.*/
 void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {
 	int		offset;

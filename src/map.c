@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:11:09 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:36:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:39:56 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_map_rows:
+Allocates memory for each row of points in the map.
+// Called from:
+ft_map_allocate
+// Output:
+Allocates memory for point arrays within the map structure.*/
 int	ft_map_rows(t_map *map)
 {
 	int	i;
@@ -35,6 +41,12 @@ int	ft_map_rows(t_map *map)
 	return (1);
 }
 
+/* ft_map_allocate:
+Allocates memory for the entire map structure.
+// Called from:
+ft_map_process
+// Output:
+Creates and initializes a new map structure with allocated memory for points.*/
 t_map	*ft_map_allocate(int width, int height)
 {
 	t_map	*map;
@@ -59,6 +71,12 @@ t_map	*ft_map_allocate(int width, int height)
 	return (map);
 }
 
+/* ft_map_size:
+Determines the dimensions of the map from the input file.
+// Called from:
+ft_map_process
+// Output:
+Sets the width and height of the map based on file contents.*/
 int	ft_map_size(char *map, int *width, int *height)
 {
 	int		fd;
@@ -82,6 +100,12 @@ int	ft_map_size(char *map, int *width, int *height)
 	return (1);
 }
 
+/* ft_map_free:
+Frees all allocated memory for the map structure.
+// Called from:
+ft_free, ft_parse_map (in case of error)
+// Output:
+Deallocates all memory associated with the map structure.*/
 void	ft_map_free(t_map *map)
 {
 	int	i;
@@ -103,6 +127,12 @@ void	ft_map_free(t_map *map)
 	}
 }
 
+/* ft_map_process:
+Processes the input file to create the map structure.
+// Called from:
+ft_parse_map
+// Output:
+Creates and returns a fully allocated map structure based on the input file.*/
 t_map	*ft_map_process(char *map_file)
 {
 	t_map	*map;

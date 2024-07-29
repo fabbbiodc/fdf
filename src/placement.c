@@ -6,12 +6,23 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:03:41 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:36:19 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:37:36 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_update_limits:
+Updates the minimum and maximum coordinates based on a given point.
+This function is crucial for determining the overall boundaries of the map.
+It compares the x and y coordinates of the given point
+with the current min and max,
+updating them if the point extends beyond the current limits.
+// Called from:
+ft_cam_limits
+// Output:
+Modifies min and max point structures to encompass the given point,
+effectively expanding the known boundaries of the map.*/
 void	ft_update_limits(t_pnt *p, t_pnt *min, t_pnt *max)
 {
 	min->x = fmin(min->x, p->x);
@@ -20,6 +31,19 @@ void	ft_update_limits(t_pnt *p, t_pnt *min, t_pnt *max)
 	max->y = fmax(max->y, p->y);
 }
 
+/* ft_center_map:
+Calculates the offset needed to center the map in the window.
+This function iterates through all points of the map, applying current
+transformations and projections to determine the map's extent in screen space.
+It then calculates the difference between the map's center and
+the window's center
+to determine the necessary offset for centering.
+// Called from:
+ft_cam_fit, ft_toggle_projection
+// Output:
+Updates the camera's x_move and y_move values in the fdf structure,
+which will be used in rendering to position the map at the
+center of the window.*/
 void	ft_center_map(t_mlx *fdf)
 {
 	int		i;
@@ -46,6 +70,17 @@ void	ft_center_map(t_mlx *fdf)
 	fdf->cam->y_move = WIN_HEIGHT / 2 - (bounds.min_y + bounds.max_y) / 2;
 }
 
+/* ft_update_map_limits:
+Updates the boundaries of the map based on a transformed point.
+Similar to ft_update_limits, but specifically for use within ft_center_map.
+It checks if the point is valid (not infinity) before updating the bounds.
+This function helps in determining the actual screen space occupied by the map
+after all transformations and projections have been applied.
+// Called from:
+ft_center_map
+// Output:
+Modifies the bounds structure to include the given point, if valid.
+This gradually builds up a picture of the map's extent in screen space.*/
 void	ft_update_map_limits(t_pnt *temp, t_bound *bounds)
 {
 	if (!isinf(temp->x) && !isinf(temp->y))

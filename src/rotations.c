@@ -6,12 +6,22 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:20:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:51:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_matr_rot_x:
+Creates a rotation matrix for rotation around the X-axis.
+Math: Generates a 3x3 matrix representing rotation by angle α (alpha):
+[1    0        0    ]
+[0    cos(α)  -sin(α)]
+[0    sin(α)   cos(α)]
+// Called from:
+ft_matr_final, ft_one_point_proj, ft_two_point_proj
+// Output:
+Returns a t_matrix structure representing the X-axis rotation.*/
 t_matrix	ft_matr_rot_x(double alpha)
 {
 	t_matrix	roll;
@@ -29,6 +39,16 @@ t_matrix	ft_matr_rot_x(double alpha)
 	return (roll);
 }
 
+/* ft_matr_rot_y:
+Creates a rotation matrix for rotation around the Y-axis.
+Math: Generates a 3x3 matrix representing rotation by angle β (beta):
+[ cos(β)   0   sin(β)]
+[   0      1     0   ]
+[-sin(β)   0   cos(β)]
+// Called from:
+ft_matr_final
+// Output:
+Returns a t_matrix structure representing the Y-axis rotation.*/
 t_matrix	ft_matr_rot_y(double beta)
 {
 	t_matrix	pitch;
@@ -46,6 +66,16 @@ t_matrix	ft_matr_rot_y(double beta)
 	return (pitch);
 }
 
+/* ft_matr_rot_z:
+Creates a rotation matrix for rotation around the Z-axis.
+Math: Generates a 3x3 matrix representing rotation by angle γ (gamma):
+[cos(γ)  -sin(γ)   0]
+[sin(γ)   cos(γ)   0]
+[  0        0      1]
+// Called from:
+ft_matr_final
+// Output:
+Returns a t_matrix structure representing the Z-axis rotation.*/
 t_matrix	ft_matr_rot_z(double gamma)
 {
 	t_matrix	yaw;
@@ -63,6 +93,14 @@ t_matrix	ft_matr_rot_z(double gamma)
 	return (yaw);
 }
 
+/* ft_matr_mult_helper:
+Helper function to perform matrix multiplication for a single row.
+Math: Calculates the dot product of a row from matrix A with columns
+from matrix B.
+// Called from:
+ft_matr_mult
+// Output:
+Modifies the result matrix, filling in one row of the multiplication result.*/
 void	ft_matr_mult_helper(t_matrix *rslt, t_matrix a, t_matrix b, int i)
 {
 	int	j;

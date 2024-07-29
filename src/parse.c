@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 12:48:22 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:16:42 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:39:52 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_color:
+Extracts the color value from a string, handling hexadecimal format.
+// Called from:
+ft_set_point
+// Output:
+Returns the parsed color value as an integer.*/
 int	ft_color(char *z)
 {
 	int	color;
@@ -26,6 +32,12 @@ int	ft_color(char *z)
 	return (color);
 }
 
+/* ft_set_point:
+Initializes a point structure with coordinates and color.
+// Called from:
+ft_parse_line
+// Output:
+Populates a point structure with x, y, z coordinates and color.*/
 void	ft_set_point(t_pnt *p, int i, int y, char *z)
 {
 	p->x = i;
@@ -38,6 +50,12 @@ void	ft_set_point(t_pnt *p, int i, int y, char *z)
 		p->color = DEFAULT_COLOR;
 }
 
+/* ft_parse_line:
+Parses a single line of the map file, setting up points.
+// Called from:
+ft_parse_loop
+// Output:
+Populates an array of points based on the parsed line data.*/
 int	ft_parse_line(char *line, t_pnt *p, int y, int width)
 {
 	char	**points;
@@ -56,6 +74,12 @@ int	ft_parse_line(char *line, t_pnt *p, int y, int width)
 	return (1);
 }
 
+/* ft_parse_loop:
+Iterates through all lines of the map file, parsing each one.
+// Called from:
+ft_parse_map
+// Output:
+Fills the entire map structure with parsed point data.*/
 int	ft_parse_loop(t_map *map, int fd)
 {
 	char	*line;
@@ -77,6 +101,12 @@ int	ft_parse_loop(t_map *map, int fd)
 	return (1);
 }
 
+/* ft_parse_map:
+Orchestrates the entire map parsing process from file to structure.
+// Called from:
+ft_fdf_init
+// Output:
+Returns a fully populated map structure based on the input file.*/
 t_map	*ft_parse_map(char *map_file)
 {
 	t_map	*map;

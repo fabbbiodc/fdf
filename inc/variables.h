@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 13:09:53 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 17:47:01 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:55:52 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define DEFAULT_COLOR 0x0000FF00
 # define ROTATION 0.05
 # define ZOOM 1
-# define MOVE 5
+# define MOVE 10
 # define BUFFER_SIZE 20
 # define MARGIN 100
 # define PROJECTION_DISTANCE 1000.0

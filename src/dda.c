@@ -6,12 +6,18 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:15:37 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 18:31:13 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:18:07 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/* ft_dda:
+Implements the Digital Differential Analyzer (DDA) algorithm for line drawing.
+// Called from:
+ft_draw_points
+// Output:
+Draws a line between two points on the screen.*/
 void	ft_dda(t_mlx *fdf, t_pnt *p1, t_pnt *p2)
 {
 	t_pnt	delta;
@@ -32,6 +38,12 @@ void	ft_dda(t_mlx *fdf, t_pnt *p1, t_pnt *p2)
 	ft_dda_loop(fdf, &current, p1, p2);
 }
 
+/* ft_dda_loop:
+Performs the main loop of the DDA algorithm, plotting points along the line.
+// Called from:
+ft_dda
+// Output:
+Plots individual points of the line on the screen.*/
 void	ft_dda_loop(t_mlx *fdf, t_pnt *current, t_pnt *p1, t_pnt *p2)
 {
 	double	progress;
@@ -58,6 +70,12 @@ void	ft_dda_loop(t_mlx *fdf, t_pnt *current, t_pnt *p1, t_pnt *p2)
 	}
 }
 
+/* ft_update_current:
+Updates the current point in the DDA algorithm to the next position.
+// Called from:
+ft_dda_loop
+// Output:
+Modifies the current point and progress values for the next iteration.*/
 void	ft_update_current(t_pnt *current, t_pnt *p1, t_pnt *p2,
 		double *progress)
 {
