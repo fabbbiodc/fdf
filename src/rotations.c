@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:51:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:56:49 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,16 @@ void	ft_matr_mult_helper(t_matrix *rslt, t_matrix a, t_matrix b, int i)
 	}
 }
 
+/* ft_matr_mult:
+Performs multiplication of two 3x3 matrices.
+Math: Computes the product of matrices A and B:
+C[i][j] = Σ(A[i][k] * B[k][j]) for k = 0 to 2
+This operation combines two transformations into a single matrix.
+// Called from:
+ft_matr_final
+// Output:
+Returns a new t_matrix structure representing the product
+of the input matrices.*/
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 {
 	t_matrix	rslt;
