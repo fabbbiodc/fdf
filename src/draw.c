@@ -6,18 +6,33 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:28:24 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:20:32 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:26:32 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /* ft_draw_points:
-Draws connections between adjacent points in the map.
+Renders connections between adjacent points in the map.
+// Process:
+1. Takes current point coordinates (y, x)
+2. Renders current point:
+   a. Calls ft_render to apply transformations and projections
+   b. Determines color using ft_get_color
+3. If not at right edge of map:
+   a. Renders line to right neighbor (x+1)
+   b. Uses ft_render on neighbor point
+   c. Calls ft_dda to draw line between current and right neighbor
+4. If not at bottom edge of map:
+   a. Renders line to bottom neighbor (y+1)
+   b. Uses ft_render on neighbor point
+   c. Calls ft_dda to draw line between current and bottom neighbor
+// Key aspect:
+Creates the wireframe effect by drawing lines between adjacent points
 // Called from:
 ft_draw
 // Output:
-Renders lines between adjacent points on the screen.*/
+Renders points and connecting lines for a single map coordinate*/
 void	ft_draw_points(t_mlx *fdf, int y, int x)
 {
 	t_pnt	p1;
@@ -68,10 +83,18 @@ int	ft_get_color(t_mlx *fdf, t_pnt *point)
 
 /* ft_draw:
 Renders the entire map by iterating through all points and drawing connections.
+// Process:
+1. Nested loops iterate through all map points (y and x coordinates)
+2. For each point, calls ft_draw_points to render point and connections
+3. After rendering all points:
+   a. Calls mlx_put_image_to_window to display the rendered image
+   b. Calls ft_panel_draw to overlay information panel
+// Key aspect:
+Coordinates the entire rendering process for each frame
 // Called from:
 ft_set_hooks (as part of mlx_expose_hook), ft_update
 // Output:
-Renders the complete map on the screen and updates the window.*/
+Completely renders the map and information panel to the window*/
 int	ft_draw(t_mlx *fdf)
 {
 	int	x;
@@ -94,15 +117,20 @@ int	ft_draw(t_mlx *fdf)
 }
 
 /* ft_putpixel:
-Places a single pixel on the screen at the specified coordinates
-with the given color.
-Performs bit shifting operations to correctly place the color value in memory,
-accounting for the pixel format.
+Places a single pixel on the screen at specified coordinates with given color.
+// Process:
+1. Checks if coordinates are within window boundaries
+2. Calculates memory offset for the pixel in the image data:
+   offset = (y * line_length) + (x * (bits_per_pixel / 8))
+3. Uses pointer arithmetic to set the color value at the calculated offset
+// Key aspect:
+Directly manipulates image memory for efficient pixel drawing
 // Called from:
-ft_dda_loop
+ft_dda_loop (in dda.c)
 // Output:
-Modifies the image data to set a pixel color, using pointer arithmetic and
-bit operations to efficiently write to the correct memory location.*/
+Modifies the image data to set a pixel color at specified coordinates
+// Note:
+Crucial for performance as it's called for every pixel drawn*/
 void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {
 	int		offset;

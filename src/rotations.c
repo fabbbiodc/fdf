@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 16:09:27 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:56:58 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:28:37 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 /* ft_matr_rot_x:
 Creates a rotation matrix for rotation around the X-axis.
-Math: Generates a 3x3 matrix representing rotation by angle α (alpha):
+// Math:
+Generates a 3x3 matrix for rotation by angle α (alpha):
 [1    0        0    ]
 [0    cos(α)  -sin(α)]
 [0    sin(α)   cos(α)]
+// Process:
+1. Calculates sin(α) and cos(α)
+2. Fills the matrix with appropriate values
+3. Sets 1 for the x-axis elements as x doesn't change in x-rotation
 // Called from:
 ft_matr_final, ft_one_point_proj, ft_two_point_proj
 // Output:
-Returns a t_matrix structure representing the X-axis rotation.*/
+Returns a t_matrix structure representing the X-axis rotation*/
 t_matrix	ft_matr_rot_x(double alpha)
 {
 	t_matrix	roll;
@@ -41,14 +46,19 @@ t_matrix	ft_matr_rot_x(double alpha)
 
 /* ft_matr_rot_y:
 Creates a rotation matrix for rotation around the Y-axis.
-Math: Generates a 3x3 matrix representing rotation by angle β (beta):
+// Math:
+Generates a 3x3 matrix for rotation by angle β (beta):
 [ cos(β)   0   sin(β)]
 [   0      1     0   ]
 [-sin(β)   0   cos(β)]
+// Process:
+1. Calculates sin(β) and cos(β)
+2. Fills the matrix with appropriate values
+3. Sets 1 for the y-axis elements as y doesn't change in y-rotation
 // Called from:
 ft_matr_final
 // Output:
-Returns a t_matrix structure representing the Y-axis rotation.*/
+Returns a t_matrix structure representing the Y-axis rotation*/
 t_matrix	ft_matr_rot_y(double beta)
 {
 	t_matrix	pitch;
@@ -68,14 +78,19 @@ t_matrix	ft_matr_rot_y(double beta)
 
 /* ft_matr_rot_z:
 Creates a rotation matrix for rotation around the Z-axis.
-Math: Generates a 3x3 matrix representing rotation by angle γ (gamma):
+// Math:
+Generates a 3x3 matrix for rotation by angle γ (gamma):
 [cos(γ)  -sin(γ)   0]
 [sin(γ)   cos(γ)   0]
 [  0        0      1]
+// Process:
+1. Calculates sin(γ) and cos(γ)
+2. Fills the matrix with appropriate values
+3. Sets 1 for the z-axis elements as z doesn't change in z-rotation
 // Called from:
 ft_matr_final
 // Output:
-Returns a t_matrix structure representing the Z-axis rotation.*/
+Returns a t_matrix structure representing the Z-axis rotation*/
 t_matrix	ft_matr_rot_z(double gamma)
 {
 	t_matrix	yaw;
@@ -95,12 +110,16 @@ t_matrix	ft_matr_rot_z(double gamma)
 
 /* ft_matr_mult_helper:
 Helper function to perform matrix multiplication for a single row.
-Math: Calculates the dot product of a row from matrix A with columns
-from matrix B.
+// Math:
+Calculates the dot product of a row from matrix A with columns from matrix B.
+result[i][j] = Σ(A[i][k] * B[k][j]) for k = 0 to 2
+// Process:
+1. Iterates over columns of the result matrix
+2. For each element, computes the dot product of row i of A with column j of B
 // Called from:
 ft_matr_mult
 // Output:
-Modifies the result matrix, filling in one row of the multiplication result.*/
+Modifies the result matrix, filling in one row of the multiplication result*/
 void	ft_matr_mult_helper(t_matrix *rslt, t_matrix a, t_matrix b, int i)
 {
 	int	j;
@@ -121,14 +140,20 @@ void	ft_matr_mult_helper(t_matrix *rslt, t_matrix a, t_matrix b, int i)
 
 /* ft_matr_mult:
 Performs multiplication of two 3x3 matrices.
-Math: Computes the product of matrices A and B:
+// Math:
+Computes the product of matrices A and B:
 C[i][j] = Σ(A[i][k] * B[k][j]) for k = 0 to 2
-This operation combines two transformations into a single matrix.
+// Process:
+1. Initializes result matrix to zero
+2. Iterates over rows of the result matrix
+3. Calls ft_matr_mult_helper for each row to compute values
+// Key aspect:
+This operation combines two transformations into a single matrix
 // Called from:
 ft_matr_final
 // Output:
-Returns a new t_matrix structure representing the product
-of the input matrices.*/
+Returns a new t_matrix structure representing the
+product of the input matrices*/
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 {
 	t_matrix	rslt;

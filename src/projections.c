@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:12:44 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:46:04 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:31:29 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 /* ft_apply_projection:
 Applies the currently selected projection to a point.
-This function serves as a dispatcher, calling the appropriate projection function
-based on the current projection mode stored in the camera settings.
+// Process:
+1. Checks the current projection mode (fdf->cam->proj)
+2. Calls the appropriate projection function based on the mode:
+   - PROJ_ISO: ft_iso_proj
+   - PROJ_1PT: ft_one_point_proj
+   - PROJ_2PTS: ft_two_point_proj
+   - PROJ_ORTHO: ft_ortho_proj
+// Key aspect:
+Acts as a dispatcher for different projection methods
 // Called from:
 ft_center_map, ft_render
 // Output:
-Modifies the input point's coordinates according to the selected projection.*/
+Modifies the input point's coordinates according to the selected projection*/
 void	ft_apply_projection(t_pnt *temp, t_mlx *fdf)
 {
 	if (fdf->cam->proj == PROJ_ISO)
@@ -34,16 +41,21 @@ void	ft_apply_projection(t_pnt *temp, t_mlx *fdf)
 
 /* ft_iso_proj:
 Applies isometric projection to a point.
-Isometric projection is a method of visually representing 3D objects in 2D.
-It uses a 30-degree angle from the horizontal, creating a pseudo-3D effect.
-Math: The transformation is achieved using these formulas:
-    x_iso = (x - y) * cos(30°)
-    y_iso = (x + y) * sin(30°) - z
-Where 30° is approximately 0.523599 radians (often stored as RAD_30 constant).
+// Math:
+Transforms 3D coordinates (x, y, z) to 2D isometric view (x', y'):
+x' = (x - y) * cos(30°)
+y' = (x + y) * sin(30°) - z
+Where 30° is approximately 0.523599 radians (often stored as RAD_30 constant)
+// Process:
+1. Calculates new x coordinate (x_iso)
+2. Calculates new y coordinate (y_iso)
+3. Updates the point's x and y with these new values
+// Key aspect:
+Creates a pseudo-3D view without perspective
 // Called from:
 ft_apply_projection
 // Output:
-Modifies the input point's x and y coordinates to their isometric projection.*/
+Modifies the input point's x and y coordinates to their isometric projection*/
 void	ft_iso_proj(t_pnt *p)
 {
 	double	x_iso;
@@ -57,19 +69,26 @@ void	ft_iso_proj(t_pnt *p)
 
 /* ft_one_point_proj:
 Applies one-point perspective projection to a point.
-This projection creates the illusion of depth by having parallel lines 
-onverge to a single vanishing point.
-Math: The transformation involves these steps:
-1. Apply isometric-like rotation (usually 30° around x-axis).
+// Math:
+Applies perspective division after rotating the point:
+1. Rotate point (usually 30° around x-axis for isometric-like view)
 2. Apply perspective division:
-    x' = (x * distance) / (z + distance)
-    y' = (y * distance) / (z + distance)
-Where 'distance' is the distance from the viewer to the projection plane.
+   x' = (x * distance) / (z + distance)
+   y' = (y * distance) / (z + distance)
+Where 'distance' is the distance from the viewer to the projection plane
+// Process:
+1. Rotates the point using an isometric-like rotation matrix
+2. Inverts z (to make objects further away appear higher)
+3. Calculates z_persp (z + projection distance)
+4. Applies perspective division to x and y
+5. Stores original z as 'depth' for potential depth-based effects
+// Key aspect:
+Creates a basic perspective effect with a single vanishing point
 // Called from:
 ft_apply_projection
 // Output:
 Modifies the point's x, y coordinates and sets its depth
-for perspective effect.*/
+for perspective effect*/
 void	ft_one_point_proj(t_pnt *p, t_cam *cam)
 {
 	double		x_persp;
@@ -98,18 +117,21 @@ void	ft_one_point_proj(t_pnt *p, t_cam *cam)
 
 /* ft_two_point_proj:
 Applies two-point perspective projection to a point.
-This projection uses two vanishing points, typically on the horizon line,
-creating a more dynamic 3D effect.
-Math: Similar to one-point, but with an additional transformation:
-1. Apply isometric-like rotation.
-2. Apply perspective division as in one-point projection.
-3. Apply additional horizontal shift based on y-coordinate:
-    x' = x - (y / 4)  // The division by 4 is an arbitrary factor for effect
+// Math:
+Similar to one-point, but with an additional horizontal shift:
+1. Apply steps 1-4 from one-point projection
+2. Apply additional horizontal shift: x' = x - (y / 4)
+The division by 4 is an arbitrary factor to control the effect strength
+// Process:
+1. Performs steps similar to one-point projection
+2. Adds an extra calculation to shift x based on y
+// Key aspect:
+Creates a more dynamic perspective effect with two vanishing points
 // Called from:
 ft_apply_projection
 // Output:
 Modifies the point's x, y coordinates and sets its depth for a more
-pronounced perspective effect.*/
+pronounced perspective effect*/
 void	ft_two_point_proj(t_pnt *p, t_cam *cam)
 {
 	double		x_persp;
@@ -138,20 +160,23 @@ void	ft_two_point_proj(t_pnt *p, t_cam *cam)
 
 /* ft_ortho_proj:
 Applies orthographic projection to a point.
-Orthographic projection represents 3D objects in 2D
-by projecting points to a plane along parallel lines.
-Math: In this implementation, it appears to
-simply invert the z-axis and apply a 180° rotation around the x-axis:
+// Math:
+Simply inverts the z-axis and applies a 180° rotation around the x-axis:
 1. z = -z
 2. Apply rotation matrix for 180° around x-axis:
-    [1     0      0]
-    [0  cos θ -sin θ]
-    [0  sin θ  cos θ]
-Where θ is 180° or π radians.
+   [1     0      0]
+   [0  cos θ -sin θ]
+   [0  sin θ  cos θ]
+Where θ is 180° or π radians
+// Process:
+1. Inverts the z coordinate
+2. Applies a 180° rotation around the x-axis using a rotation matrix
+// Key aspect:
+Provides a top-down view of the object without perspective
 // Called from:
 ft_apply_projection
 // Output:
-Modifies the point's coordinates to create a top-down orthographic view.*/
+Modifies the point's coordinates to create a top-down orthographic view*/
 void	ft_ortho_proj(t_pnt *p)
 {
 	t_matrix	iso_rot;
