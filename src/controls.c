@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:18 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:15:47 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:40:31 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ void	ft_handle_zoom(int key, t_mlx *fdf)
 	if (key == KEY_PLU)
 	{
 		fdf->cam->theta += ZOOM;
-		fdf->cam->z_move += ZOOM;
 	}
 	else if (key == KEY_MIN)
 	{
 		fdf->cam->theta -= ZOOM;
-		fdf->cam->z_move -= ZOOM;
+		if (fdf->cam->theta < ZOOM)
+			fdf->cam->theta = ZOOM;
 	}
 }
 
