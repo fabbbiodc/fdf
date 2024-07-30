@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 20:05:51 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/30 09:24:46 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:18:02 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ This function doesn't modify the original map data; it only calculates boundarie
 // Called from:
 ft_cam_fit
 // Output:
-Updates min and max point structures with the map's boundaries in screen space*/
+Updates min and max point structures with the map's boundaries
+in screen space*/
 void	ft_cam_limits(t_mlx *fdf, t_pnt *min, t_pnt *max)
 {
 	int		i;
