@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 16:22:12 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/29 19:32:03 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:14:47 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,47 @@ void	ft_panel_draw(t_mlx *fdf)
 }
 
 /* ft_display_map_info:
-Displays information about the current map and projection.
+Displays information about the current map size and projection type.
+// Process:
+1. Converts map width and height to strings
+2. Constructs and displays a "Map size: [width]x[height]" string
+3. Constructs and displays a "Projection: [projection_type]" string
 // Called from:
 ft_panel_draw
+// Input:
+- fdf: Pointer to the main program structure containing map and camera info
+- p: Pointer to a point structure used for text positioning
 // Output:
-Renders map size and projection type on the panel.*/
+Renders map size and projection type on the panel
+// Memory management:
+Allocates and frees memory for temporary strings to avoid leaks
+*/
 void	ft_display_map_info(t_mlx *fdf, t_pnt *p)
 {
-	char	*str;
+	char	*width_str;
+	char	*height_str;
+	char	*size_str;
+	char	*temp;
 
-	str = ft_strjoin("Map size: ", ft_itoa(fdf->map->width));
-	str = ft_strjoin(str, "x");
-	str = ft_strjoin(str, ft_itoa(fdf->map->height));
-	ft_pnl_txt(fdf, p, str, PNL_INFO_COLOR);
-	free(str);
+	width_str = ft_itoa(fdf->map->width);
+	height_str = ft_itoa(fdf->map->height);
+	size_str = ft_strjoin("Map size: ", width_str);
+	if (size_str)
+	{
+		temp = ft_strjoin(size_str, "x");
+		free(size_str);
+		size_str = ft_strjoin(temp, height_str);
+		free(temp);
+		ft_pnl_txt(fdf, p, size_str, PNL_INFO_COLOR);
+		free(size_str);
+	}
+	free(width_str);
+	free(height_str);
 	p->y += 20;
-	str = ft_strjoin("Projection: ",
+	temp = ft_strjoin("Projection: ",
 			ft_get_projection_name(fdf->cam->proj));
-	ft_pnl_txt(fdf, p, str, PNL_INFO_COLOR);
-	free(str);
+	ft_pnl_txt(fdf, p, temp, PNL_INFO_COLOR);
+	free(temp);
 	p->y += 30;
 }
 
