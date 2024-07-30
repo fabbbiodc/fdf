@@ -6,7 +6,7 @@
 #    By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 16:51:31 by fdi-cecc          #+#    #+#              #
-#    Updated: 2024/07/29 19:23:25 by fdi-cecc         ###   ########.fr        #
+#    Updated: 2024/07/30 10:29:36 by fdi-cecc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,16 +29,15 @@ LIBFT		:=	$(LIBFTDIR)/libft.a
 
 CC			:= 	cc
 CFLAGS 		:= 	-Wall -Werror -Wextra
-FSANITIZE	:=	-fsanitize=address -g #to remove
 INCLUDES	:=	-I$(INC_DIR) -I$(MINILIBXDIR) -I$(LIBFTDIR)
 LINKEDIR	:= 	-L$(MINILIBXDIR) -L$(LIBFTDIR)
-LIBS		:=	-lmlx -lX11 -lXext -lft
+LIBS		:=	-lmlx -lX11 -lXext -lft -lm
 RM			:=	/bin/rm -f
 
 all:		$(NAME)
 
 $(NAME): $(MINILIBX) $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS)  -o $@ $(OBJ) $(FSANITIZE) $(LINKEDIR) $(LIBS)
+	$(CC) $(CFLAGS)  -o $@ $(OBJ) $(LINKEDIR) $(LIBS)
 
 $(MINILIBX):
 	$(MAKE) -C $(MINILIBXDIR)
