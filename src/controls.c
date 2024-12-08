@@ -6,7 +6,7 @@
 /*   By: fdi-cecc <fdi-cecc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:56:18 by fdi-cecc          #+#    #+#             */
-/*   Updated: 2024/07/30 10:40:31 by fdi-cecc         ###   ########.fr       */
+/*   Updated: 2024/12/08 18:36:47 by fdi-cecc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	ft_handle_move(int key, t_mlx *fdf)
 		fdf->cam->spin_angle += ROTATION;
 	else if (key == KEY_E)
 		fdf->cam->spin_angle -= ROTATION;
-	if (key == KEY_A)
+	if (key == KEY_D)
 		fdf->cam->x_move -= MOVE;
-	else if (key == KEY_D)
+	else if (key == KEY_A)
 		fdf->cam->x_move += MOVE;
 	else if (key == KEY_S)
 		fdf->cam->y_move += MOVE;
