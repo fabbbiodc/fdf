@@ -40,14 +40,18 @@ Applies a depth-based fading effect to a color.
 ft_dda_loop
 // Output:
 Returns the faded color value.*/
-int	ft_fade_color(int color, double depth, double max_depth)
+int	ft_fade_color(int color, double depth, double min_depth, double max_depth)
 {
 	double	fade_factor;
+	double	depth_range;
 	int		r;
 	int		g;
 	int		b;
 
-	fade_factor = pow((max_depth - depth) / max_depth, 2.5);
+	depth_range = max_depth - min_depth;
+	if (depth_range <= 0)
+		return (color);
+	fade_factor = pow((max_depth - depth) / depth_range, 2.5);
 	fade_factor = fmin(fmax(fade_factor, 0.1), 2.0);
 	r = ((color >> 16) & 0xFF) * fade_factor;
 	g = ((color >> 8) & 0xFF) * fade_factor;

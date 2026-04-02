@@ -47,13 +47,11 @@ Plots individual points of the line on the screen.*/
 void	ft_dda_loop(t_mlx *fdf, t_pnt *current, t_pnt *p1, t_pnt *p2)
 {
 	double	progress;
-	double	max_depth;
 	int		x;
 	int		y;
 	int		color;
 
 	progress = 0;
-	max_depth = fdf->cam->proj_distance * 2;
 	while (progress <= 1)
 	{
 		x = (int)round(current->x);
@@ -63,7 +61,7 @@ void	ft_dda_loop(t_mlx *fdf, t_pnt *current, t_pnt *p1, t_pnt *p2)
 			color = ft_color_gradient(p1->color, p2->color, progress);
 			if (fdf->cam->proj == PROJ_1PT || fdf->cam->proj == PROJ_2PTS)
 				color = ft_fade_color(color, p1->depth + (p2->depth - p1->depth)
-						* progress, max_depth);
+						* progress, fdf->cam->min_depth, fdf->cam->max_depth);
 			ft_putpixel(fdf, x, y, color);
 		}
 		ft_update_current(current, p1, p2, &progress);

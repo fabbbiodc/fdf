@@ -91,3 +91,31 @@ void	ft_update_map_limits(t_pnt *temp, t_bound *bounds)
 		bounds->max_y = fmax(bounds->max_y, temp->y);
 	}
 }
+
+void	ft_compute_depth_range(t_mlx *fdf)
+{
+	int		i;
+	int		j;
+	t_pnt	temp;
+
+	fdf->cam->min_depth = INFINITY;
+	fdf->cam->max_depth = -INFINITY;
+	i = 0;
+	while (i < fdf->map->height)
+	{
+		j = 0;
+		while (j < fdf->map->width)
+		{
+			temp = fdf->map->points[i][j];
+			ft_apply_transformations(&temp, fdf);
+			ft_apply_projection(&temp, fdf);
+			if (!isinf(temp.x) && !isinf(temp.y))
+			{
+				fdf->cam->min_depth = fmin(fdf->cam->min_depth, temp.depth);
+				fdf->cam->max_depth = fmax(fdf->cam->max_depth, temp.depth);
+			}
+			j++;
+		}
+		i++;
+	}
+}

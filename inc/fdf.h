@@ -103,7 +103,7 @@ t_matrix	ft_matr_final(t_mlx *fdf);
 
 int			ft_color_shift(int color, int shift);
 int			ft_color_process(int start, int end, double percentage);
-int			ft_fade_color(int color, double depth, double max_depth);
+int			ft_fade_color(int color, double depth, double min_depth, double max_depth);
 int			ft_color_gradient(int start, int end, double percentage);
 void		ft_toggle_color(t_mlx *fdf);
 
@@ -138,5 +138,6 @@ void		ft_iso_proj(t_pnt *p);
 void		ft_update_limits(t_pnt *p, t_pnt *min, t_pnt *max);
 void		ft_update_map_limits(t_pnt *temp, t_bound *bounds);
 void		ft_center_map(t_mlx *fdf);
+void		ft_compute_depth_range(t_mlx *fdf);
 
 #endif

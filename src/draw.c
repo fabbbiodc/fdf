@@ -100,6 +100,7 @@ int	ft_draw(t_mlx *fdf)
 	int	x;
 	int	y;
 
+	ft_compute_depth_range(fdf);
 	y = 0;
 	while (y < fdf->map->height)
 	{

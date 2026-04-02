@@ -59,6 +59,8 @@ typedef struct s_cam
 	double	proj_distance;
 	double	spin_angle;
 	int		color_scheme;
+	double	min_depth;
+	double	max_depth;
 }	t_cam;
 
 typedef struct s_matrix
