@@ -79,7 +79,9 @@ void	ft_cleanup_mlx(t_mlx *fdf)
 	}
 	if (fdf->mlx)
 	{
+#ifndef __APPLE__
 		mlx_destroy_display(fdf->mlx);
+#endif
 		free(fdf->mlx);
 		fdf->mlx = NULL;
 	}

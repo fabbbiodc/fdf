@@ -21,18 +21,28 @@ SRC_FILES	:= 	fdf.c draw.c free.c render.c rotations.c cam.c  map.c parse.c colo
 SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ  		:=	$(SRC:.c=.o)
 
-MINILIBXDIR := 	minilibx_linux
-MINILIBX	:= 	$(MINILIBXDIR)/libmlx.a
-
 LIBFTDIR	:=	libft
 LIBFT		:=	$(LIBFTDIR)/libft.a
 
 CC			:= 	cc
 CFLAGS 		:= 	-Wall -Werror -Wextra
-INCLUDES	:=	-I$(INC_DIR) -I$(MINILIBXDIR) -I$(LIBFTDIR)
-LINKEDIR	:= 	-L$(MINILIBXDIR) -L$(LIBFTDIR)
-LIBS		:=	-lmlx -lX11 -lXext -lft -lm
 RM			:=	/bin/rm -f
+
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+	MINILIBXDIR := 	minilibx_linux
+	MINILIBX	:= 	$(MINILIBXDIR)/libmlx.a
+	LINKEDIR	:= 	-L$(MINILIBXDIR) -L$(LIBFTDIR)
+	LIBS		:=	-lmlx -lX11 -lXext -lft -lm
+	INCLUDES	:=	-I$(INC_DIR) -I$(MINILIBXDIR) -I$(LIBFTDIR)
+else
+	MINILIBXDIR := 	minilibx_opengl
+	MINILIBX	:= 	$(MINILIBXDIR)/libmlx.a
+	LINKEDIR	:= 	-L$(MINILIBXDIR) -L$(LIBFTDIR)
+	LIBS		:=	-lmlx -framework OpenGL -framework AppKit -lft -lm
+	INCLUDES	:=	-I$(INC_DIR) -I$(MINILIBXDIR) -I$(LIBFTDIR)
+endif
 
 all:		$(NAME)
 
@@ -50,12 +60,13 @@ $(LIBFT):
 
 clean:
 	$(RM) $(OBJ)
-	$(MAKE) -C $(LIBFTDIR) clean
+	$(MAKE) clean -C $(LIBFTDIR)
+	$(MAKE) clean -C $(MINILIBXDIR)
 
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) -C $(MINILIBXDIR) clean
-	$(MAKE) -C $(LIBFTDIR) fclean
+	$(MAKE) fclean -C $(LIBFTDIR)
+	$(MAKE) fclean -C $(MINILIBXDIR)
 
 re: fclean all
 
