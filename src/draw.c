@@ -12,58 +12,6 @@
 
 #include "fdf.h"
 
-/* ft_draw_points:
-Renders connections between adjacent points in the map.
-// Process:
-1. Takes current point coordinates (y, x)
-2. Renders current point:
-   a. Calls ft_render to apply transformations and projections
-   b. Determines color using ft_get_color
-3. If not at right edge of map:
-   a. Renders line to right neighbor (x+1)
-   b. Uses ft_render on neighbor point
-   c. Calls ft_dda to draw line between current and right neighbor
-4. If not at bottom edge of map:
-   a. Renders line to bottom neighbor (y+1)
-   b. Uses ft_render on neighbor point
-   c. Calls ft_dda to draw line between current and bottom neighbor
-// Key aspect:
-Creates the wireframe effect by drawing lines between adjacent points
-// Called from:
-ft_draw
-// Output:
-Renders points and connecting lines for a single map coordinate*/
-void	ft_draw_points(t_mlx *fdf, int y, int x)
-{
-	t_pnt	p1;
-	t_pnt	p2;
-
-	p1 = fdf->map->points[y][x];
-	ft_render(&p1, fdf);
-	p1.color = ft_get_color(fdf, &p1);
-	if (x < (fdf->map->width - 1))
-	{
-		p2 = fdf->map->points[y][x + 1];
-		ft_render(&p2, fdf);
-		p2.color = ft_get_color(fdf, &p2);
-		ft_dda(fdf, &p1, &p2);
-	}
-	if (y < (fdf->map->height - 1))
-	{
-		p2 = fdf->map->points[y + 1][x];
-		ft_render(&p2, fdf);
-		p2.color = ft_get_color(fdf, &p2);
-		ft_dda(fdf, &p1, &p2);
-	}
-}
-
-/* ft_get_color:
-Determines the color for a point based on its height
-and the current color scheme.
-// Called from:
-ft_draw_points
-// Output:
-Returns the color value for the given point.*/
 int	ft_get_color(t_mlx *fdf, t_pnt *point)
 {
 	int	colors[COLOR_SCHEME_COUNT];
@@ -81,33 +29,99 @@ int	ft_get_color(t_mlx *fdf, t_pnt *point)
 	return (colors[fdf->cam->color_scheme]);
 }
 
-/* ft_draw:
-Renders the entire map by iterating through all points and drawing connections.
-// Process:
-1. Nested loops iterate through all map points (y and x coordinates)
-2. For each point, calls ft_draw_points to render point and connections
-3. After rendering all points:
-   a. Calls mlx_put_image_to_window to display the rendered image
-   b. Calls ft_panel_draw to overlay information panel
-// Key aspect:
-Coordinates the entire rendering process for each frame
-// Called from:
-ft_set_hooks (as part of mlx_expose_hook), ft_update
-// Output:
-Completely renders the map and information panel to the window*/
-int	ft_draw(t_mlx *fdf)
+static void	ft_draw_line(t_mlx *fdf, t_pnt *p1, t_pnt *p2)
 {
-	int	x;
-	int	y;
+	t_pnt	delta;
+	t_pnt	step;
+	t_pnt	current;
+	int		steps;
+	double	progress;
+	int		x;
+	int		y;
+	int		color;
 
-	ft_compute_depth_range(fdf);
+	if (isinf(p1->x) || isinf(p1->y) || isinf(p2->x) || isinf(p2->y))
+		return ;
+	delta.x = p2->x - p1->x;
+	delta.y = p2->y - p1->y;
+	steps = (int)fmax(fabs(delta.x), fabs(delta.y));
+	if (steps == 0)
+		return ;
+	step.x = delta.x / steps;
+	step.y = delta.y / steps;
+	current = *p1;
+	progress = 0;
+	while (progress <= 1)
+	{
+		x = (int)round(current.x);
+		y = (int)round(current.y);
+		if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+		{
+			color = ft_color_gradient(p1->color, p2->color, progress);
+			if (fdf->cam->proj == PROJ_1PT || fdf->cam->proj == PROJ_2PTS)
+				color = ft_fade_color(color, p1->depth + (p2->depth - p1->depth)
+						* progress, fdf->cam->min_depth, fdf->cam->max_depth);
+			ft_putpixel(fdf, x, y, color);
+		}
+		current.x += step.x;
+		current.y += step.y;
+		progress += 1.0 / steps;
+		if (fabs(current.x - p1->x) > fabs(delta.x)
+			|| fabs(current.y - p1->y) > fabs(delta.y))
+			progress = 2;
+	}
+}
+
+void	ft_render_cached(t_mlx *fdf)
+{
+	t_matrix	rot;
+	t_pnt		temp;
+	int			x;
+	int			y;
+	int			c1;
+
+	rot = ft_matr_final(fdf);
+	fdf->cam->min_depth = INFINITY;
+	fdf->cam->max_depth = -INFINITY;
 	y = 0;
 	while (y < fdf->map->height)
 	{
 		x = 0;
 		while (x < fdf->map->width)
 		{
-			ft_draw_points(fdf, y, x);
+			temp = fdf->map->points[y][x];
+			ft_apply_transformations(&temp, fdf, rot);
+			ft_apply_projection_cached(&temp, fdf);
+			fdf->screen[y][x] = temp;
+			c1 = ft_get_color(fdf, fdf->map->points[y] + x);
+			fdf->screen[y][x].color = c1;
+			if (!isinf(temp.x) && !isinf(temp.y))
+			{
+				fdf->cam->min_depth = fmin(fdf->cam->min_depth, temp.depth);
+				fdf->cam->max_depth = fmax(fdf->cam->max_depth, temp.depth);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int	ft_draw(t_mlx *fdf)
+{
+	int	x;
+	int	y;
+
+	ft_render_cached(fdf);
+	y = 0;
+	while (y < fdf->map->height)
+	{
+		x = 0;
+		while (x < fdf->map->width)
+		{
+			if (x < (fdf->map->width - 1))
+				ft_draw_line(fdf, &fdf->screen[y][x], &fdf->screen[y][x + 1]);
+			if (y < (fdf->map->height - 1))
+				ft_draw_line(fdf, &fdf->screen[y][x], &fdf->screen[y + 1][x]);
 			x++;
 		}
 		y++;
@@ -117,21 +131,6 @@ int	ft_draw(t_mlx *fdf)
 	return (0);
 }
 
-/* ft_putpixel:
-Places a single pixel on the screen at specified coordinates with given color.
-// Process:
-1. Checks if coordinates are within window boundaries
-2. Calculates memory offset for the pixel in the image data:
-   offset = (y * line_length) + (x * (bits_per_pixel / 8))
-3. Uses pointer arithmetic to set the color value at the calculated offset
-// Key aspect:
-Directly manipulates image memory for efficient pixel drawing
-// Called from:
-ft_dda_loop (in dda.c)
-// Output:
-Modifies the image data to set a pixel color at specified coordinates
-// Note:
-Crucial for performance as it's called for every pixel drawn*/
 void	ft_putpixel(t_mlx *fdf, int x, int y, int color)
 {
 	int		offset;

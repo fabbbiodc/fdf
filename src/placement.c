@@ -50,8 +50,10 @@ void	ft_center_map(t_mlx *fdf)
 	int		j;
 	t_bound	bounds;
 	t_pnt	temp;
+	t_matrix	rot;
 
 	ft_init_limits(&bounds);
+	rot = ft_matr_final(fdf);
 	i = 0;
 	while (i < fdf->map->height)
 	{
@@ -59,7 +61,7 @@ void	ft_center_map(t_mlx *fdf)
 		while (j < fdf->map->width)
 		{
 			temp = fdf->map->points[i][j];
-			ft_apply_transformations(&temp, fdf);
+			ft_apply_transformations(&temp, fdf, rot);
 			ft_apply_projection(&temp, fdf);
 			ft_update_map_limits(&temp, &bounds);
 			j++;
@@ -97,7 +99,9 @@ void	ft_compute_depth_range(t_mlx *fdf)
 	int		i;
 	int		j;
 	t_pnt	temp;
+	t_matrix	rot;
 
+	rot = ft_matr_final(fdf);
 	fdf->cam->min_depth = INFINITY;
 	fdf->cam->max_depth = -INFINITY;
 	i = 0;
@@ -107,7 +111,7 @@ void	ft_compute_depth_range(t_mlx *fdf)
 		while (j < fdf->map->width)
 		{
 			temp = fdf->map->points[i][j];
-			ft_apply_transformations(&temp, fdf);
+			ft_apply_transformations(&temp, fdf, rot);
 			ft_apply_projection(&temp, fdf);
 			if (!isinf(temp.x) && !isinf(temp.y))
 			{

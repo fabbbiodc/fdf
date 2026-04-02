@@ -168,3 +168,27 @@ t_matrix	ft_matr_mult(t_matrix a, t_matrix b)
 	}
 	return (rslt);
 }
+
+/* ft_matr_persp_rot:
+Returns the constant rotation matrix used for perspective projections.
+This is a fixed rotation around X-axis by RAD_30 degrees.
+// Called from:
+ft_one_point_proj, ft_two_point_proj (precomputed version)
+// Output:
+Returns the precomputed 3x3 rotation matrix for perspective.*/
+t_matrix	ft_matr_persp_rot(void)
+{
+	t_matrix	rot;
+	double		sin_a;
+	double		cos_a;
+
+	sin_a = sin(RAD_30);
+	cos_a = cos(RAD_30);
+	ft_memset(&rot, 0, sizeof(t_matrix));
+	rot.matrix[0][0] = 1;
+	rot.matrix[1][1] = cos_a;
+	rot.matrix[1][2] = -sin_a;
+	rot.matrix[2][1] = sin_a;
+	rot.matrix[2][2] = cos_a;
+	return (rot);
+}

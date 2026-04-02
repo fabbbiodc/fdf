@@ -16,7 +16,7 @@ SRC_DIR		:=	src
 INC_DIR		:=	inc
 
 SRC_FILES	:= 	fdf.c draw.c free.c render.c rotations.c cam.c  map.c parse.c color.c init.c panel.c \
-				controls.c placement.c dda.c projections.c
+				controls.c placement.c dda.c projections.c screen.c
 
 SRC			:=	$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ  		:=	$(SRC:.c=.o)

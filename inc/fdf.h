@@ -85,11 +85,15 @@ int			ft_terminate(t_mlx *fdf);
 
 // render
 
-void		ft_render(t_pnt *p, t_mlx *fdf);
-void		ft_scale(t_pnt *p, t_cam *cam);
-void		ft_center(t_pnt *p, t_cam *cam);
+void		ft_render_cached(t_mlx *fdf);
 void		ft_rotate(t_matrix rot, t_pnt *p);
-void		ft_apply_transformations(t_pnt *p, t_mlx *fdf);
+void		ft_apply_transformations(t_pnt *p, t_mlx *fdf, t_matrix rot);
+void		ft_apply_projection_cached(t_pnt *p, t_mlx *fdf);
+
+// screen cache
+
+void		ft_alloc_screen(t_mlx *fdf);
+void		ft_free_screen(t_mlx *fdf);
 
 // rotations
 
@@ -98,6 +102,7 @@ t_matrix	ft_matr_rot_y(double beta);
 t_matrix	ft_matr_rot_z(double gamma);
 t_matrix	ft_matr_mult(t_matrix a, t_matrix b);
 t_matrix	ft_matr_final(t_mlx *fdf);
+t_matrix	ft_matr_persp_rot(void);
 
 // color
 

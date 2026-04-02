@@ -99,5 +99,6 @@ int	ft_fdf_init(t_mlx *fdf, char *map_file)
 		return (0);
 	ft_cam_params(fdf);
 	ft_cam_fit(fdf);
+	ft_alloc_screen(fdf);
 	return (1);
 }

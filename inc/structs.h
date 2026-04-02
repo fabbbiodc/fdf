@@ -76,6 +76,7 @@ typedef struct s_mlx
 	t_img	*img_att;
 	t_cam	*cam;
 	t_map	*map;
+	t_pnt	**screen;
 }	t_mlx;
 
 #endif

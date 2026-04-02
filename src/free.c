@@ -52,6 +52,7 @@ int	ft_free(t_mlx *fdf)
 	}
 	if (fdf->map)
 	{
+		ft_free_screen(fdf);
 		ft_map_free(fdf->map);
 		fdf->map = NULL;
 	}
